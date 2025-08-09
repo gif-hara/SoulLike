@@ -12,8 +12,6 @@ namespace SoulLike.ActorControllers
         [SerializeField]
         private OpenCharacterController openCharacterController;
 
-        public ActorMovementController MovementController { get; private set; }
-
         public ActorAnimationController AnimationController { get; private set; }
 
         public ActorTimeController TimeController { get; private set; }
@@ -22,9 +20,20 @@ namespace SoulLike.ActorControllers
 
         private readonly Dictionary<System.Type, IActorAbility> abilities = new();
 
-        public void AddAbility<T>() where T : IActorAbility, new()
+
+        public T AddAbility<T>() where T : IActorAbility, new()
         {
-            abilities[typeof(T)] = new T();
+            var instance = new T();
+            abilities[typeof(T)] = instance;
+            instance.Activate(this);
+            return instance;
+        }
+
+        public T AddAbility<T>(T ability) where T : IActorAbility
+        {
+            abilities[typeof(T)] = ability;
+            ability.Activate(this);
+            return ability;
         }
 
         public T FindAbility<T>() where T : class, IActorAbility
@@ -37,11 +46,8 @@ namespace SoulLike.ActorControllers
         {
             var actor = Instantiate(this, position, rotation);
             actor.TimeController = new ActorTimeController(actor);
-            actor.MovementController = new ActorMovementController();
             actor.AnimationController = new ActorAnimationController(actor);
             actor.BrainController = new ActorBrainController(actor);
-
-            actor.MovementController.Activate(actor);
 
             return actor;
         }
