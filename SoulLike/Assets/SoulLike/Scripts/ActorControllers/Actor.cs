@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SoulLike.ActorControllers.Abilities;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace SoulLike.ActorControllers
 {
     public class Actor : MonoBehaviour
     {
-        private readonly Dictionary<System.Type, IActorAbility> abilities = new();
+        private readonly Dictionary<Type, IActorAbility> abilities = new();
 
         public T AddAbility<T>() where T : IActorAbility, new()
         {
