@@ -5,7 +5,7 @@ using R3;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace SoulLike.ActorControllers
+namespace SoulLike.ActorControllers.Abilities
 {
     public class ActorAnimationController
     {

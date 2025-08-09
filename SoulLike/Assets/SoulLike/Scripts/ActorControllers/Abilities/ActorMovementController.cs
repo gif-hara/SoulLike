@@ -4,7 +4,7 @@ using StandardAssets.Characters.Physics;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace SoulLike.ActorControllers
+namespace SoulLike.ActorControllers.Abilities
 {
     public class ActorMovementController : IActorAbility
     {

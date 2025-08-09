@@ -1,6 +1,4 @@
-using SoulLike.ActorControllers;
-
-namespace SoulLike
+namespace SoulLike.ActorControllers.Abilities
 {
     public interface IActorAbility
     {

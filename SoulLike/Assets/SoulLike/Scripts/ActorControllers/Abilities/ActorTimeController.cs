@@ -1,10 +1,9 @@
 using Cysharp.Threading.Tasks;
 using HK;
-using SoulLike.ActorControllers;
 using R3;
 using UnityEngine;
 
-namespace SoulLike
+namespace SoulLike.ActorControllers.Abilities
 {
     public sealed class ActorTimeController : IActorAbility
     {

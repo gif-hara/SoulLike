@@ -1,4 +1,5 @@
 using SoulLike.ActorControllers;
+using SoulLike.ActorControllers.Abilities;
 using SoulLike.ActorControllers.Brains;
 using UnityEngine;
 using UnityEngine.InputSystem;

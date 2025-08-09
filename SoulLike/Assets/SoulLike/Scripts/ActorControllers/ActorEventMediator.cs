@@ -1,5 +1,6 @@
 using HK;
 using SoulLike.ActorControllers;
+using SoulLike.ActorControllers.Abilities;
 using UnityEngine;
 
 namespace SoulLike
