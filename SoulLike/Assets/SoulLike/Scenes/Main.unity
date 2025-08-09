@@ -473,6 +473,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 6434016922464494578, guid: aa84eeac7e2dd864386b5e78a15baed7, type: 3}
   spawnPoint: {fileID: 1390727970}
   playerInputPrefab: {fileID: 3844246669755102860, guid: 99ffccbf96653cb44aeacef395776fec, type: 3}
+  worldCamera: {fileID: 330585545}
 --- !u!43 &1005311037
 Mesh:
   m_ObjectHideFlags: 0
