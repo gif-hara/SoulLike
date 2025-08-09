@@ -7,11 +7,11 @@ using UnityEngine.Assertions;
 
 namespace SoulLike.ActorControllers.Abilities
 {
-    public class ActorAnimationController
+    public class ActorAnimation
     {
         private readonly Actor actor;
 
-        public ActorAnimationController(Actor actor)
+        public ActorAnimation(Actor actor)
         {
             this.actor = actor;
             // actor.TimeController.UpdatedTimeScale
