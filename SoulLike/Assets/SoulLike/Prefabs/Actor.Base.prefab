@@ -129,8 +129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87becf57824d94dae8ffec2c0f607f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locatorHolder: {fileID: 0}
-  openCharacterController: {fileID: 2681665149512744081}
 --- !u!114 &2681665149512744081
 MonoBehaviour:
   m_ObjectHideFlags: 0
