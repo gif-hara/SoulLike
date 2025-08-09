@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace SoulLike
 {
-    public class ActorTimeController
+    public sealed class ActorTimeController : IActorAbility
     {
-        private readonly Actor actor;
+        private Actor actor;
 
         public HK.Time Time { get; } = new HK.Time(HK.Time.Root);
 
         public Observable<Unit> UpdatedTimeScale => Observable.FromEvent(h => Time.UpdatedTimeScale += h, h => Time.UpdatedTimeScale -= h);
 
-        public ActorTimeController(Actor actor)
+        public void Activate(Actor actor)
         {
             this.actor = actor;
         }
