@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace SoulLike.ActorControllers
 {
-    public sealed class ActorBrainController
+    public sealed class ActorBrainController : IActorAbility
     {
-        private readonly Actor actor;
+        private Actor actor;
 
         private CancellationTokenSource scope;
 
-        public ActorBrainController(Actor actor)
+        public void Activate(Actor actor)
         {
             this.actor = actor;
         }
