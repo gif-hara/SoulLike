@@ -2,12 +2,15 @@ using R3;
 using R3.Triggers;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace SoulLike.ActorControllers
 {
-    public class ActorMovementController
+    public class ActorMovementController : IActorAbility
     {
         private Actor actor;
+
+        private OpenCharacterController openCharacterController;
 
         private Vector3 velocity;
 
@@ -27,37 +30,6 @@ namespace SoulLike.ActorControllers
         public readonly ReactiveProperty<bool> CanRotate = new(true);
 
         public readonly ReactiveProperty<bool> CanRotateFromEvent = new(true);
-
-        public void Setup(Actor actor, OpenCharacterController openCharacterController)
-        {
-            this.actor = actor;
-            actor.UpdateAsObservable()
-                .Subscribe(actor, (_, a) =>
-                {
-                    var deltaTime = a.TimeController.Time.deltaTime;
-                    if (velocity == Vector3.zero || !CanMove.Value)
-                    {
-                        isMoving.Value = false;
-                    }
-                    else
-                    {
-                        openCharacterController.Move(velocity * deltaTime);
-                        isMoving.Value = true;
-                    }
-                    openCharacterController.Move(velocityFromAnimator);
-                    velocity = Vector3.zero;
-                    velocityFromAnimator = Vector3.zero;
-                    var position = a.transform.position;
-                    position.y = 0.0f;
-                    a.transform.position = position;
-
-                    if (CanRotate.Value)
-                    {
-                        a.transform.rotation = Quaternion.Slerp(a.transform.rotation, TargetRotation, rotationSpeed * deltaTime);
-                    }
-                })
-                .RegisterTo(actor.destroyCancellationToken);
-        }
 
         public void Move(Vector3 velocity)
         {
@@ -83,6 +55,40 @@ namespace SoulLike.ActorControllers
         public void SetRotationSpeed(float rotationSpeed)
         {
             this.rotationSpeed = rotationSpeed;
+        }
+
+        public void Activate(Actor actor)
+        {
+            this.actor = actor;
+            actor.TryGetComponent(out OpenCharacterController openCharacterController);
+            Assert.IsNotNull(openCharacterController);
+            this.openCharacterController = openCharacterController;
+            actor.UpdateAsObservable()
+                .Subscribe(this, static (_, @this) =>
+                {
+                    var deltaTime = @this.actor.TimeController.Time.deltaTime;
+                    if (@this.velocity == Vector3.zero || !@this.CanMove.Value)
+                    {
+                        @this.isMoving.Value = false;
+                    }
+                    else
+                    {
+                        @this.openCharacterController.Move(@this.velocity * deltaTime);
+                        @this.isMoving.Value = true;
+                    }
+                    @this.openCharacterController.Move(@this.velocityFromAnimator);
+                    @this.velocity = Vector3.zero;
+                    @this.velocityFromAnimator = Vector3.zero;
+                    var position = @this.actor.transform.position;
+                    position.y = 0.0f;
+                    @this.actor.transform.position = position;
+
+                    if (@this.CanRotate.Value)
+                    {
+                        @this.actor.transform.rotation = Quaternion.Slerp(@this.actor.transform.rotation, @this.TargetRotation, @this.rotationSpeed * deltaTime);
+                    }
+                })
+                .RegisterTo(actor.destroyCancellationToken);
         }
     }
 }
