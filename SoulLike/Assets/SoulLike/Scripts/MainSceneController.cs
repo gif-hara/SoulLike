@@ -1,6 +1,7 @@
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Brains;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace SoulLike
 {
@@ -12,10 +13,14 @@ namespace SoulLike
         [field: SerializeField]
         private Transform spawnPoint;
 
+        [field: SerializeField]
+        private PlayerInput playerInputPrefab;
+
         void Start()
         {
             var player = playerPrefab.Spawn(spawnPoint.position, spawnPoint.rotation);
-            player.BrainController.Attach(new Player());
+            var playerInput = Instantiate(playerInputPrefab);
+            player.BrainController.Attach(new Player(playerInput));
         }
     }
 }
