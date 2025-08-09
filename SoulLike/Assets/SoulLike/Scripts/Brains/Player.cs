@@ -9,7 +9,10 @@ namespace SoulLike.ActorControllers.Brains
     public sealed class Player : IActorBrain
     {
         private readonly PlayerInput playerInput;
+
         private readonly Camera camera;
+
+        private ActorMovementController movementController;
 
         public Player(PlayerInput playerInput, Camera camera)
         {
@@ -19,12 +22,12 @@ namespace SoulLike.ActorControllers.Brains
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
         {
+            movementController = actor.AddAbility<ActorMovementController>();
             actor.UpdateAsObservable()
                 .Subscribe((this, actor), static (_, t) =>
                 {
                     var (@this, actor) = t;
                     var moveInput = @this.playerInput.actions["Move"].ReadValue<Vector2>();
-                    // カメラの方向に合わせて移動ベクトルを変換
                     var camTransform = @this.camera.transform;
                     var forward = camTransform.forward;
                     var right = camTransform.right;
@@ -32,8 +35,8 @@ namespace SoulLike.ActorControllers.Brains
                     right.y = 0;
                     forward.Normalize();
                     right.Normalize();
-                    var moveVelocity = (right * moveInput.x + forward * moveInput.y);
-                    actor.MovementController.Move(moveVelocity);
+                    var moveVelocity = right * moveInput.x + forward * moveInput.y;
+                    @this.movementController.Move(moveVelocity);
                 })
                 .RegisterTo(cancellationToken);
         }
