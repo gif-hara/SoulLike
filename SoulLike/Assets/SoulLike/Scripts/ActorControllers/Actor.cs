@@ -27,7 +27,7 @@ namespace SoulLike.ActorControllers
             actor.AnimationController = new ActorAnimationController(actor);
             actor.BrainController = new ActorBrainController(actor);
 
-            actor.MovementController.Setup(actor, actor.openCharacterController);
+            actor.MovementController.Activate(actor);
 
             return actor;
         }
