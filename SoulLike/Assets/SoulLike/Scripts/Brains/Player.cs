@@ -22,6 +22,7 @@ namespace SoulLike.ActorControllers.Brains
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
         {
+            actor.AddAbility<ActorTimeController>();
             movementController = actor.AddAbility<ActorMovementController>();
             actor.UpdateAsObservable()
                 .Subscribe((this, actor), static (_, t) =>
