@@ -1,21 +1,11 @@
 using System.Collections.Generic;
-using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace SoulLike.ActorControllers
 {
     public class Actor : MonoBehaviour
     {
-        [SerializeField]
-        private LocatorHolder locatorHolder;
-
-        [SerializeField]
-        private OpenCharacterController openCharacterController;
-
-        public ActorAnimationController AnimationController { get; private set; }
-
-        public ActorTimeController TimeController { get; private set; }
-
         public ActorBrainController BrainController { get; private set; }
 
         private readonly Dictionary<System.Type, IActorAbility> abilities = new();
@@ -39,14 +29,13 @@ namespace SoulLike.ActorControllers
         public T FindAbility<T>() where T : class, IActorAbility
         {
             abilities.TryGetValue(typeof(T), out var ability);
+            Assert.IsNotNull(ability, $"Ability of type {typeof(T)} not found on actor {name}.");
             return ability as T;
         }
 
         public Actor Spawn(Vector3 position, Quaternion rotation)
         {
             var actor = Instantiate(this, position, rotation);
-            actor.TimeController = new ActorTimeController(actor);
-            actor.AnimationController = new ActorAnimationController(actor);
             actor.BrainController = new ActorBrainController(actor);
 
             return actor;
