@@ -6,10 +6,7 @@ namespace SoulLike.ActorControllers
 {
     public class Actor : MonoBehaviour
     {
-        public ActorBrainController BrainController { get; private set; }
-
         private readonly Dictionary<System.Type, IActorAbility> abilities = new();
-
 
         public T AddAbility<T>() where T : IActorAbility, new()
         {
@@ -31,14 +28,6 @@ namespace SoulLike.ActorControllers
             abilities.TryGetValue(typeof(T), out var ability);
             Assert.IsNotNull(ability, $"Ability of type {typeof(T)} not found on actor {name}.");
             return ability as T;
-        }
-
-        public Actor Spawn(Vector3 position, Quaternion rotation)
-        {
-            var actor = Instantiate(this, position, rotation);
-            actor.BrainController = new ActorBrainController(actor);
-
-            return actor;
         }
     }
 }
