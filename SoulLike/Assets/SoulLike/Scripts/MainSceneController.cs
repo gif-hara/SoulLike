@@ -24,7 +24,7 @@ namespace SoulLike
         {
             var player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
             var playerInput = Instantiate(playerInputPrefab);
-            var brainController = player.AddAbility<ActorBrainController>();
+            var brainController = player.AddAbility<ActorBrain>();
             brainController.Attach(new Player(playerInput, worldCamera));
         }
     }
