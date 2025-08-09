@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SoulLike.ActorControllers.Abilities
 {
-    public sealed class ActorTimeController : IActorAbility
+    public sealed class ActorTime : IActorAbility
     {
         private Actor actor;
 
