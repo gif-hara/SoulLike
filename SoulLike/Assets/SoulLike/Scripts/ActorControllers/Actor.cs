@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
@@ -18,6 +19,19 @@ namespace SoulLike.ActorControllers
         public ActorTimeController TimeController { get; private set; }
 
         public ActorBrainController BrainController { get; private set; }
+
+        private readonly Dictionary<System.Type, IActorAbility> abilities = new();
+
+        public void AddAbility<T>() where T : IActorAbility, new()
+        {
+            abilities[typeof(T)] = new T();
+        }
+
+        public T FindAbility<T>() where T : class, IActorAbility
+        {
+            abilities.TryGetValue(typeof(T), out var ability);
+            return ability as T;
+        }
 
         public Actor Spawn(Vector3 position, Quaternion rotation)
         {
