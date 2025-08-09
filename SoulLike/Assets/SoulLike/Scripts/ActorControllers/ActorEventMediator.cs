@@ -1,9 +1,8 @@
 using HK;
-using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
 using UnityEngine;
 
-namespace SoulLike
+namespace SoulLike.ActorControllers
 {
     public class ActorEventMediator : MonoBehaviour
     {
