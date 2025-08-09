@@ -1,0 +1,24 @@
+using System.Threading;
+using SoulLike.ActorControllers.Brains;
+using UnityEngine;
+
+namespace SoulLike.ActorControllers
+{
+    public sealed class ActorBrainController
+    {
+        private readonly Actor actor;
+
+        private CancellationTokenSource scope;
+
+        public ActorBrainController(Actor actor)
+        {
+            this.actor = actor;
+        }
+
+        public void Attach(IActorBrain brain)
+        {
+            scope = CancellationTokenSource.CreateLinkedTokenSource(actor.destroyCancellationToken, Application.exitCancellationToken);
+            brain.Attach(actor, scope.Token);
+        }
+    }
+}
