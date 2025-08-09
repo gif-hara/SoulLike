@@ -2,13 +2,13 @@ using System;
 using HK;
 using UnityEngine;
 
-namespace MH3
+namespace SoulLike
 {
     public class LocatorHolder : MonoBehaviour
     {
         [SerializeField]
         private Element.DictionaryList elements;
-        
+
         public Transform Get(string name)
         {
             return elements.Get(name).Transform;

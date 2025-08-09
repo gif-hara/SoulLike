@@ -4,7 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace MH3
+namespace SoulLike
 {
     public static partial class Extensions
     {

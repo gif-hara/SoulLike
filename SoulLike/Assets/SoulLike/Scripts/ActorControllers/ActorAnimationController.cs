@@ -5,7 +5,7 @@ using R3;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace MH3.ActorControllers
+namespace SoulLike.ActorControllers
 {
     public class ActorAnimationController
     {

@@ -1,7 +1,7 @@
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
-namespace MH3.ActorControllers
+namespace SoulLike.ActorControllers
 {
     public class Actor : MonoBehaviour
     {

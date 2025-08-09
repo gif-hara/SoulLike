@@ -1,8 +1,8 @@
 using HK;
-using MH3.ActorControllers;
+using SoulLike.ActorControllers;
 using UnityEngine;
 
-namespace MH3
+namespace SoulLike
 {
     public class ActorEventMediator : MonoBehaviour
     {

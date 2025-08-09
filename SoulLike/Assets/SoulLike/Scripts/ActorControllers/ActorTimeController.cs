@@ -1,10 +1,10 @@
 using Cysharp.Threading.Tasks;
 using HK;
-using MH3.ActorControllers;
+using SoulLike.ActorControllers;
 using R3;
 using UnityEngine;
 
-namespace MH3
+namespace SoulLike
 {
     public class ActorTimeController
     {
