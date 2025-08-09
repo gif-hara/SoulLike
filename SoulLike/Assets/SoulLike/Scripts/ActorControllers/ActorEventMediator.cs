@@ -12,12 +12,12 @@ namespace SoulLike
 
         public void SetCanRotate(int value)
         {
-            actor.FindAbility<ActorMovementController>().CanRotate.Value = value == 1;
+            actor.FindAbility<ActorMovement>().CanRotate.Value = value == 1;
         }
 
         public void SetRotateImmediateTargetRotation()
         {
-            actor.FindAbility<ActorMovementController>().RotateImmediate(actor.FindAbility<ActorMovementController>().TargetRotation);
+            actor.FindAbility<ActorMovement>().RotateImmediate(actor.FindAbility<ActorMovement>().TargetRotation);
         }
 
         public void PlaySfx(string key)

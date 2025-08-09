@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 namespace SoulLike.ActorControllers.Abilities
 {
-    public class ActorMovementController : IActorAbility
+    public class ActorMovement : IActorAbility
     {
         private Actor actor;
 

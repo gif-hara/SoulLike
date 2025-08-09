@@ -13,7 +13,7 @@ namespace SoulLike.ActorControllers.Brains
 
         private readonly Camera camera;
 
-        private ActorMovementController movementController;
+        private ActorMovement movementController;
 
         public Player(PlayerInput playerInput, Camera camera)
         {
@@ -24,7 +24,7 @@ namespace SoulLike.ActorControllers.Brains
         public void Attach(Actor actor, CancellationToken cancellationToken)
         {
             actor.AddAbility<ActorTimeController>();
-            movementController = actor.AddAbility<ActorMovementController>();
+            movementController = actor.AddAbility<ActorMovement>();
             actor.UpdateAsObservable()
                 .Subscribe((this, actor), static (_, t) =>
                 {
