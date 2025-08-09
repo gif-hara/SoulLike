@@ -1,4 +1,5 @@
 using SoulLike.ActorControllers;
+using SoulLike.ActorControllers.Brains;
 using UnityEngine;
 
 namespace SoulLike
@@ -13,7 +14,8 @@ namespace SoulLike
 
         void Start()
         {
-            playerPrefab.Spawn(spawnPoint.position, spawnPoint.rotation);
+            var player = playerPrefab.Spawn(spawnPoint.position, spawnPoint.rotation);
+            player.BrainController.Attach(new Player());
         }
     }
 }
