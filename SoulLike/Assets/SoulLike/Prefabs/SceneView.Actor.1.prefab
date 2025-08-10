@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7112974759218445405, guid: 188dd36fd2aa5824c95130166e7dbebc, type: 3}
+      propertyPath: <Animator>k__BackingField
+      value: 
+      objectReference: {fileID: 7451045578730971145}
     - target: {fileID: 8442760064374283317, guid: 188dd36fd2aa5824c95130166e7dbebc, type: 3}
       propertyPath: m_Name
       value: SceneView.Actor.1
@@ -125,5 +129,10 @@ PrefabInstance:
 --- !u!4 &3568894542541027955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
+  m_PrefabInstance: {fileID: 3895046123622079896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7451045578730971145 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
   m_PrefabInstance: {fileID: 3895046123622079896}
   m_PrefabAsset: {fileID: 0}
