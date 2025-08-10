@@ -333,6 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ec28c513cd1114bbf7080dc347e962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  masterData: {fileID: 11400000, guid: 5fe05e2c093d83342a2fee99665bc37d, type: 2}
   playerPrefab: {fileID: 6434016922464494578, guid: aa84eeac7e2dd864386b5e78a15baed7, type: 3}
   spawnPoint: {fileID: 1390727970}
   playerInputPrefab: {fileID: 3844246669755102860, guid: 99ffccbf96653cb44aeacef395776fec, type: 3}
