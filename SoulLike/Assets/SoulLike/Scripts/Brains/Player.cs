@@ -1,4 +1,5 @@
 using System.Threading;
+using HK;
 using R3;
 using R3.Triggers;
 using SoulLike.ActorControllers.Abilities;
@@ -58,6 +59,13 @@ namespace SoulLike.ActorControllers.Brains
                         var targetRotation = Quaternion.LookRotation(moveVelocity, Vector3.up);
                         @this.actorMovement.Rotate(targetRotation);
                     }
+                })
+                .RegisterTo(cancellationToken);
+            playerInput.actions["Attack"].OnPerformedAsObservable()
+                .Subscribe((this, actor), static (_, t) =>
+                {
+                    var (@this, actor) = t;
+                    @this.actorAnimation.SetTrigger(ActorAnimation.Parameter.Attack);
                 })
                 .RegisterTo(cancellationToken);
         }

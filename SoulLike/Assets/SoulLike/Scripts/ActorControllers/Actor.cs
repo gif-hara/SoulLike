@@ -25,11 +25,22 @@ namespace SoulLike.ActorControllers
             return ability;
         }
 
-        public T FindAbility<T>() where T : class, IActorAbility
+        public T GetAbility<T>() where T : class, IActorAbility
         {
             abilities.TryGetValue(typeof(T), out var ability);
             Assert.IsNotNull(ability, $"Ability of type {typeof(T)} not found on actor {name}.");
             return ability as T;
+        }
+
+        public bool TryGetAbility<T>(out T ability) where T : class, IActorAbility
+        {
+            if (abilities.TryGetValue(typeof(T), out var foundAbility))
+            {
+                ability = foundAbility as T;
+                return ability != null;
+            }
+            ability = null;
+            return false;
         }
     }
 }

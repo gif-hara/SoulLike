@@ -66,7 +66,7 @@ namespace SoulLike.ActorControllers.Abilities
             actor.UpdateAsObservable()
                 .Subscribe(this, static (_, @this) =>
                 {
-                    var deltaTime = @this.actor.FindAbility<ActorTime>().Time.deltaTime;
+                    var deltaTime = @this.actor.GetAbility<ActorTime>().Time.deltaTime;
                     if (@this.velocity == Vector3.zero || !@this.CanMove.Value)
                     {
                         @this.isMoving.Value = false;

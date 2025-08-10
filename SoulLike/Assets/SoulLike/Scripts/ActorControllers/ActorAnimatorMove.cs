@@ -17,7 +17,7 @@ namespace SoulLike.ActorControllers
             {
                 return;
             }
-            actor.FindAbility<ActorMovement>().MoveFromAnimator(animator.deltaPosition);
+            actor.GetAbility<ActorMovement>().MoveFromAnimator(animator.deltaPosition);
         }
     }
 }
