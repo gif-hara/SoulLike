@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151cc3c578018c94a93ff576f39ee72a, type: 3}
   m_Name: MasterData
   m_EditorClassIdentifier: 
+  <PlayerSpec>k__BackingField:
+    <MoveSpeed>k__BackingField: 5
+    <RotateSpeed>k__BackingField: 10
