@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SoulLike
 {
-    public class AnimatorParameter
+    public readonly struct AnimatorParameter
     {
         public string Name { get; }
 
