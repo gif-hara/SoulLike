@@ -5,11 +5,15 @@ namespace SoulLike.ActorControllers
 {
     public class ActorAnimatorMove : MonoBehaviour
     {
-        [SerializeField]
+        [field: SerializeField]
+        private Animator animator;
+
         private Actor actor;
 
-        [SerializeField]
-        private Animator animator;
+        public void Activate(Actor actor)
+        {
+            this.actor = actor;
+        }
 
         void OnAnimatorMove()
         {
