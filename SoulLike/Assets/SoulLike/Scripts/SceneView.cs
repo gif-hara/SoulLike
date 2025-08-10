@@ -1,3 +1,4 @@
+using SoulLike.ActorControllers;
 using UnityEngine;
 
 namespace SoulLike
@@ -9,5 +10,11 @@ namespace SoulLike
 
         [field: SerializeField]
         public Animator Animator { get; private set; }
+
+        [field: SerializeField]
+        public ActorAnimationEvent ActorAnimationEvent { get; private set; }
+
+        [field: SerializeField]
+        public ActorAnimatorMove ActorAnimatorMove { get; private set; }
     }
 }
