@@ -26,6 +26,9 @@ namespace SoulLike.ActorControllers.Abilities
             Assert.IsNotNull(sceneView, $"{nameof(SceneView)} is not assigned in {actor.name}.");
             animator = sceneView.Animator;
             Assert.IsNotNull(animator, $"{nameof(Animator)} is not assigned in {actor.name}.");
+
+            sceneView.ActorAnimationEvent.Activate(actor);
+            sceneView.ActorAnimatorMove.Activate(actor);
         }
 
         private AnimatorParameter GetParameter(string parameterName)
