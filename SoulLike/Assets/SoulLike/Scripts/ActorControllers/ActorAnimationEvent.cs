@@ -4,10 +4,14 @@ using UnityEngine;
 
 namespace SoulLike.ActorControllers
 {
-    public class ActorEventMediator : MonoBehaviour
+    public class ActorAnimationEvent : MonoBehaviour
     {
-        [SerializeField]
         private Actor actor;
+
+        public void Activate(Actor actor)
+        {
+            this.actor = actor;
+        }
 
         public void SetCanRotate(int value)
         {
