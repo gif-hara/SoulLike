@@ -5,19 +5,19 @@ namespace SoulLike
 {
     public class AnimatorParameter
     {
-        public readonly string name;
+        public string Name { get; }
 
-        public readonly int hash;
+        public int Hash { get; }
 
         public AnimatorParameter(string name)
         {
-            this.name = name;
-            hash = Animator.StringToHash(name);
+            Name = name;
+            Hash = Animator.StringToHash(name);
         }
 
         public class DictionaryList : DictionaryList<string, AnimatorParameter>
         {
-            public DictionaryList() : base(x => x.name)
+            public DictionaryList() : base(x => x.Name)
             {
             }
         }
