@@ -12,6 +12,8 @@ namespace SoulLike.ActorControllers.Abilities
         public static class Parameter
         {
             public const string MoveSpeed = "MoveSpeed";
+
+            public const string Attack = "Attack";
         }
 
         public void Activate(Actor actor)
