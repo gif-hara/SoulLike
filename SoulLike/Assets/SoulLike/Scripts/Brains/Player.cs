@@ -16,7 +16,9 @@ namespace SoulLike.ActorControllers.Brains
 
         private readonly PlayerSpec playerSpec;
 
-        private ActorMovement movementController;
+        private ActorMovement actorMovement;
+
+        private ActorAnimation actorAnimation;
 
         public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec)
         {
@@ -28,8 +30,10 @@ namespace SoulLike.ActorControllers.Brains
         public void Attach(Actor actor, CancellationToken cancellationToken)
         {
             actor.AddAbility<ActorTime>();
-            movementController = actor.AddAbility<ActorMovement>();
-            movementController.SetRotationSpeed(playerSpec.RotateSpeed);
+            actorMovement = actor.AddAbility<ActorMovement>();
+            actorAnimation = actor.AddAbility<ActorAnimation>();
+
+            actorMovement.SetRotationSpeed(playerSpec.RotateSpeed);
             actor.UpdateAsObservable()
                 .Subscribe((this, actor), static (_, t) =>
                 {
@@ -43,14 +47,16 @@ namespace SoulLike.ActorControllers.Brains
                     forward.Normalize();
                     right.Normalize();
                     var moveVelocity = right * moveInput.x + forward * moveInput.y;
-                    moveVelocity *= @this.playerSpec.MoveSpeed;
-                    @this.movementController.Move(moveVelocity);
+                    @this.actorMovement.Move(moveVelocity * @this.playerSpec.MoveSpeed);
+
+                    // 移動量をアニメーションに渡す
+                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveSpeed, moveVelocity.magnitude);
 
                     // 移動入力がある場合、移動方向に向く
                     if (moveVelocity.sqrMagnitude > 0.0001f)
                     {
                         var targetRotation = Quaternion.LookRotation(moveVelocity, Vector3.up);
-                        @this.movementController.Rotate(targetRotation);
+                        @this.actorMovement.Rotate(targetRotation);
                     }
                 })
                 .RegisterTo(cancellationToken);
