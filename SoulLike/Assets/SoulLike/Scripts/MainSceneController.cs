@@ -18,14 +18,16 @@ namespace SoulLike
         private PlayerInput playerInputPrefab;
 
         [field: SerializeField]
-        private Camera worldCamera;
+        private WorldCameraController worldCameraControllerPrefab;
 
         void Start()
         {
+            var worldCameraController = Instantiate(worldCameraControllerPrefab);
             var player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
             var playerInput = Instantiate(playerInputPrefab);
             var brainController = player.AddAbility<ActorBrain>();
-            brainController.Attach(new Player(playerInput, worldCamera));
+            brainController.Attach(new Player(playerInput, worldCameraController.WorldCamera));
+            worldCameraController.SetDefaultCameraTarget(player.transform);
         }
     }
 }
