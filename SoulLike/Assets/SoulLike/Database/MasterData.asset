@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: MasterData
   m_EditorClassIdentifier: 
   <PlayerSpec>k__BackingField:
-    <MoveSpeed>k__BackingField: 5
+    <MoveSpeed>k__BackingField: 7
     <RotateSpeed>k__BackingField: 10
