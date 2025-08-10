@@ -14,6 +14,10 @@ namespace SoulLike.ActorControllers.Abilities
             public const string MoveSpeed = "MoveSpeed";
 
             public const string Attack = "Attack";
+
+            public const string AttackId = "AttackId";
+
+            public const string WeaponId = "WeaponId";
         }
 
         public void Activate(Actor actor)
@@ -54,7 +58,7 @@ namespace SoulLike.ActorControllers.Abilities
             animator.SetFloat(animatorParameter.Hash, value);
         }
 
-        public void SetInt(string parameterName, int value)
+        public void SetInteger(string parameterName, int value)
         {
             var animatorParameter = GetParameter(parameterName);
             animator.SetInteger(animatorParameter.Hash, value);
