@@ -1,3 +1,6 @@
+using System;
+using R3;
+using R3.Triggers;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -18,6 +21,17 @@ namespace SoulLike.ActorControllers.Abilities
             public const string AttackId = "AttackId";
 
             public const string WeaponId = "WeaponId";
+
+            public static string GetAttackStateName(int weaponId, int attackId)
+            {
+                var weaponName = weaponId switch
+                {
+                    1 => "Hand1",
+                    _ => throw new ArgumentOutOfRangeException(nameof(weaponId), weaponId, null)
+                };
+
+                return $"Attack_{weaponName}_{attackId}";
+            }
         }
 
         public void Activate(Actor actor)
@@ -72,5 +86,12 @@ namespace SoulLike.ActorControllers.Abilities
             var animatorParameter = GetParameter(parameterName);
             animator.ResetTrigger(animatorParameter.Hash);
         }
+
+        public void UpdateAnimator()
+        {
+            animator.Update(0);
+        }
+
+        public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateExitAsObservable() => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateExitAsObservable();
     }
 }
