@@ -13,6 +13,11 @@ namespace SoulLike.ActorControllers
             this.actor = actor;
         }
 
+        public void SetCanMove(int value)
+        {
+            actor.GetAbility<ActorMovement>().CanMove.Value = value == 1;
+        }
+
         public void SetCanRotate(int value)
         {
             actor.GetAbility<ActorMovement>().CanRotate.Value = value == 1;
