@@ -98,7 +98,6 @@ InitTestScene*.unity*
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
-SoulLike/Assets/Kevin Iglesias/*
-SoulLike/Assets/Kevin Iglesias.meta
+SoulLike/Assets/Kevin Iglesias*
 SoulLike/Packages/nuget-packages/InstalledPackages*
 SoulLike/Assets/ExplosiveLLC*
