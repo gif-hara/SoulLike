@@ -21,7 +21,7 @@ namespace SoulLike.ActorControllers.Brains
 
         private ActorAnimation actorAnimation;
 
-        private ActorAttack actorAttack;
+        private ActorWeaponHandler actorWeaponHandler;
 
         public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec)
         {
@@ -35,7 +35,7 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorTime>();
             actorMovement = actor.AddAbility<ActorMovement>();
             actorAnimation = actor.AddAbility<ActorAnimation>();
-            actorAttack = actor.AddAbility<ActorAttack>();
+            actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
 
             actorMovement.SetRotationSpeed(playerSpec.RotateSpeed);
             actor.UpdateAsObservable()
@@ -68,7 +68,7 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe((this, actor), static (_, t) =>
                 {
                     var (@this, actor) = t;
-                    @this.actorAttack.TryAttack();
+                    @this.actorWeaponHandler.TryAttack();
                 })
                 .RegisterTo(cancellationToken);
         }

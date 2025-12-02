@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SoulLike.ActorControllers.Abilities
 {
-    public sealed class ActorAttack : IActorAbility
+    public sealed class ActorWeaponHandler : IActorAbility
     {
         private ActorMovement actorMovement;
 
