@@ -1,0 +1,5 @@
+﻿<Solution>
+  <Project Path="SoulLike.Runtime.csproj" />
+  <Project Path="OpenCharacterController.Runtime.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+</Solution>
