@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using R3;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         public readonly ReactiveProperty<bool> CanAttack = new(true);
 
-        private CancellationTokenSource attackingScope;
+        private IDisposable attackExitProcess;
 
         public void Activate(Actor actor)
         {
@@ -31,16 +32,15 @@ namespace SoulLike.ActorControllers.Abilities
                 return false;
             }
 
-            attackingScope?.Cancel();
-            attackingScope?.Dispose();
-            attackingScope = new CancellationTokenSource();
+            attackExitProcess?.Dispose();
+            attackExitProcess = null;
             actorAnimation.SetInteger(ActorAnimation.Parameter.AttackId, attackId);
             actorAnimation.SetTrigger(ActorAnimation.Parameter.Attack);
             CanAttack.Value = false;
             var currentAttackId = attackId;
             attackId++;
             actorAnimation.UpdateAnimator();
-            actorAnimation.OnStateExitAsObservable()
+            attackExitProcess = actorAnimation.OnStateExitAsObservable()
                 .Subscribe((this, currentAttackId), static (x, t) =>
                 {
                     var (@this, currentAttackId) = t;
@@ -49,13 +49,11 @@ namespace SoulLike.ActorControllers.Abilities
                         @this.actorMovement.CanMove.Value = true;
                         @this.CanAttack.Value = true;
                         @this.attackId = 1;
-                        @this.attackingScope?.Cancel();
-                        @this.attackingScope?.Dispose();
-                        @this.attackingScope = null;
+                        @this.attackExitProcess?.Dispose();
+                        @this.attackExitProcess = null;
                         Debug.Log($"Attack finished");
                     }
-                })
-                .RegisterTo(attackingScope.Token);
+                });
             return true;
         }
     }
