@@ -10,7 +10,11 @@ namespace SoulLike.ActorControllers.Abilities
     {
         private Animator animator;
 
+        private AnimatorOverrideController overrideController;
+
         private readonly AnimatorParameter.DictionaryList animatorParameters = new();
+
+        private int currentAttackId = 1;
 
         public static class Parameter
         {
@@ -39,9 +43,24 @@ namespace SoulLike.ActorControllers.Abilities
             var sceneView = actor.GetAbility<ActorSceneViewHandler>().SceneView;
             animator = sceneView.Animator;
             Assert.IsNotNull(animator, $"{nameof(Animator)} is not assigned in {actor.name}.");
+            overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
+            if (overrideController == null)
+            {
+                overrideController = new AnimatorOverrideController();
+                overrideController.runtimeAnimatorController = animator.runtimeAnimatorController;
+                animator.runtimeAnimatorController = overrideController;
+            }
 
             sceneView.ActorAnimationEvent.Activate(actor);
             sceneView.ActorAnimatorMove.Activate(actor);
+        }
+
+        public void PlayAttackAnimation(AnimationClip animationClip)
+        {
+            currentAttackId = currentAttackId == 1 ? 2 : 1;
+            overrideController[$"Attack.{currentAttackId}"] = animationClip;
+            SetInteger(Parameter.AttackId, currentAttackId);
+            SetTrigger(Parameter.Attack);
         }
 
         private AnimatorParameter GetParameter(string parameterName)
