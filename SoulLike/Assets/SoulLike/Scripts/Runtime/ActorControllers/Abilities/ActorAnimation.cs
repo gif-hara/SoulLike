@@ -26,6 +26,8 @@ namespace SoulLike.ActorControllers.Abilities
 
             public const string WeaponId = "WeaponId";
 
+            public const string Dodge = "Dodge";
+
             public static string GetAttackStateName(int weaponId, int attackId)
             {
                 var weaponName = weaponId switch
