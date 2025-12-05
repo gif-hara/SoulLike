@@ -42,5 +42,10 @@ namespace SoulLike.ActorControllers
         {
             actor.Event.Broker.Publish(new ActorEvent.EndAttack(attackId));
         }
+
+        public void EnableAttack()
+        {
+            actor.GetAbility<ActorWeaponHandler>().CanAttack.Value = true;
+        }
     }
 }
