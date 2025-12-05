@@ -36,8 +36,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         public void Activate(Actor actor)
         {
-            var sceneView = actor.GetComponentInChildren<SceneView>();
-            Assert.IsNotNull(sceneView, $"{nameof(SceneView)} is not assigned in {actor.name}.");
+            var sceneView = actor.GetAbility<ActorSceneViewHandler>().SceneView;
             animator = sceneView.Animator;
             Assert.IsNotNull(animator, $"{nameof(Animator)} is not assigned in {actor.name}.");
 

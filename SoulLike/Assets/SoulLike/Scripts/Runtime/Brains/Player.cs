@@ -34,6 +34,7 @@ namespace SoulLike.ActorControllers.Brains
         {
             actor.AddAbility<ActorTime>();
             actorMovement = actor.AddAbility<ActorMovement>();
+            actor.AddAbility<ActorSceneViewHandler>();
             actorAnimation = actor.AddAbility<ActorAnimation>();
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
 
