@@ -1,8 +1,57 @@
+using System;
+using System.Collections.Generic;
+using SoulLike.ActorControllers;
+using SoulLike.ActorControllers.Abilities;
+using SoulLike.WeaponActions;
+using TNRD;
 using UnityEngine;
 
 namespace SoulLike
 {
     public sealed class Weapon : MonoBehaviour
     {
+        [SerializeField]
+        private List<BasicAttackElement> basicAttackElements = new();
+
+        private Actor actor;
+
+        private ActorWeaponHandler weaponHandler;
+
+        public void Initialize(Actor actor, ActorWeaponHandler weaponHandler)
+        {
+            this.actor = actor;
+            this.weaponHandler = weaponHandler;
+        }
+
+        public void InvokeBasicAttack(int comboId)
+        {
+            var element = basicAttackElements.Find(x => x.ComboId == comboId);
+            if (element == null)
+            {
+                Debug.LogWarning($"No basic attack element found for combo ID: {comboId}");
+                return;
+            }
+
+            foreach (var actionInterface in element.Actions)
+            {
+                actionInterface.Value.Invoke(this, actor);
+            }
+        }
+
+        [Serializable]
+        public class BasicAttackElement
+        {
+            [field: SerializeField]
+            public int ComboId { get; private set; }
+
+            [field: SerializeField]
+            public AnimationClip AnimationClip { get; private set; }
+
+#if UNITY_EDITOR
+            [ClassesOnly]
+#endif
+            [field: SerializeField]
+            public List<SerializableInterface<IWeaponAction>> Actions { get; private set; }
+        }
     }
 }
