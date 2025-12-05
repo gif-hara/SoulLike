@@ -71,7 +71,7 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe((this, actor), static (_, t) =>
                 {
                     var (@this, actor) = t;
-                    @this.actorWeaponHandler.TryAttack();
+                    @this.actorWeaponHandler.TryBasicAttack();
                 })
                 .RegisterTo(cancellationToken);
         }
