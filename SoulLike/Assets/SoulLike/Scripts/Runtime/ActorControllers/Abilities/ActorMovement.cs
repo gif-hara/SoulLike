@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using R3;
 using R3.Triggers;
 using StandardAssets.Characters.Physics;
@@ -23,13 +24,29 @@ namespace SoulLike.ActorControllers.Abilities
         private readonly ReactiveProperty<bool> isMoving = new(false);
         public ReadOnlyReactiveProperty<bool> IsMoving => isMoving;
 
-        public readonly ReactiveProperty<bool> CanMove = new(true);
+        private readonly HashSet<string> blockMoveStates = new();
 
-        public readonly ReactiveProperty<bool> CanMoveFromEvent = new(true);
+        private readonly HashSet<string> blockRotateStates = new();
 
-        public readonly ReactiveProperty<bool> CanRotate = new(true);
+        public void AddBlockMoveState(string stateName)
+        {
+            blockMoveStates.Add(stateName);
+        }
 
-        public readonly ReactiveProperty<bool> CanRotateFromEvent = new(true);
+        public void RemoveBlockMoveState(string stateName)
+        {
+            blockMoveStates.Remove(stateName);
+        }
+
+        public void AddBlockRotateState(string stateName)
+        {
+            blockRotateStates.Add(stateName);
+        }
+
+        public void RemoveBlockRotateState(string stateName)
+        {
+            blockRotateStates.Remove(stateName);
+        }
 
         public void Move(Vector3 velocity)
         {
@@ -67,7 +84,7 @@ namespace SoulLike.ActorControllers.Abilities
                 .Subscribe(this, static (_, @this) =>
                 {
                     var deltaTime = @this.actor.GetAbility<ActorTime>().Time.deltaTime;
-                    if (@this.velocity == Vector3.zero || !@this.CanMove.Value)
+                    if (@this.velocity == Vector3.zero || @this.blockMoveStates.Count > 0)
                     {
                         @this.isMoving.Value = false;
                     }
@@ -83,7 +100,7 @@ namespace SoulLike.ActorControllers.Abilities
                     position.y = 0.0f;
                     @this.actor.transform.position = position;
 
-                    if (@this.CanRotate.Value)
+                    if (@this.blockRotateStates.Count == 0)
                     {
                         @this.actor.transform.rotation = Quaternion.Slerp(@this.actor.transform.rotation, @this.TargetRotation, @this.rotationSpeed * deltaTime);
                     }

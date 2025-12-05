@@ -13,6 +13,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         public readonly ReactiveProperty<bool> CanDodge = new(true);
 
+        private const string DodgeStateName = "Dodge";
+
         public void Activate(Actor actor)
         {
             this.actor = actor;
@@ -31,16 +33,16 @@ namespace SoulLike.ActorControllers.Abilities
             actorAnimation.SetTrigger(ActorAnimation.Parameter.Dodge);
             actorAnimation.UpdateAnimator();
             CanDodge.Value = false;
-            actorMovement.CanMove.Value = false;
-            actorMovement.CanRotate.Value = false;
+            actorMovement.AddBlockMoveState(DodgeStateName);
+            actorMovement.AddBlockRotateState(DodgeStateName);
             actorAnimation.OnStateExitAsObservable()
                 .Where(x => x.StateInfo.IsName(ActorAnimation.Parameter.Dodge))
                 .Take(1)
                 .Subscribe(this, static (_, @this) =>
                 {
                     @this.CanDodge.Value = true;
-                    @this.actorMovement.CanMove.Value = true;
-                    @this.actorMovement.CanRotate.Value = true;
+                    @this.actorMovement.RemoveBlockMoveState(DodgeStateName);
+                    @this.actorMovement.RemoveBlockRotateState(DodgeStateName);
                 })
                 .RegisterTo(actor.destroyCancellationToken);
 
