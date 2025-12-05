@@ -1,4 +1,6 @@
+using System;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using HK;
 using R3;
 using R3.Triggers;
@@ -24,6 +26,8 @@ namespace SoulLike.ActorControllers.Brains
         private ActorWeaponHandler actorWeaponHandler;
 
         private ActorDodge actorDodge;
+
+        private IDisposable preInputProcessDisposable;
 
         public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec)
         {
@@ -74,16 +78,25 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe((this, actor), static (_, t) =>
                 {
                     var (@this, actor) = t;
-                    @this.actorWeaponHandler.TryBasicAttack();
+                    @this.PreInputProcess(actor, () => @this.actorWeaponHandler.TryBasicAttack());
                 })
                 .RegisterTo(cancellationToken);
             playerInput.actions["Dodge"].OnPerformedAsObservable()
                 .Subscribe((this, actor), static (_, t) =>
                 {
                     var (@this, actor) = t;
-                    @this.actorDodge.TryDodge();
+                    @this.PreInputProcess(actor, () => @this.actorDodge.TryDodge());
                 })
                 .RegisterTo(cancellationToken);
+        }
+
+        private void PreInputProcess(Actor actor, Func<bool> process)
+        {
+            preInputProcessDisposable?.Dispose();
+            preInputProcessDisposable = actor.UpdateAsObservable()
+                .Take(TimeSpan.FromSeconds(0.5f))
+                .TakeWhile(_ => !process())
+                .Subscribe();
         }
     }
 }
