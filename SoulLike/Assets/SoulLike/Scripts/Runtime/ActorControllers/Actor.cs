@@ -8,6 +8,8 @@ namespace SoulLike.ActorControllers
 {
     public class Actor : MonoBehaviour
     {
+        public ActorEvent Event { get; } = new ActorEvent();
+
         private readonly Dictionary<Type, IActorAbility> abilities = new();
 
         public T AddAbility<T>() where T : IActorAbility, new()
