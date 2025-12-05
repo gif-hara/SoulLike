@@ -10,6 +10,12 @@ namespace SoulLike
 {
     public sealed class Weapon : MonoBehaviour
     {
+#if UNITY_EDITOR
+        [ClassesOnly]
+#endif
+        [SerializeField]
+        private List<SerializableInterface<IWeaponAction>> initializeActions = new();
+
         [SerializeField]
         private List<BasicAttackElement> basicAttackElements = new();
 
@@ -27,6 +33,10 @@ namespace SoulLike
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
             transform.localScale = Vector3.one;
+            foreach (var actionInterface in initializeActions)
+            {
+                actionInterface.Value.Invoke(this, actor);
+            }
         }
 
         public void InvokeBasicAttack()
