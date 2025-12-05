@@ -37,6 +37,8 @@ namespace SoulLike.ActorControllers.Brains
             actorAnimation = actor.AddAbility<ActorAnimation>();
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
 
+            actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab);
+
             actorMovement.SetRotationSpeed(playerSpec.RotateSpeed);
             actor.UpdateAsObservable()
                 .Subscribe((this, actor), static (_, t) =>
