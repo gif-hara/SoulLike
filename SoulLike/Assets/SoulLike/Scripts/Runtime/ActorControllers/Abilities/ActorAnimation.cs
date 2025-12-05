@@ -44,6 +44,13 @@ namespace SoulLike.ActorControllers.Abilities
             animator = sceneView.Animator;
             Assert.IsNotNull(animator, $"{nameof(Animator)} is not assigned in {actor.name}.");
             overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
+#if UNITY_EDITOR
+            if (overrideController != null)
+            {
+                overrideController = UnityEngine.Object.Instantiate(overrideController);
+                animator.runtimeAnimatorController = overrideController;
+            }
+#endif
             if (overrideController == null)
             {
                 overrideController = new AnimatorOverrideController();
