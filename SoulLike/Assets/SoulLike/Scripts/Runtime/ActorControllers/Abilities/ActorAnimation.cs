@@ -61,6 +61,12 @@ namespace SoulLike.ActorControllers.Abilities
             overrideController[$"Attack.{currentAttackId}"] = animationClip;
             SetInteger(Parameter.AttackId, currentAttackId);
             SetTrigger(Parameter.Attack);
+            UpdateAnimator();
+        }
+
+        public string GetCurrentAttackStateName()
+        {
+            return $"Attack{currentAttackId}";
         }
 
         private AnimatorParameter GetParameter(string parameterName)
