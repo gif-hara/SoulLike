@@ -33,6 +33,8 @@ namespace SoulLike
 
         private CancellationTokenSource endAttackCancellationTokenSource;
 
+        private const string AttackStateName = "Attack";
+
         public void Initialize(Actor actor)
         {
             this.actor = actor;
@@ -62,27 +64,69 @@ namespace SoulLike
             endAttackCancellationTokenSource?.Dispose();
             endAttackCancellationTokenSource = new CancellationTokenSource();
             actorWeaponHandler.CanAttack.Value = false;
-            actorMovement.CanMove.Value = false;
-            actorMovement.CanRotate.Value = false;
+            actorMovement.AddBlockMoveState(AttackStateName);
+            actorMovement.AddBlockRotateState(AttackStateName);
+            BasicAttackComboId = element.NextComboId;
             actorAnimation.PlayAttackAnimation(element.AnimationClip);
             actorAnimation.OnStateExitAsObservable()
-                .Subscribe(this, static (x, @this) =>
+                .Subscribe((this, element), static (x, t) =>
                 {
+                    var (@this, element) = t;
                     if (x.StateInfo.IsName(@this.actorAnimation.GetCurrentAttackStateName()))
                     {
-                        @this.actorMovement.CanMove.Value = true;
-                        @this.actorMovement.CanRotate.Value = true;
+                        @this.actorMovement.RemoveBlockMoveState(AttackStateName);
+                        @this.actorMovement.RemoveBlockRotateState(AttackStateName);
                         @this.actorWeaponHandler.CanAttack.Value = true;
                         @this.BasicAttackComboId = 0;
                         @this.endAttackCancellationTokenSource?.Cancel();
                         @this.endAttackCancellationTokenSource?.Dispose();
                         @this.endAttackCancellationTokenSource = null;
+                        foreach (var attackElement in element.AttackElements)
+                        {
+                            foreach (var activeObject in attackElement.ActiveObjects)
+                            {
+                                activeObject.SetActive(false);
+                            }
+                        }
                     }
                 })
                 .RegisterTo(endAttackCancellationTokenSource.Token);
-            foreach (var actionInterface in element.Actions)
+            foreach (var attackElement in element.AttackElements)
             {
-                actionInterface.Value.Invoke(this, actor, endAttackCancellationTokenSource.Token);
+                actor.Event.Broker.Receive<ActorEvent.BeginAttack>()
+                    .Where(attackElement.AttackId, static (x, attackId) => x.AttackId == attackId)
+                    .Subscribe((attackElement, this, actor, element), static (_, t) =>
+                    {
+                        var (attackElement, @this, actor, element) = t;
+                        foreach (var activeObject in attackElement.ActiveObjects)
+                        {
+                            activeObject.SetActive(true);
+                        }
+                        foreach (var actionInterface in attackElement.BeginAttackActions)
+                        {
+                            actionInterface.Value.Invoke(@this, actor, @this.endAttackCancellationTokenSource.Token);
+                        }
+                    })
+                    .RegisterTo(endAttackCancellationTokenSource.Token);
+                actor.Event.Broker.Receive<ActorEvent.EndAttack>()
+                    .Where(attackElement.AttackId, static (x, attackId) => x.AttackId == attackId)
+                    .Subscribe((attackElement, this, actor, element), static (_, t) =>
+                    {
+                        var (attackElement, @this, actor, element) = t;
+                        foreach (var activeObject in attackElement.ActiveObjects)
+                        {
+                            activeObject.SetActive(false);
+                        }
+                        foreach (var actionInterface in attackElement.EndAttackActions)
+                        {
+                            actionInterface.Value.Invoke(@this, actor, @this.endAttackCancellationTokenSource.Token);
+                        }
+                    })
+                    .RegisterTo(endAttackCancellationTokenSource.Token);
+            }
+            foreach (var action in element.Actions)
+            {
+                action.Value.Invoke(this, actor, endAttackCancellationTokenSource.Token);
             }
         }
 
@@ -93,13 +137,41 @@ namespace SoulLike
             public int ComboId { get; private set; }
 
             [field: SerializeField]
+            public int NextComboId { get; private set; }
+
+            [field: SerializeField]
             public AnimationClip AnimationClip { get; private set; }
+
+            [field: SerializeField]
+            public List<AttackElement> AttackElements { get; private set; }
 
 #if UNITY_EDITOR
             [ClassesOnly]
 #endif
             [field: SerializeField]
             public List<SerializableInterface<IWeaponAction>> Actions { get; private set; }
+        }
+
+        [Serializable]
+        public class AttackElement
+        {
+            [field: SerializeField]
+            public int AttackId { get; private set; }
+
+            [field: SerializeField]
+            public List<GameObject> ActiveObjects { get; private set; }
+
+#if UNITY_EDITOR
+            [ClassesOnly]
+#endif
+            [field: SerializeField]
+            public List<SerializableInterface<IWeaponAction>> BeginAttackActions { get; private set; }
+
+#if UNITY_EDITOR
+            [ClassesOnly]
+#endif
+            [field: SerializeField]
+            public List<SerializableInterface<IWeaponAction>> EndAttackActions { get; private set; }
         }
     }
 }
