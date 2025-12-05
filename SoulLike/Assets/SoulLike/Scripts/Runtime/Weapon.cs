@@ -59,6 +59,7 @@ namespace SoulLike
 
             attackExitProcess?.Dispose();
             attackExitProcess = null;
+            actorWeaponHandler.CanAttack.Value = false;
             actorAnimation.PlayAttackAnimation(element.AnimationClip);
             attackExitProcess = actorAnimation.OnStateExitAsObservable()
                 .Subscribe(this, static (x, @this) =>
