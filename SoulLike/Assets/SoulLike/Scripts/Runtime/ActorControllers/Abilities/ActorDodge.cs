@@ -1,11 +1,13 @@
 using R3;
-using SoulLike.ActorControllers.Brains;
+using UnityEngine;
 
 namespace SoulLike.ActorControllers.Abilities
 {
     public sealed class ActorDodge : IActorAbility
     {
         private Actor actor;
+
+        private ActorMovement actorMovement;
 
         private ActorAnimation actorAnimation;
 
@@ -14,16 +16,18 @@ namespace SoulLike.ActorControllers.Abilities
         public void Activate(Actor actor)
         {
             this.actor = actor;
+            actorMovement = actor.GetAbility<ActorMovement>();
             actorAnimation = actor.GetAbility<ActorAnimation>();
         }
 
-        public bool TryDodge()
+        public bool TryDodge(Vector3 direction)
         {
             if (!CanDodge.Value)
             {
                 return false;
             }
 
+            actorMovement.RotateImmediate(Quaternion.LookRotation(direction, Vector3.up));
             actorAnimation.SetTrigger(ActorAnimation.Parameter.Dodge);
             actorAnimation.UpdateAnimator();
             CanDodge.Value = false;
