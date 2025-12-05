@@ -13,10 +13,6 @@ namespace SoulLike.ActorControllers.Abilities
 
         private ActorAnimation actorAnimation;
 
-        private int weaponId = 1;
-
-        private int attackId = 1;
-
         public readonly ReactiveProperty<bool> CanAttack = new(true);
 
         private IDisposable attackExitProcess;
