@@ -5,5 +5,25 @@ namespace SoulLike.ActorControllers
         private readonly MessageBroker messageBroker = new();
 
         public IMessageBroker Broker => messageBroker;
+
+        public readonly struct BeginAttack
+        {
+            public readonly int AttackId;
+
+            public BeginAttack(int attackId)
+            {
+                AttackId = attackId;
+            }
+        }
+
+        public readonly struct EndAttack
+        {
+            public readonly int AttackId;
+
+            public EndAttack(int attackId)
+            {
+                AttackId = attackId;
+            }
+        }
     }
 }
