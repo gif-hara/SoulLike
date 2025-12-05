@@ -74,7 +74,6 @@ namespace SoulLike
                         @this.BasicAttackComboId = 0;
                         @this.attackExitProcess?.Dispose();
                         @this.attackExitProcess = null;
-                        Debug.Log($"Attack finished");
                     }
                 });
             attackExitProcess.RegisterTo(actor.destroyCancellationToken);
