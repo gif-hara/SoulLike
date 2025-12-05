@@ -10,5 +10,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public float RotateSpeed { get; private set; }
+
+        [field: SerializeField]
+        public Weapon WeaponPrefab { get; private set; }
     }
 }
