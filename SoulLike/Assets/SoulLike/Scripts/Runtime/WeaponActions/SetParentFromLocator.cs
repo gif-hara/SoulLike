@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace SoulLike.WeaponActions
         [SerializeField]
         private Vector3 offsetScale = Vector3.one;
 
-        public void Invoke(Weapon weapon, Actor actor)
+        public void Invoke(Weapon weapon, Actor actor, CancellationToken scope)
         {
             var locatorHolder = actor.GetAbility<ActorSceneViewHandler>().SceneView.LocatorHolder;
             var locatorTransform = locatorHolder.Get(locatorName);

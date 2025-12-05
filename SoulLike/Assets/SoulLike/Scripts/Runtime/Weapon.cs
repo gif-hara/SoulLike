@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using R3;
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
@@ -30,7 +31,7 @@ namespace SoulLike
 
         public int BasicAttackComboId { get; set; } = 0;
 
-        private IDisposable attackExitProcess;
+        private CancellationTokenSource endAttackCancellationTokenSource;
 
         public void Initialize(Actor actor)
         {
@@ -44,7 +45,7 @@ namespace SoulLike
             transform.localScale = Vector3.one;
             foreach (var actionInterface in initializeActions)
             {
-                actionInterface.Value.Invoke(this, actor);
+                actionInterface.Value.Invoke(this, actor, actor.destroyCancellationToken);
             }
         }
 
@@ -57,13 +58,14 @@ namespace SoulLike
                 return;
             }
 
-            attackExitProcess?.Dispose();
-            attackExitProcess = null;
+            endAttackCancellationTokenSource?.Cancel();
+            endAttackCancellationTokenSource?.Dispose();
+            endAttackCancellationTokenSource = new CancellationTokenSource();
             actorWeaponHandler.CanAttack.Value = false;
             actorMovement.CanMove.Value = false;
             actorMovement.CanRotate.Value = false;
             actorAnimation.PlayAttackAnimation(element.AnimationClip);
-            attackExitProcess = actorAnimation.OnStateExitAsObservable()
+            actorAnimation.OnStateExitAsObservable()
                 .Subscribe(this, static (x, @this) =>
                 {
                     if (x.StateInfo.IsName(@this.actorAnimation.GetCurrentAttackStateName()))
@@ -72,14 +74,15 @@ namespace SoulLike
                         @this.actorMovement.CanRotate.Value = true;
                         @this.actorWeaponHandler.CanAttack.Value = true;
                         @this.BasicAttackComboId = 0;
-                        @this.attackExitProcess?.Dispose();
-                        @this.attackExitProcess = null;
+                        @this.endAttackCancellationTokenSource?.Cancel();
+                        @this.endAttackCancellationTokenSource?.Dispose();
+                        @this.endAttackCancellationTokenSource = null;
                     }
-                });
-            attackExitProcess.RegisterTo(actor.destroyCancellationToken);
+                })
+                .RegisterTo(endAttackCancellationTokenSource.Token);
             foreach (var actionInterface in element.Actions)
             {
-                actionInterface.Value.Invoke(this, actor);
+                actionInterface.Value.Invoke(this, actor, endAttackCancellationTokenSource.Token);
             }
         }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using SoulLike.ActorControllers;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace SoulLike.WeaponActions
         [SerializeField]
         private string message;
 
-        public void Invoke(Weapon weapon, Actor actor)
+        public void Invoke(Weapon weapon, Actor actor, CancellationToken scope)
         {
             Debug.Log(message);
         }
