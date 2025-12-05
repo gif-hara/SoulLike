@@ -32,5 +32,15 @@ namespace SoulLike.ActorControllers
         {
             TinyServiceLocator.Resolve<AudioManager>().PlaySfx(key);
         }
+
+        public void BeginAttack(int attackId)
+        {
+            actor.Event.Broker.Publish(new ActorEvent.BeginAttack(attackId));
+        }
+
+        public void EndAttack(int attackId)
+        {
+            actor.Event.Broker.Publish(new ActorEvent.EndAttack(attackId));
+        }
     }
 }
