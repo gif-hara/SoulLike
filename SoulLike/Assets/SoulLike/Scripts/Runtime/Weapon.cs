@@ -21,6 +21,10 @@ namespace SoulLike
         {
             this.actor = actor;
             this.weaponHandler = weaponHandler;
+            transform.SetParent(actor.transform, false);
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+            transform.localScale = Vector3.one;
         }
 
         public void InvokeBasicAttack(int comboId)
