@@ -17,6 +17,8 @@ namespace SoulLike
 
         private ActorWeaponHandler weaponHandler;
 
+        public int BasicAttackComboId { get; set; } = 0;
+
         public void Initialize(Actor actor, ActorWeaponHandler weaponHandler)
         {
             this.actor = actor;
@@ -27,12 +29,12 @@ namespace SoulLike
             transform.localScale = Vector3.one;
         }
 
-        public void InvokeBasicAttack(int comboId)
+        public void InvokeBasicAttack()
         {
-            var element = basicAttackElements.Find(x => x.ComboId == comboId);
+            var element = basicAttackElements.Find(x => x.ComboId == BasicAttackComboId);
             if (element == null)
             {
-                Debug.LogWarning($"No basic attack element found for combo ID: {comboId}");
+                Debug.LogWarning($"No basic attack element found for combo ID: {BasicAttackComboId}");
                 return;
             }
 
