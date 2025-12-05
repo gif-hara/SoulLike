@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using R3;
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
 using SoulLike.WeaponActions;
@@ -23,12 +24,20 @@ namespace SoulLike
 
         private ActorAnimation actorAnimation;
 
+        private ActorWeaponHandler actorWeaponHandler;
+
+        private ActorMovement actorMovement;
+
         public int BasicAttackComboId { get; set; } = 0;
+
+        private IDisposable attackExitProcess;
 
         public void Initialize(Actor actor)
         {
             this.actor = actor;
             actorAnimation = actor.GetAbility<ActorAnimation>();
+            actorWeaponHandler = actor.GetAbility<ActorWeaponHandler>();
+            actorMovement = actor.GetAbility<ActorMovement>();
             transform.SetParent(actor.transform, false);
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
@@ -48,7 +57,23 @@ namespace SoulLike
                 return;
             }
 
+            attackExitProcess?.Dispose();
+            attackExitProcess = null;
             actorAnimation.PlayAttackAnimation(element.AnimationClip);
+            attackExitProcess = actorAnimation.OnStateExitAsObservable()
+                .Subscribe(this, static (x, @this) =>
+                {
+                    if (x.StateInfo.IsName(@this.actorAnimation.GetCurrentAttackStateName()))
+                    {
+                        @this.actorMovement.CanMove.Value = true;
+                        @this.actorWeaponHandler.CanAttack.Value = true;
+                        @this.BasicAttackComboId = 0;
+                        @this.attackExitProcess?.Dispose();
+                        @this.attackExitProcess = null;
+                        Debug.Log($"Attack finished");
+                    }
+                });
+            attackExitProcess.RegisterTo(actor.destroyCancellationToken);
             foreach (var actionInterface in element.Actions)
             {
                 actionInterface.Value.Invoke(this, actor);
