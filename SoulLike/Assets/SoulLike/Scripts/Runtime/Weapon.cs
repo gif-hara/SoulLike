@@ -15,14 +15,14 @@ namespace SoulLike
 
         private Actor actor;
 
-        private ActorWeaponHandler weaponHandler;
+        private ActorAnimation actorAnimation;
 
         public int BasicAttackComboId { get; set; } = 0;
 
-        public void Initialize(Actor actor, ActorWeaponHandler weaponHandler)
+        public void Initialize(Actor actor)
         {
             this.actor = actor;
-            this.weaponHandler = weaponHandler;
+            actorAnimation = actor.GetAbility<ActorAnimation>();
             transform.SetParent(actor.transform, false);
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
@@ -38,6 +38,7 @@ namespace SoulLike
                 return;
             }
 
+            actorAnimation.PlayAttackAnimation(element.AnimationClip);
             foreach (var actionInterface in element.Actions)
             {
                 actionInterface.Value.Invoke(this, actor);
