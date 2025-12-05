@@ -60,6 +60,18 @@ PrefabInstance:
       propertyPath: <ActorAnimationEvent>k__BackingField
       value: 
       objectReference: {fileID: 9080029075002823235}
+    - target: {fileID: 8019302703174989291, guid: 188dd36fd2aa5824c95130166e7dbebc, type: 3}
+      propertyPath: elements.list.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8019302703174989291, guid: 188dd36fd2aa5824c95130166e7dbebc, type: 3}
+      propertyPath: elements.list.Array.data[0].name
+      value: Hand.Right
+      objectReference: {fileID: 0}
+    - target: {fileID: 8019302703174989291, guid: 188dd36fd2aa5824c95130166e7dbebc, type: 3}
+      propertyPath: elements.list.Array.data[0].transform
+      value: 
+      objectReference: {fileID: 8544299763101351707}
     - target: {fileID: 8442760064374283317, guid: 188dd36fd2aa5824c95130166e7dbebc, type: 3}
       propertyPath: m_Name
       value: SceneView.Actor.1
@@ -189,3 +201,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ActorControllers.ActorAnimatorMove
   animator: {fileID: 1485188546343767155}
+--- !u!4 &8544299763101351707 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3703531099235815161, guid: 4838ccfd02b84a7b81c0fac73ac43c66, type: 3}
+  m_PrefabInstance: {fileID: 5041470497054536162}
+  m_PrefabAsset: {fileID: 0}
