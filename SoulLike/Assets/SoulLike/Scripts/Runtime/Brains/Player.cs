@@ -23,6 +23,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private ActorWeaponHandler actorWeaponHandler;
 
+        private ActorDodge actorDodge;
+
         public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec)
         {
             this.playerInput = playerInput;
@@ -37,6 +39,7 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorSceneViewHandler>();
             actorAnimation = actor.AddAbility<ActorAnimation>();
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
+            actorDodge = actor.AddAbility<ActorDodge>();
 
             actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab);
 
@@ -72,6 +75,13 @@ namespace SoulLike.ActorControllers.Brains
                 {
                     var (@this, actor) = t;
                     @this.actorWeaponHandler.TryBasicAttack();
+                })
+                .RegisterTo(cancellationToken);
+            playerInput.actions["Dodge"].OnPerformedAsObservable()
+                .Subscribe((this, actor), static (_, t) =>
+                {
+                    var (@this, actor) = t;
+                    @this.actorDodge.TryDodge();
                 })
                 .RegisterTo(cancellationToken);
         }
