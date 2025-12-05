@@ -133,6 +133,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 7fc3af5dd072d6541b550257afdc4be2, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 4838ccfd02b84a7b81c0fac73ac43c66, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -7292483085371059190, guid: 4838ccfd02b84a7b81c0fac73ac43c66, type: 3}
@@ -184,4 +188,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7521a17d2b88da040b608bb1bc0432cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ActorControllers.ActorAnimatorMove
-  animator: {fileID: 0}
+  animator: {fileID: 1485188546343767155}
