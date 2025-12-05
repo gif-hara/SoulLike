@@ -7,6 +7,8 @@ namespace SoulLike.ActorControllers.Abilities
 {
     public sealed class ActorWeaponHandler : IActorAbility
     {
+        private Actor actor;
+
         private ActorMovement actorMovement;
 
         private ActorAnimation actorAnimation;
@@ -21,8 +23,15 @@ namespace SoulLike.ActorControllers.Abilities
 
         public void Activate(Actor actor)
         {
+            this.actor = actor;
             actorMovement = actor.GetAbility<ActorMovement>();
             actorAnimation = actor.GetAbility<ActorAnimation>();
+        }
+
+        public void CreateWeapon(Weapon weaponPrefab)
+        {
+            var weaponObject = UnityEngine.Object.Instantiate(weaponPrefab);
+            weaponObject.Initialize(actor, this);
         }
 
         public bool TryAttack()
