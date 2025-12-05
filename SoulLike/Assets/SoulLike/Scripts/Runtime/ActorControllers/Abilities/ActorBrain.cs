@@ -17,6 +17,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         public void Attach(IActorBrain brain)
         {
+            scope?.Cancel();
+            scope?.Dispose();
             scope = CancellationTokenSource.CreateLinkedTokenSource(actor.destroyCancellationToken, Application.exitCancellationToken);
             brain.Attach(actor, scope.Token);
         }
