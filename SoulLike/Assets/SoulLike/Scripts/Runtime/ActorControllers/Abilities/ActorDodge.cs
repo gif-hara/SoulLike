@@ -31,12 +31,16 @@ namespace SoulLike.ActorControllers.Abilities
             actorAnimation.SetTrigger(ActorAnimation.Parameter.Dodge);
             actorAnimation.UpdateAnimator();
             CanDodge.Value = false;
+            actorMovement.CanMove.Value = false;
+            actorMovement.CanRotate.Value = false;
             actorAnimation.OnStateExitAsObservable()
                 .Where(x => x.StateInfo.IsName(ActorAnimation.Parameter.Dodge))
                 .Take(1)
                 .Subscribe(this, static (_, @this) =>
                 {
                     @this.CanDodge.Value = true;
+                    @this.actorMovement.CanMove.Value = true;
+                    @this.actorMovement.CanRotate.Value = true;
                 })
                 .RegisterTo(actor.destroyCancellationToken);
 
