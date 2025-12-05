@@ -60,6 +60,8 @@ namespace SoulLike
             attackExitProcess?.Dispose();
             attackExitProcess = null;
             actorWeaponHandler.CanAttack.Value = false;
+            actorMovement.CanMove.Value = false;
+            actorMovement.CanRotate.Value = false;
             actorAnimation.PlayAttackAnimation(element.AnimationClip);
             attackExitProcess = actorAnimation.OnStateExitAsObservable()
                 .Subscribe(this, static (x, @this) =>
@@ -67,6 +69,7 @@ namespace SoulLike
                     if (x.StateInfo.IsName(@this.actorAnimation.GetCurrentAttackStateName()))
                     {
                         @this.actorMovement.CanMove.Value = true;
+                        @this.actorMovement.CanRotate.Value = true;
                         @this.actorWeaponHandler.CanAttack.Value = true;
                         @this.BasicAttackComboId = 0;
                         @this.attackExitProcess?.Dispose();
