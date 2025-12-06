@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using R3;
+using R3.Triggers;
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
 using SoulLike.WeaponActions;
@@ -106,6 +107,22 @@ namespace SoulLike
                         {
                             actionInterface.Value.Invoke(@this, actor, @this.endAttackCancellationTokenSource.Token);
                         }
+                        attackElement.AttackData.Collider.OnTriggerEnterAsObservable()
+                            .Subscribe(x =>
+                            {
+                                var target = x.attachedRigidbody?.GetComponent<Actor>();
+                                if (target == null)
+                                {
+                                    return;
+                                }
+                                var targetStatus = target.GetAbility<ActorStatus>();
+                                if (targetStatus == null)
+                                {
+                                    return;
+                                }
+                                targetStatus.TakeDamage(attackElement.AttackData);
+                            })
+                            .RegisterTo(@this.endAttackCancellationTokenSource.Token);
                     })
                     .RegisterTo(endAttackCancellationTokenSource.Token);
                 actor.Event.Broker.Receive<ActorEvent.EndAttack>()
@@ -160,6 +177,9 @@ namespace SoulLike
 
             [field: SerializeField]
             public List<GameObject> ActiveObjects { get; private set; }
+
+            [field: SerializeField]
+            public AttackData AttackData { get; private set; }
 
 #if UNITY_EDITOR
             [ClassesOnly]
