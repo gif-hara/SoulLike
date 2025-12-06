@@ -27,6 +27,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private ActorDodge actorDodge;
 
+        private ActorTargetHandler actorTargetHandler;
+
         private IDisposable preInputProcessDisposable;
 
         public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec)
@@ -46,6 +48,7 @@ namespace SoulLike.ActorControllers.Brains
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actorDodge = actor.AddAbility<ActorDodge>();
             actor.AddAbility<ActorStatus>();
+            actorTargetHandler = actor.AddAbility<ActorTargetHandler>();
 
             actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab, Layer.PlayerWeapon);
 

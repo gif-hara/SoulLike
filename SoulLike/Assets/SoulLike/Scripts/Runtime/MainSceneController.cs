@@ -43,6 +43,9 @@ namespace SoulLike
             var enemyBrainController = enemy.AddAbility<ActorBrain>();
             enemyBrainController.Attach(new Enemy());
 
+            player.GetAbility<ActorTargetHandler>().BeginLockOn(enemy);
+            enemy.GetAbility<ActorTargetHandler>().BeginLockOn(player);
+
             worldCameraController.SetDefaultCameraTarget(player.transform);
         }
     }

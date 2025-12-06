@@ -18,6 +18,7 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorSceneViewHandler>();
             actor.AddAbility<ActorAnimation>();
             actor.AddAbility<ActorStatus>();
+            actor.AddAbility<ActorTargetHandler>();
         }
     }
 }
