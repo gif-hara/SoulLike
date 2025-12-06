@@ -1,4 +1,5 @@
 using System.Threading;
+using HK;
 
 namespace SoulLike.ActorControllers.Brains
 {
@@ -10,6 +11,7 @@ namespace SoulLike.ActorControllers.Brains
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
         {
+            actor.gameObject.SetLayerRecursive(Layer.Enemy);
         }
     }
 }

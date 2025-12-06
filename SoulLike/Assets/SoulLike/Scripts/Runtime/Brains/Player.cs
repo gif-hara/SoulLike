@@ -38,6 +38,7 @@ namespace SoulLike.ActorControllers.Brains
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
         {
+            actor.gameObject.SetLayerRecursive(Layer.Player);
             actor.AddAbility<ActorTime>();
             actorMovement = actor.AddAbility<ActorMovement>();
             actor.AddAbility<ActorSceneViewHandler>();
