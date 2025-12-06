@@ -10,6 +10,8 @@ namespace SoulLike
 
         public float Power;
 
+        public int DamageId;
+
         public Vector3 Knockback;
 
         public float KnockbackDuration;
