@@ -2,21 +2,21 @@ using System.Collections.Generic;
 
 namespace SoulLike
 {
-    public sealed class Brocker
+    public sealed class Blocker
     {
         private readonly HashSet<string> topics = new();
 
-        public void Brock(string topic)
+        public void Block(string topic)
         {
             topics.Add(topic);
         }
 
-        public void Unbrock(string topic)
+        public void Unblock(string topic)
         {
             topics.Remove(topic);
         }
 
-        public bool IsBrocked()
+        public bool IsBlocked()
         {
             return topics.Count > 0;
         }
