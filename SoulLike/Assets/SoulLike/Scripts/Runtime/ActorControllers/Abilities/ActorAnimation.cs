@@ -32,6 +32,12 @@ namespace SoulLike.ActorControllers.Abilities
 
             public const string DamageId = "DamageId";
 
+            public const string LockedOn = "LockedOn";
+
+            public const string MoveX = "MoveX";
+
+            public const string MoveY = "MoveY";
+
             public static string GetAttackStateName(int weaponId, int attackId)
             {
                 var weaponName = weaponId switch
