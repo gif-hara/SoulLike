@@ -1,3 +1,5 @@
+using HK;
+
 namespace SoulLike.ActorControllers.Abilities
 {
     public sealed class ActorWeaponHandler : IActorAbility
@@ -13,13 +15,14 @@ namespace SoulLike.ActorControllers.Abilities
             this.actor = actor;
         }
 
-        public void CreateWeapon(Weapon weaponPrefab)
+        public void CreateWeapon(Weapon weaponPrefab, int layer)
         {
             if (currentWeapon != null)
             {
                 UnityEngine.Object.Destroy(currentWeapon.gameObject);
             }
             var weaponObject = UnityEngine.Object.Instantiate(weaponPrefab);
+            weaponObject.gameObject.SetLayerRecursive(layer);
             weaponObject.Initialize(actor);
             currentWeapon = weaponObject;
         }

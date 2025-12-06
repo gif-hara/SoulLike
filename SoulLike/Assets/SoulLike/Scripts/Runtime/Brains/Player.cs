@@ -45,7 +45,7 @@ namespace SoulLike.ActorControllers.Brains
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actorDodge = actor.AddAbility<ActorDodge>();
 
-            actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab);
+            actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab, Layer.PlayerWeapon);
 
             actorMovement.SetRotationSpeed(playerSpec.RotateSpeed);
             actor.UpdateAsObservable()
