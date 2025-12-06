@@ -11,6 +11,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         private ActorMovement actorMovement;
 
+        private ActorAnimation actorAnimation;
+
         private Actor target;
 
         private CancellationTokenSource endLockOnTokenSource;
@@ -19,6 +21,7 @@ namespace SoulLike.ActorControllers.Abilities
         {
             this.actor = actor;
             actorMovement = actor.GetAbility<ActorMovement>();
+            actorAnimation = actor.GetAbility<ActorAnimation>();
         }
 
         public void BeginLockOn(Actor target)
@@ -29,6 +32,7 @@ namespace SoulLike.ActorControllers.Abilities
             }
             endLockOnTokenSource = new CancellationTokenSource();
             this.target = target;
+            actorAnimation.SetBool(ActorAnimation.Parameter.LockedOn, true);
             actor.UpdateAsObservable()
                 .Subscribe(this, static (_, @this) =>
                 {
@@ -43,6 +47,7 @@ namespace SoulLike.ActorControllers.Abilities
             endLockOnTokenSource?.Cancel();
             endLockOnTokenSource?.Dispose();
             endLockOnTokenSource = null;
+            actorAnimation.SetBool(ActorAnimation.Parameter.LockedOn, false);
         }
     }
 }
