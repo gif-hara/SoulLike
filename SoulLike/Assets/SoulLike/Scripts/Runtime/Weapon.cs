@@ -63,7 +63,7 @@ namespace SoulLike
             endAttackCancellationTokenSource?.Cancel();
             endAttackCancellationTokenSource?.Dispose();
             endAttackCancellationTokenSource = new CancellationTokenSource();
-            actorWeaponHandler.CanAttack.Value = false;
+            actorWeaponHandler.AttackBlocker.Block(AttackStateName);
             actorMovement.MoveBlocker.Block(AttackStateName);
             actorMovement.RotateBlocker.Block(AttackStateName);
             BasicAttackComboId = element.NextComboId;
@@ -76,7 +76,7 @@ namespace SoulLike
                     {
                         @this.actorMovement.MoveBlocker.Unblock(AttackStateName);
                         @this.actorMovement.RotateBlocker.Unblock(AttackStateName);
-                        @this.actorWeaponHandler.CanAttack.Value = true;
+                        @this.actorWeaponHandler.AttackBlocker.Unblock(AttackStateName);
                         @this.BasicAttackComboId = 0;
                         @this.endAttackCancellationTokenSource?.Cancel();
                         @this.endAttackCancellationTokenSource?.Dispose();

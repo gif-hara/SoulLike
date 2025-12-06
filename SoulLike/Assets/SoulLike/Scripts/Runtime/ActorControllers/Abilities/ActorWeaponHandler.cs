@@ -1,12 +1,10 @@
-using R3;
-
 namespace SoulLike.ActorControllers.Abilities
 {
     public sealed class ActorWeaponHandler : IActorAbility
     {
         private Actor actor;
 
-        public readonly ReactiveProperty<bool> CanAttack = new(true);
+        public readonly Blocker AttackBlocker = new();
 
         private Weapon currentWeapon;
 
@@ -28,7 +26,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         public bool TryBasicAttack()
         {
-            if (!CanAttack.Value)
+            if (AttackBlocker.IsBlocked)
             {
                 return false;
             }
