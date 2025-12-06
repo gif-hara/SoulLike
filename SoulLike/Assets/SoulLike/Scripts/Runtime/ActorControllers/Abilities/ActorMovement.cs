@@ -24,29 +24,9 @@ namespace SoulLike.ActorControllers.Abilities
         private readonly ReactiveProperty<bool> isMoving = new(false);
         public ReadOnlyReactiveProperty<bool> IsMoving => isMoving;
 
-        private readonly HashSet<string> blockMoveStates = new();
+        public readonly Blocker MoveBlocker = new();
 
-        private readonly HashSet<string> blockRotateStates = new();
-
-        public void AddBlockMoveState(string stateName)
-        {
-            blockMoveStates.Add(stateName);
-        }
-
-        public void RemoveBlockMoveState(string stateName)
-        {
-            blockMoveStates.Remove(stateName);
-        }
-
-        public void AddBlockRotateState(string stateName)
-        {
-            blockRotateStates.Add(stateName);
-        }
-
-        public void RemoveBlockRotateState(string stateName)
-        {
-            blockRotateStates.Remove(stateName);
-        }
+        public readonly Blocker RotateBlocker = new();
 
         public void Move(Vector3 velocity)
         {
@@ -84,7 +64,7 @@ namespace SoulLike.ActorControllers.Abilities
                 .Subscribe(this, static (_, @this) =>
                 {
                     var deltaTime = @this.actor.GetAbility<ActorTime>().Time.deltaTime;
-                    if (@this.velocity == Vector3.zero || @this.blockMoveStates.Count > 0)
+                    if (@this.velocity == Vector3.zero || @this.MoveBlocker.IsBlocked)
                     {
                         @this.isMoving.Value = false;
                     }
@@ -100,7 +80,7 @@ namespace SoulLike.ActorControllers.Abilities
                     position.y = 0.0f;
                     @this.actor.transform.position = position;
 
-                    if (@this.blockRotateStates.Count == 0)
+                    if (!@this.RotateBlocker.IsBlocked)
                     {
                         @this.actor.transform.rotation = Quaternion.Slerp(@this.actor.transform.rotation, @this.TargetRotation, @this.rotationSpeed * deltaTime);
                     }

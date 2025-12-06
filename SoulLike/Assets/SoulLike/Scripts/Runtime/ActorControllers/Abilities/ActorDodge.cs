@@ -33,16 +33,16 @@ namespace SoulLike.ActorControllers.Abilities
             actorAnimation.SetTrigger(ActorAnimation.Parameter.Dodge);
             actorAnimation.UpdateAnimator();
             CanDodge.Value = false;
-            actorMovement.AddBlockMoveState(DodgeStateName);
-            actorMovement.AddBlockRotateState(DodgeStateName);
+            actorMovement.MoveBlocker.Block(DodgeStateName);
+            actorMovement.RotateBlocker.Block(DodgeStateName);
             actorAnimation.OnStateExitAsObservable()
                 .Where(x => x.StateInfo.IsName(ActorAnimation.Parameter.Dodge))
                 .Take(1)
                 .Subscribe(this, static (_, @this) =>
                 {
                     @this.CanDodge.Value = true;
-                    @this.actorMovement.RemoveBlockMoveState(DodgeStateName);
-                    @this.actorMovement.RemoveBlockRotateState(DodgeStateName);
+                    @this.actorMovement.MoveBlocker.Unblock(DodgeStateName);
+                    @this.actorMovement.RotateBlocker.Unblock(DodgeStateName);
                 })
                 .RegisterTo(actor.destroyCancellationToken);
 

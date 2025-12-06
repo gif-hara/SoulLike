@@ -64,8 +64,8 @@ namespace SoulLike
             endAttackCancellationTokenSource?.Dispose();
             endAttackCancellationTokenSource = new CancellationTokenSource();
             actorWeaponHandler.CanAttack.Value = false;
-            actorMovement.AddBlockMoveState(AttackStateName);
-            actorMovement.AddBlockRotateState(AttackStateName);
+            actorMovement.MoveBlocker.Block(AttackStateName);
+            actorMovement.RotateBlocker.Block(AttackStateName);
             BasicAttackComboId = element.NextComboId;
             actorAnimation.PlayAttackAnimation(element.AnimationClip);
             actorAnimation.OnStateExitAsObservable()
@@ -74,8 +74,8 @@ namespace SoulLike
                     var (@this, element) = t;
                     if (x.StateInfo.IsName(@this.actorAnimation.GetCurrentAttackStateName()))
                     {
-                        @this.actorMovement.RemoveBlockMoveState(AttackStateName);
-                        @this.actorMovement.RemoveBlockRotateState(AttackStateName);
+                        @this.actorMovement.MoveBlocker.Unblock(AttackStateName);
+                        @this.actorMovement.RotateBlocker.Unblock(AttackStateName);
                         @this.actorWeaponHandler.CanAttack.Value = true;
                         @this.BasicAttackComboId = 0;
                         @this.endAttackCancellationTokenSource?.Cancel();
