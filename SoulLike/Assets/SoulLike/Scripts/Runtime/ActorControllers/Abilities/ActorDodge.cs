@@ -22,14 +22,14 @@ namespace SoulLike.ActorControllers.Abilities
             actorAnimation = actor.GetAbility<ActorAnimation>();
         }
 
-        public bool TryDodge()
+        public bool TryDodge(Quaternion rotation)
         {
             if (!CanDodge.Value)
             {
                 return false;
             }
 
-            actorMovement.RotateImmediate(actorMovement.TargetRotation);
+            actorMovement.RotateImmediate(rotation);
             actorAnimation.SetTrigger(ActorAnimation.Parameter.Dodge);
             actorAnimation.UpdateAnimator();
             CanDodge.Value = false;

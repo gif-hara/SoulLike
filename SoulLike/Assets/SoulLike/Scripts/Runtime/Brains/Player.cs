@@ -31,6 +31,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private IDisposable preInputProcessDisposable;
 
+        private Vector3 lastMoveInput;
+
         public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec)
         {
             this.playerInput = playerInput;
@@ -65,16 +67,15 @@ namespace SoulLike.ActorControllers.Brains
                     right.y = 0;
                     forward.Normalize();
                     right.Normalize();
-                    var moveVelocity = right * moveInput.x + forward * moveInput.y;
-                    @this.actorMovement.Move(moveVelocity * @this.playerSpec.MoveSpeed);
+                    @this.lastMoveInput = right * moveInput.x + forward * moveInput.y;
+                    @this.actorMovement.Move(@this.lastMoveInput * @this.playerSpec.MoveSpeed);
 
                     // 移動量をアニメーションに渡す
-                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveSpeed, moveVelocity.magnitude);
-
+                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveSpeed, @this.lastMoveInput.magnitude);
                     // 移動入力がある場合、移動方向に向く
-                    if (moveVelocity.sqrMagnitude > 0.0001f)
+                    if (@this.lastMoveInput.sqrMagnitude > 0.0001f)
                     {
-                        var targetRotation = Quaternion.LookRotation(moveVelocity, Vector3.up);
+                        var targetRotation = Quaternion.LookRotation(@this.lastMoveInput, Vector3.up);
                         @this.actorMovement.Rotate(targetRotation);
                     }
                 })
@@ -90,7 +91,7 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe((this, actor), static (_, t) =>
                 {
                     var (@this, actor) = t;
-                    @this.PreInputProcess(actor, () => @this.actorDodge.TryDodge());
+                    @this.PreInputProcess(actor, () => @this.actorDodge.TryDodge(Quaternion.LookRotation(@this.lastMoveInput, Vector3.up)));
                 })
                 .RegisterTo(cancellationToken);
         }
