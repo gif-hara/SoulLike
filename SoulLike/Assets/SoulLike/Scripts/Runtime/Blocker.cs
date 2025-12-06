@@ -16,9 +16,6 @@ namespace SoulLike
             topics.Remove(topic);
         }
 
-        public bool IsBlocked()
-        {
-            return topics.Count > 0;
-        }
+        public bool IsBlocked => topics.Count > 0;
     }
 }
