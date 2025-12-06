@@ -45,6 +45,7 @@ namespace SoulLike.ActorControllers.Brains
             actorAnimation = actor.AddAbility<ActorAnimation>();
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actorDodge = actor.AddAbility<ActorDodge>();
+            actor.AddAbility<ActorStatus>();
 
             actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab, Layer.PlayerWeapon);
 
