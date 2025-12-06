@@ -108,8 +108,9 @@ namespace SoulLike
                             actionInterface.Value.Invoke(@this, actor, @this.endAttackCancellationTokenSource.Token);
                         }
                         attackElement.AttackData.Collider.OnTriggerEnterAsObservable()
-                            .Subscribe(x =>
+                            .Subscribe((attackElement, actor), static (x, t) =>
                             {
+                                var (attackElement, actor) = t;
                                 var target = x.attachedRigidbody?.GetComponent<Actor>();
                                 if (target == null)
                                 {
@@ -120,7 +121,7 @@ namespace SoulLike
                                 {
                                     return;
                                 }
-                                targetStatus.TakeDamage(attackElement.AttackData);
+                                targetStatus.TakeDamage(actor, attackElement.AttackData);
                             })
                             .RegisterTo(@this.endAttackCancellationTokenSource.Token);
                     })
