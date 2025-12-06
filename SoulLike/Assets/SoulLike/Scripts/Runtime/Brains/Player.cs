@@ -72,8 +72,8 @@ namespace SoulLike.ActorControllers.Brains
 
                     // 移動量をアニメーションに渡す
                     @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveSpeed, @this.lastMoveInput.magnitude);
-                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveX, @this.lastMoveInput.x);
-                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveY, @this.lastMoveInput.z);
+                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveX, moveInput.x);
+                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveY, moveInput.y);
                     // 移動入力がある場合、移動方向に向く
                     if (@this.lastMoveInput.sqrMagnitude > 0.0001f)
                     {
