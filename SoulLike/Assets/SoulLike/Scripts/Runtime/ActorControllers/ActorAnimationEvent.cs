@@ -37,5 +37,25 @@ namespace SoulLike.ActorControllers
         {
             actor.GetAbility<ActorWeaponHandler>().AttackBlocker.Unblock(topic);
         }
+
+        public void BlockMove(string topic)
+        {
+            actor.GetAbility<ActorMovement>().MoveBlocker.Block(topic);
+        }
+
+        public void UnblockMove(string topic)
+        {
+            actor.GetAbility<ActorMovement>().MoveBlocker.Unblock(topic);
+        }
+
+        public void BlockRotate(string topic)
+        {
+            actor.GetAbility<ActorMovement>().RotateBlocker.Block(topic);
+        }
+
+        public void UnblockRotate(string topic)
+        {
+            actor.GetAbility<ActorMovement>().RotateBlocker.Unblock(topic);
+        }
     }
 }
