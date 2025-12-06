@@ -28,6 +28,10 @@ namespace SoulLike.ActorControllers.Abilities
 
             public const string Dodge = "Dodge";
 
+            public const string Damage = "Damage";
+
+            public const string DamageId = "DamageId";
+
             public static string GetAttackStateName(int weaponId, int attackId)
             {
                 var weaponName = weaponId switch
@@ -70,6 +74,13 @@ namespace SoulLike.ActorControllers.Abilities
             overrideController[$"Attack.{currentAttackId}"] = animationClip;
             SetInteger(Parameter.AttackId, currentAttackId);
             SetTrigger(Parameter.Attack);
+            UpdateAnimator();
+        }
+
+        public void PlayDamageAnimation(int damageId)
+        {
+            SetInteger(Parameter.DamageId, damageId);
+            SetTrigger(Parameter.Damage);
             UpdateAnimator();
         }
 
