@@ -13,6 +13,18 @@ PrefabInstance:
       value: SceneView.Actor.1
       objectReference: {fileID: 0}
     - target: {fileID: 7886607692524215393, guid: 1123ebf19215ce841ae707a10adff862, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7886607692524215393, guid: 1123ebf19215ce841ae707a10adff862, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7886607692524215393, guid: 1123ebf19215ce841ae707a10adff862, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7886607692524215393, guid: 1123ebf19215ce841ae707a10adff862, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -127,7 +139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5052959153001579994, guid: 9c7a114fbff3cce41a00154c8c8b3b6e, type: 3}
       propertyPath: m_Name
-      value: Actor.1
+      value: Actor.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
