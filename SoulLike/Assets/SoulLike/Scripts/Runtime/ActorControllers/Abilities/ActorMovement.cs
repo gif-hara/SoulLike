@@ -60,6 +60,7 @@ namespace SoulLike.ActorControllers.Abilities
             actor.TryGetComponent(out OpenCharacterController openCharacterController);
             Assert.IsNotNull(openCharacterController);
             this.openCharacterController = openCharacterController;
+            RotateImmediate(actor.transform.rotation);
             actor.UpdateAsObservable()
                 .Subscribe(this, static (_, @this) =>
                 {
