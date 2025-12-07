@@ -24,7 +24,9 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorAnimation>();
             var actorStatus = actor.AddAbility<ActorStatus>();
             actor.AddAbility<ActorTargetHandler>();
+            var actorWalk = actor.AddAbility<ActorWalk>();
 
+            actorWalk.MoveSpeed = enemySpec.MoveSpeed;
             actorStatus.ApplySpec(enemySpec.ActorStatusSpec);
             var actorAIController = new ActorAIController(actor);
             actorAIController.Change(enemySpec.ActorAI);
