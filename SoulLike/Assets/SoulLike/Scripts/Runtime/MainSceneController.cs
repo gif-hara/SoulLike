@@ -13,6 +13,9 @@ namespace SoulLike
         private MasterData masterData;
 
         [field: SerializeField]
+        private int enemySpecId = 0;
+
+        [field: SerializeField]
         private Actor playerPrefab;
 
         [field: SerializeField]
@@ -41,7 +44,7 @@ namespace SoulLike
 
             var enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, enemySpawnPoint.rotation);
             var enemyBrainController = enemy.AddAbility<ActorBrain>();
-            enemyBrainController.Attach(new Enemy());
+            enemyBrainController.Attach(new Enemy(masterData.EnemySpecs[enemySpecId]));
 
             player.GetAbility<ActorTargetHandler>().BeginLockOn(enemy);
             enemy.GetAbility<ActorTargetHandler>().BeginLockOn(player);

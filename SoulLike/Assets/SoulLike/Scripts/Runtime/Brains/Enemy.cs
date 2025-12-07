@@ -1,13 +1,17 @@
 using System.Threading;
 using HK;
 using SoulLike.ActorControllers.Abilities;
+using SoulLike.MasterDataSystem;
 
 namespace SoulLike.ActorControllers.Brains
 {
     public sealed class Enemy : IActorBrain
     {
-        public Enemy()
+        private readonly EnemySpec enemySpec;
+
+        public Enemy(EnemySpec enemySpec)
         {
+            this.enemySpec = enemySpec;
         }
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
@@ -17,8 +21,10 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorMovement>();
             actor.AddAbility<ActorSceneViewHandler>();
             actor.AddAbility<ActorAnimation>();
-            actor.AddAbility<ActorStatus>();
+            var actorStatus = actor.AddAbility<ActorStatus>();
             actor.AddAbility<ActorTargetHandler>();
+
+            actorStatus.ApplySpec(enemySpec.ActorStatusSpec);
         }
     }
 }
