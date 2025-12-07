@@ -11,7 +11,7 @@ namespace SoulLike.ActorControllers.AISystems.Actions
     [Serializable]
     public sealed class Walk : IAIAction
     {
-        [SerializeField, Min(0f)]
+        [SerializeField]
         private Vector2 velocity;
 
         [SerializeField]
