@@ -88,24 +88,22 @@ namespace SoulLike
             actorMovement.RotateBlocker.Block(AttackStateName);
             actorAnimation.PlayAttackAnimation(animationClip);
             actorAnimation.OnStateExitAsObservable()
+                .Where(actorAnimation.GetCurrentAttackStateName(), static (x, stateName) => x.StateInfo.IsName(stateName))
                 .Subscribe((this, attackElements), static (x, t) =>
                 {
                     var (@this, attackElements) = t;
-                    if (x.StateInfo.IsName(@this.actorAnimation.GetCurrentAttackStateName()))
+                    @this.actorMovement.MoveBlocker.Unblock(AttackStateName);
+                    @this.actorMovement.RotateBlocker.Unblock(AttackStateName);
+                    @this.actorWeaponHandler.AttackBlocker.Unblock(AttackStateName);
+                    @this.BasicAttackComboId = 0;
+                    @this.endAttackCancellationTokenSource?.Cancel();
+                    @this.endAttackCancellationTokenSource?.Dispose();
+                    @this.endAttackCancellationTokenSource = null;
+                    foreach (var attackElement in attackElements)
                     {
-                        @this.actorMovement.MoveBlocker.Unblock(AttackStateName);
-                        @this.actorMovement.RotateBlocker.Unblock(AttackStateName);
-                        @this.actorWeaponHandler.AttackBlocker.Unblock(AttackStateName);
-                        @this.BasicAttackComboId = 0;
-                        @this.endAttackCancellationTokenSource?.Cancel();
-                        @this.endAttackCancellationTokenSource?.Dispose();
-                        @this.endAttackCancellationTokenSource = null;
-                        foreach (var attackElement in attackElements)
+                        foreach (var activeObject in attackElement.ActiveObjects)
                         {
-                            foreach (var activeObject in attackElement.ActiveObjects)
-                            {
-                                activeObject.SetActive(false);
-                            }
+                            activeObject.SetActive(false);
                         }
                     }
                 })
