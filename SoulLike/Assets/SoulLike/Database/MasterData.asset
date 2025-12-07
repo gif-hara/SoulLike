@@ -15,7 +15,7 @@ MonoBehaviour:
   <PlayerSpec>k__BackingField:
     <ActorStatusSpec>k__BackingField:
       <HitPoint>k__BackingField: 100
-    <MoveSpeed>k__BackingField: 7
+    <MoveSpeed>k__BackingField: 5
     <RotateSpeed>k__BackingField: 10
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 4a64460cd1eefe74eadf87cde3e12b7d, type: 3}
   <EnemySpecs>k__BackingField:
@@ -24,3 +24,4 @@ MonoBehaviour:
     <MoveSpeed>k__BackingField: 7
     <RotateSpeed>k__BackingField: 10
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 4a64460cd1eefe74eadf87cde3e12b7d, type: 3}
+    <ActorAI>k__BackingField: {fileID: 11400000, guid: 322ce19b9365cc24bb9ac6a0f0e7fb6e, type: 2}
