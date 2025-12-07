@@ -1,3 +1,4 @@
+using SoulLike.ActorControllers.AISystems;
 using UnityEngine;
 
 namespace SoulLike.MasterDataSystem
@@ -16,5 +17,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public Weapon WeaponPrefab { get; private set; }
+
+        [field: SerializeField]
+        public ActorAI ActorAI { get; private set; }
     }
 }
