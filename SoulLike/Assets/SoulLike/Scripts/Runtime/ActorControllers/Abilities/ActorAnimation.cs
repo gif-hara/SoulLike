@@ -150,6 +150,10 @@ namespace SoulLike.ActorControllers.Abilities
 
         public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateEnterAsObservable() => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateEnterAsObservable();
 
+        public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateEnterAsObservable(string targetStateName) => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateUpdateAsObservable().Where(targetStateName, static (x, stateName) => x.StateInfo.IsName(stateName));
+
         public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateExitAsObservable() => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateExitAsObservable();
+
+        public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateExitAsObservable(string targetStateName) => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateExitAsObservable().Where(targetStateName, static (x, stateName) => x.StateInfo.IsName(stateName));
     }
 }
