@@ -1,6 +1,7 @@
 using System.Threading;
 using HK;
 using SoulLike.ActorControllers.Abilities;
+using SoulLike.ActorControllers.AISystems;
 using SoulLike.MasterDataSystem;
 
 namespace SoulLike.ActorControllers.Brains
@@ -25,6 +26,8 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorTargetHandler>();
 
             actorStatus.ApplySpec(enemySpec.ActorStatusSpec);
+            var actorAIController = new ActorAIController(actor);
+            actorAIController.Change(enemySpec.ActorAI);
         }
     }
 }
