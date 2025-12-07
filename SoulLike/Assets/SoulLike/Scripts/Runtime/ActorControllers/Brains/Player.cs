@@ -54,6 +54,7 @@ namespace SoulLike.ActorControllers.Brains
             var actorStatus = actor.AddAbility<ActorStatus>();
             actorTargetHandler = actor.AddAbility<ActorTargetHandler>();
             actorWalk = actor.AddAbility<ActorWalk>();
+            actor.ActivateAbilities();
 
             actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab, Layer.PlayerWeapon);
             actorStatus.ApplySpec(playerSpec.ActorStatusSpec);

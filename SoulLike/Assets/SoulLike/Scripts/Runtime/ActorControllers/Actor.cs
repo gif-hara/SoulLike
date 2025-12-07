@@ -10,20 +10,33 @@ namespace SoulLike.ActorControllers
     {
         public ActorEvent Event { get; } = new ActorEvent();
 
+        public ActorBrain Brain { get; } = new ActorBrain();
+
         private readonly Dictionary<Type, IActorAbility> abilities = new();
+
+        void Awake()
+        {
+            Brain.Activate(this);
+        }
+
+        public void ActivateAbilities()
+        {
+            foreach (var ability in abilities.Values)
+            {
+                ability.Activate(this);
+            }
+        }
 
         public T AddAbility<T>() where T : IActorAbility, new()
         {
             var instance = new T();
             abilities[typeof(T)] = instance;
-            instance.Activate(this);
             return instance;
         }
 
         public T AddAbility<T>(T ability) where T : IActorAbility
         {
             abilities[typeof(T)] = ability;
-            ability.Activate(this);
             return ability;
         }
 

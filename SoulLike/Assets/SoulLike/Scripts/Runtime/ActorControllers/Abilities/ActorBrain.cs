@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SoulLike.ActorControllers.Abilities
 {
-    public sealed class ActorBrain : IActorAbility
+    public sealed class ActorBrain
     {
         private Actor actor;
 

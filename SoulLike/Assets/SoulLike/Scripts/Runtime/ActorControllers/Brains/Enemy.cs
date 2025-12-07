@@ -26,6 +26,7 @@ namespace SoulLike.ActorControllers.Brains
             var actorWalk = actor.AddAbility<ActorWalk>();
             var actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             var actorStatus = actor.AddAbility<ActorStatus>();
+            actor.ActivateAbilities();
 
             actorWeaponHandler.CreateWeapon(enemySpec.WeaponPrefab, Layer.EnemyWeapon);
             actorWalk.MoveSpeed = enemySpec.MoveSpeed;
