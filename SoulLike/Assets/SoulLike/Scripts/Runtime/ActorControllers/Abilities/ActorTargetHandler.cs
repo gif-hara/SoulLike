@@ -22,6 +22,9 @@ namespace SoulLike.ActorControllers.Abilities
             this.actor = actor;
             actorMovement = actor.GetAbility<ActorMovement>();
             actorAnimation = actor.GetAbility<ActorAnimation>();
+            actor.Event.Broker.Receive<ActorEvent.OnDead>()
+                .Subscribe(this, static (_, @this) => @this.EndLockOn())
+                .RegisterTo(actor.destroyCancellationToken);
         }
 
         public void BeginLockOn(Actor target)
