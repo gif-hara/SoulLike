@@ -42,6 +42,8 @@ namespace SoulLike.ActorControllers.Abilities
 
             public const string Dead = "Dead";
 
+            public const string Idle = "Idle";
+
             public static string GetAttackStateName(int weaponId, int attackId)
             {
                 var weaponName = weaponId switch
@@ -145,6 +147,8 @@ namespace SoulLike.ActorControllers.Abilities
         {
             animator.Update(0);
         }
+
+        public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateEnterAsObservable() => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateEnterAsObservable();
 
         public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateExitAsObservable() => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateExitAsObservable();
     }
