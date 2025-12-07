@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 887c46d5ac497cc479c1fa0fee0f9fc3, type: 3}
-  m_Name: Enemy.1.1
+  m_Name: Enemy.1.WalkRight
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ActorControllers.AISystems.AIElement
-  <SequenceName>k__BackingField: Walk.Right
+  <SequenceName>k__BackingField: WalkRight
   <Actions>k__BackingField:
   - mode: 1
     unityReference: {fileID: 0}
