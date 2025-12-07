@@ -5,6 +5,6 @@ namespace SoulLike.ActorControllers.AISystems
 {
     public interface IAIAction
     {
-        UniTask InvokeAsync(Actor actor, CancellationToken cancellationToken);
+        UniTask InvokeAsync(Actor actor, ActorAIController actorAIController, CancellationToken cancellationToken);
     }
 }

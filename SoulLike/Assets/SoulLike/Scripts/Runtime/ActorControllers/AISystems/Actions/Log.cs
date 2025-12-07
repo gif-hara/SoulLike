@@ -11,7 +11,7 @@ namespace SoulLike.ActorControllers.AISystems
         [SerializeField]
         private string message;
 
-        public UniTask InvokeAsync(Actor actor, CancellationToken cancellationToken)
+        public UniTask InvokeAsync(Actor actor, ActorAIController actorAIController, CancellationToken cancellationToken)
         {
             Debug.Log(message);
             return UniTask.CompletedTask;
