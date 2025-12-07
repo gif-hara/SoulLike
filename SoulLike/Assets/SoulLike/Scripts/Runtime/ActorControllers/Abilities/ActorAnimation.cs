@@ -54,6 +54,11 @@ namespace SoulLike.ActorControllers.Abilities
 
                 return $"Attack_{weaponName}_{attackId}";
             }
+
+            public static string GetDamageStateName(int damageId)
+            {
+                return $"Damage{damageId}";
+            }
         }
 
         public void Activate(Actor actor)
