@@ -49,10 +49,11 @@ namespace SoulLike.ActorControllers.Brains
             actorAnimation = actor.AddAbility<ActorAnimation>();
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actorDodge = actor.AddAbility<ActorDodge>();
-            actor.AddAbility<ActorStatus>();
+            var actorStatus = actor.AddAbility<ActorStatus>();
             actorTargetHandler = actor.AddAbility<ActorTargetHandler>();
 
             actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab, Layer.PlayerWeapon);
+            actorStatus.ApplySpec(playerSpec.ActorStatusSpec);
 
             actorMovement.SetRotationSpeed(playerSpec.RotateSpeed);
             actor.UpdateAsObservable()
