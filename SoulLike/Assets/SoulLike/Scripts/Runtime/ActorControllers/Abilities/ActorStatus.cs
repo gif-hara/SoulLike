@@ -49,6 +49,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         public ReadOnlyReactiveProperty<bool> IsInvincible => isInvincible;
 
+        public bool IsParrying { get; set; } = false;
+
         public float HitPointRate => hitPointMax.Value > 0f ? hitPoint.Value / hitPointMax.Value : 0f;
 
         public float StaminaRate => staminaMax.Value > 0f ? stamina.Value / staminaMax.Value : 0f;
