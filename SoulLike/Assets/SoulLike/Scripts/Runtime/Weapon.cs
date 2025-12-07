@@ -33,6 +33,8 @@ namespace SoulLike
 
         private ActorMovement actorMovement;
 
+        private ActorStatus actorStatus;
+
         public int BasicAttackComboId { get; set; } = 0;
 
         private Dictionary<int, HashSet<Actor>> hitActors = new();
@@ -47,6 +49,7 @@ namespace SoulLike
             actorAnimation = actor.GetAbility<ActorAnimation>();
             actorWeaponHandler = actor.GetAbility<ActorWeaponHandler>();
             actorMovement = actor.GetAbility<ActorMovement>();
+            actorStatus = actor.GetAbility<ActorStatus>();
             transform.SetParent(actor.transform, false);
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
@@ -57,37 +60,49 @@ namespace SoulLike
             }
         }
 
-        public void InvokeBasicAttack()
+        public bool TryInvokeBasicAttack()
         {
+            if (!actorStatus.CanUseStamina())
+            {
+                return false;
+            }
             var element = basicAttackElements.Find(x => x.ComboId == BasicAttackComboId);
             if (element == null)
             {
                 Debug.LogWarning($"No basic attack element found for combo ID: {BasicAttackComboId}");
-                return;
+                return false;
             }
             BasicAttackComboId = element.NextComboId;
-            InvokeAttack(element.AnimationClip, element.AttackElements, element.Actions);
+            InvokeAttack(element.StaminaCost, element.AnimationClip, element.AttackElements, element.Actions);
+            return true;
         }
 
-        public void InvokeUniqueAttack(int index)
+        public bool TryInvokeUniqueAttack(int index)
         {
+            if (!actorStatus.CanUseStamina())
+            {
+                return false;
+            }
             if (index < 0 || index >= uniqueAttackElements.Count)
             {
                 Debug.LogWarning($"Unique attack index {index} is out of range.");
-                return;
+                return false;
             }
             var element = uniqueAttackElements[index];
-            InvokeAttack(element.AnimationClip, element.AttackElements, element.Actions);
+            InvokeAttack(element.StaminaCost, element.AnimationClip, element.AttackElements, element.Actions);
+            return true;
         }
 
-        private void InvokeAttack(AnimationClip animationClip, List<AttackElement> attackElements, List<SerializableInterface<IWeaponAction>> actions)
+        private void InvokeAttack(float staminaCost, AnimationClip animationClip, List<AttackElement> attackElements, List<SerializableInterface<IWeaponAction>> actions)
         {
+            actorStatus.UseStamina(staminaCost);
             endAttackAnimationCancellationTokenSource?.Cancel();
             endAttackAnimationCancellationTokenSource?.Dispose();
             endAttackAnimationCancellationTokenSource = new CancellationTokenSource();
             actorWeaponHandler.AttackBlocker.Block(AttackStateName);
             actorMovement.MoveBlocker.Block(AttackStateName);
             actorMovement.RotateBlocker.Block(AttackStateName);
+            actorStatus.StaminaRecoveryBlocker.Block(AttackStateName);
             actorAnimation.PlayAttackAnimation(animationClip);
             actorAnimation.OnStateExitAsObservable(actorAnimation.GetCurrentAttackStateName())
                 .Subscribe((this, attackElements), static (x, t) =>
@@ -96,6 +111,7 @@ namespace SoulLike
                     @this.actorMovement.MoveBlocker.Unblock(AttackStateName);
                     @this.actorMovement.RotateBlocker.Unblock(AttackStateName);
                     @this.actorWeaponHandler.AttackBlocker.Unblock(AttackStateName);
+                    @this.actorStatus.StaminaRecoveryBlocker.Unblock(AttackStateName);
                     @this.BasicAttackComboId = 0;
                     @this.endAttackAnimationCancellationTokenSource?.Cancel();
                     @this.endAttackAnimationCancellationTokenSource?.Dispose();
@@ -193,6 +209,9 @@ namespace SoulLike
             public int NextComboId { get; private set; }
 
             [field: SerializeField]
+            public float StaminaCost { get; private set; }
+
+            [field: SerializeField]
             public AnimationClip AnimationClip { get; private set; }
 
             [field: SerializeField]
@@ -208,6 +227,9 @@ namespace SoulLike
         [Serializable]
         public class UniqueAttackElement
         {
+            [field: SerializeField]
+            public float StaminaCost { get; private set; }
+
             [field: SerializeField]
             public AnimationClip AnimationClip { get; private set; }
 

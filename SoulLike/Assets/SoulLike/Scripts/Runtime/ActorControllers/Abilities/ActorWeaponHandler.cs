@@ -34,8 +34,7 @@ namespace SoulLike.ActorControllers.Abilities
                 return false;
             }
 
-            currentWeapon.InvokeBasicAttack();
-            return true;
+            return currentWeapon.TryInvokeBasicAttack();
         }
 
         public bool TryUniqueAttack(int uniqueAttackId)
@@ -45,8 +44,7 @@ namespace SoulLike.ActorControllers.Abilities
                 return false;
             }
 
-            currentWeapon.InvokeUniqueAttack(uniqueAttackId);
-            return true;
+            return currentWeapon.TryInvokeUniqueAttack(uniqueAttackId);
         }
     }
 }
