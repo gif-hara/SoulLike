@@ -23,7 +23,6 @@ namespace SoulLike.ActorControllers.Abilities
                 {
                     var (@this, actor) = t;
 
-                    Debug.Log($"Normalized Velocity: {@this.normalizedVelocity}");
                     @this.actorMovement.Move(@this.normalizedVelocity * @this.MoveSpeed);
 
                     // 移動量をアニメーションに渡す
@@ -39,6 +38,8 @@ namespace SoulLike.ActorControllers.Abilities
                         var targetRotation = Quaternion.LookRotation(@this.normalizedVelocity, Vector3.up);
                         @this.actorMovement.Rotate(targetRotation);
                     }
+
+                    @this.normalizedVelocity = Vector3.zero;
                 })
                 .RegisterTo(actor.destroyCancellationToken);
         }
