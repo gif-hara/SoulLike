@@ -43,6 +43,10 @@ namespace SoulLike.ActorControllers.Abilities
 
         public void TakeDamage(Actor attacker, AttackData attackData)
         {
+            if (hitPoint.Value <= 0f)
+            {
+                return;
+            }
             hitPoint.Value = Mathf.Max(0f, hitPoint.Value - attackData.Power);
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
             if (hitPoint.Value <= 0f)
@@ -59,8 +63,7 @@ namespace SoulLike.ActorControllers.Abilities
             actorMovement.RotateBlocker.Block(TakeDamageStateName);
             actorWeaponHandler.AttackBlocker.Block(TakeDamageStateName);
             endTakeDamageDisposable?.Dispose();
-            endTakeDamageDisposable = actorAnimation.OnStateEnterAsObservable()
-                .Where(ActorAnimation.Parameter.Idle, static (x, stateName) => x.StateInfo.IsName(stateName))
+            endTakeDamageDisposable = actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.Idle)
                 .Subscribe(this, static (x, @this) =>
                 {
                     @this.actorMovement.MoveBlocker.Unblock(TakeDamageStateName);
