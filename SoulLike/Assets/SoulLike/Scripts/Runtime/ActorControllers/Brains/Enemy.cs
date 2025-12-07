@@ -22,10 +22,10 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorMovement>();
             actor.AddAbility<ActorSceneViewHandler>();
             actor.AddAbility<ActorAnimation>();
-            var actorStatus = actor.AddAbility<ActorStatus>();
             actor.AddAbility<ActorTargetHandler>();
             var actorWalk = actor.AddAbility<ActorWalk>();
             var actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
+            var actorStatus = actor.AddAbility<ActorStatus>();
 
             actorWeaponHandler.CreateWeapon(enemySpec.WeaponPrefab, Layer.EnemyWeapon);
             actorWalk.MoveSpeed = enemySpec.MoveSpeed;
