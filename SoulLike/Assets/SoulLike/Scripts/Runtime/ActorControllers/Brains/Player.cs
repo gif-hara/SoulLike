@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
 using HK;
 using R3;
 using R3.Triggers;
@@ -21,13 +20,9 @@ namespace SoulLike.ActorControllers.Brains
 
         private ActorMovement actorMovement;
 
-        private ActorAnimation actorAnimation;
-
         private ActorWeaponHandler actorWeaponHandler;
 
         private ActorDodge actorDodge;
-
-        private ActorTargetHandler actorTargetHandler;
 
         private ActorWalk actorWalk;
 
@@ -48,11 +43,11 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorTime>();
             actorMovement = actor.AddAbility<ActorMovement>();
             actor.AddAbility<ActorSceneViewHandler>();
-            actorAnimation = actor.AddAbility<ActorAnimation>();
+            actor.AddAbility<ActorAnimation>();
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actorDodge = actor.AddAbility<ActorDodge>();
             var actorStatus = actor.AddAbility<ActorStatus>();
-            actorTargetHandler = actor.AddAbility<ActorTargetHandler>();
+            actor.AddAbility<ActorTargetHandler>();
             actorWalk = actor.AddAbility<ActorWalk>();
             actor.ActivateAbilities();
 
