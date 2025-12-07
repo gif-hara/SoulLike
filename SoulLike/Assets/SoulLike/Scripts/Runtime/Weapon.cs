@@ -87,8 +87,7 @@ namespace SoulLike
             actorMovement.MoveBlocker.Block(AttackStateName);
             actorMovement.RotateBlocker.Block(AttackStateName);
             actorAnimation.PlayAttackAnimation(animationClip);
-            actorAnimation.OnStateExitAsObservable()
-                .Where(actorAnimation.GetCurrentAttackStateName(), static (x, stateName) => x.StateInfo.IsName(stateName))
+            actorAnimation.OnStateExitAsObservable(actorAnimation.GetCurrentAttackStateName())
                 .Subscribe((this, attackElements), static (x, t) =>
                 {
                     var (@this, attackElements) = t;
