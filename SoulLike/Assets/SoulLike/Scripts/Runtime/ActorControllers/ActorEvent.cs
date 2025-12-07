@@ -25,5 +25,9 @@ namespace SoulLike.ActorControllers
                 AttackId = attackId;
             }
         }
+
+        public readonly struct OnDead
+        {
+        }
     }
 }
