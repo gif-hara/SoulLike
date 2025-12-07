@@ -28,6 +28,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         private IDisposable endTakeDamageDisposable;
 
+        public float HitPointRate => hitPointMax.Value > 0f ? hitPoint.Value / hitPointMax.Value : 0f;
+
         public void Activate(Actor actor)
         {
             this.actor = actor;
