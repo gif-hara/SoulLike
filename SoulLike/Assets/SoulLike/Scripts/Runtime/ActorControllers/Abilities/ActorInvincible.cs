@@ -21,7 +21,6 @@ namespace SoulLike.ActorControllers.Abilities
         {
             invincibleBlocker.Block(topic);
             isInvincible.Value = true;
-            actor.HitCollider.enabled = false;
         }
 
         public void EndInvincible(string topic)
@@ -30,7 +29,6 @@ namespace SoulLike.ActorControllers.Abilities
             if (!invincibleBlocker.IsBlocked)
             {
                 isInvincible.Value = false;
-                actor.HitCollider.enabled = true;
             }
         }
     }
