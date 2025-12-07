@@ -106,5 +106,15 @@ namespace SoulLike.ActorControllers.Abilities
                     @this.actorDodge.DodgeBlocker.Unblock(TakeDamageStateName);
                 });
         }
+
+        public bool CanUseStamina()
+        {
+            return stamina.Value > 0f;
+        }
+
+        public void UseStamina(float amount)
+        {
+            stamina.Value -= amount;
+        }
     }
 }
