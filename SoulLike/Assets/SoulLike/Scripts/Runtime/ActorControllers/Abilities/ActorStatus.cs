@@ -30,14 +30,22 @@ namespace SoulLike.ActorControllers.Abilities
         {
             hitPointMax.Value = spec.HitPoint;
             hitPoint.Value = spec.HitPoint;
+            actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
         }
 
         public void TakeDamage(Actor attacker, AttackData attackData)
         {
-            var lookDirection = attacker.transform.position - actor.transform.position;
-            lookDirection.y = 0f;
-            actorMovement.RotateImmediate(Quaternion.LookRotation(lookDirection.normalized));
-            actorAnimation.PlayDamageAnimation(attackData.DamageId);
+            hitPoint.Value = Mathf.Max(0f, hitPoint.Value - attackData.Power);
+            actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
+            if (hitPoint.Value <= 0f)
+            {
+                actorAnimation.SetTrigger(ActorAnimation.Parameter.Dead);
+                actor.Event.Broker.Publish(new ActorEvent.OnDead());
+            }
+            else
+            {
+                actorAnimation.PlayDamageAnimation(attackData.DamageId);
+            }
         }
     }
 }
