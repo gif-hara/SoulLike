@@ -60,12 +60,12 @@ namespace SoulLike.ActorControllers
 
         public void BeginInvincible(string topic)
         {
-            actor.GetAbility<ActorInvincible>().BeginInvincible(topic);
+            actor.GetAbility<ActorStatus>().BeginInvincible(topic);
         }
 
         public void EndInvincible(string topic)
         {
-            actor.GetAbility<ActorInvincible>().EndInvincible(topic);
+            actor.GetAbility<ActorStatus>().EndInvincible(topic);
         }
     }
 }

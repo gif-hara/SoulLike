@@ -27,7 +27,6 @@ namespace SoulLike.ActorControllers.Brains
             var actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actor.AddAbility<ActorDodge>();
             var actorStatus = actor.AddAbility<ActorStatus>();
-            actor.AddAbility<ActorInvincible>();
             actor.ActivateAbilities();
 
             actorWeaponHandler.CreateWeapon(enemySpec.WeaponPrefab, Layer.EnemyWeapon);

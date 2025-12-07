@@ -166,8 +166,7 @@ namespace SoulLike
                                 {
                                     return;
                                 }
-                                var targetInvincible = target.GetAbility<ActorInvincible>();
-                                if (targetInvincible.IsInvincible.CurrentValue)
+                                if (targetStatus.IsInvincible.CurrentValue)
                                 {
                                     return;
                                 }

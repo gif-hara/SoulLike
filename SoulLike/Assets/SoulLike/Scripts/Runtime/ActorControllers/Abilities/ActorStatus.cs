@@ -43,6 +43,12 @@ namespace SoulLike.ActorControllers.Abilities
 
         public readonly Blocker StaminaRecoveryBlocker = new();
 
+        private Blocker invincibleBlocker = new();
+
+        private ReactiveProperty<bool> isInvincible = new(false);
+
+        public ReadOnlyReactiveProperty<bool> IsInvincible => isInvincible;
+
         public float HitPointRate => hitPointMax.Value > 0f ? hitPoint.Value / hitPointMax.Value : 0f;
 
         public float StaminaRate => staminaMax.Value > 0f ? stamina.Value / staminaMax.Value : 0f;
@@ -118,6 +124,21 @@ namespace SoulLike.ActorControllers.Abilities
         public void UseStamina(float amount)
         {
             stamina.Value -= amount;
+        }
+
+        public void BeginInvincible(string topic)
+        {
+            invincibleBlocker.Block(topic);
+            isInvincible.Value = true;
+        }
+
+        public void EndInvincible(string topic)
+        {
+            invincibleBlocker.Unblock(topic);
+            if (!invincibleBlocker.IsBlocked)
+            {
+                isInvincible.Value = false;
+            }
         }
     }
 }
