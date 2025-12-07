@@ -8,5 +8,11 @@ namespace SoulLike.MasterDataSystem
     {
         [field: SerializeField]
         public float HitPoint { get; private set; }
+
+        [field: SerializeField]
+        public float Stamina { get; private set; }
+
+        [field: SerializeField]
+        public float StaminaRecoveryPerSecond { get; private set; }
     }
 }
