@@ -38,6 +38,10 @@ namespace SoulLike.ActorControllers.Abilities
 
             public const string MoveY = "MoveY";
 
+            public const string IsAlive = "IsAlive";
+
+            public const string Dead = "Dead";
+
             public static string GetAttackStateName(int weaponId, int attackId)
             {
                 var weaponName = weaponId switch
