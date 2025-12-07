@@ -6,6 +6,9 @@ namespace SoulLike.MasterDataSystem
     public sealed class PlayerSpec
     {
         [field: SerializeField]
+        public ActorStatusSpec ActorStatusSpec { get; private set; }
+
+        [field: SerializeField]
         public float MoveSpeed { get; private set; }
 
         [field: SerializeField]
