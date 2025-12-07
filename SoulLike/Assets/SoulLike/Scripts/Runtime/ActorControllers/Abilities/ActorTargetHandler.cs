@@ -52,5 +52,14 @@ namespace SoulLike.ActorControllers.Abilities
             endLockOnTokenSource = null;
             actorAnimation.SetBool(ActorAnimation.Parameter.LockedOn, false);
         }
+
+        public float GetDistanceToTarget()
+        {
+            if (target == null)
+            {
+                return float.MaxValue;
+            }
+            return Vector3.Distance(actor.transform.position, target.transform.position);
+        }
     }
 }
