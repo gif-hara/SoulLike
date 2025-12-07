@@ -34,8 +34,8 @@ MonoBehaviour:
       data:
         elements:
         - <SequenceName>k__BackingField: WalkRight
-          <Weight>k__BackingField: 100
+          <Weight>k__BackingField: 50
         - <SequenceName>k__BackingField: WalkLeft
-          <Weight>k__BackingField: 100
+          <Weight>k__BackingField: 50
         - <SequenceName>k__BackingField: TryUniqueAttack.0
           <Weight>k__BackingField: 100
