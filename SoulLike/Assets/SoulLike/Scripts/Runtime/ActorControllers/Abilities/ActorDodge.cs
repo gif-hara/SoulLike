@@ -13,9 +13,13 @@ namespace SoulLike.ActorControllers.Abilities
 
         private ActorInvincible actorInvincible;
 
+        private ActorStatus actorStatus;
+
         public readonly Blocker DodgeBlocker = new();
 
         public readonly ReactiveProperty<bool> CanDodge = new(true);
+
+        public float DodgeStaminaCost { get; set; }
 
         private const string DodgeStateName = "Dodge";
 
@@ -25,6 +29,7 @@ namespace SoulLike.ActorControllers.Abilities
             actorMovement = actor.GetAbility<ActorMovement>();
             actorAnimation = actor.GetAbility<ActorAnimation>();
             actorInvincible = actor.GetAbility<ActorInvincible>();
+            actorStatus = actor.GetAbility<ActorStatus>();
         }
 
         public bool TryDodge(Quaternion rotation)
@@ -34,6 +39,12 @@ namespace SoulLike.ActorControllers.Abilities
                 return false;
             }
 
+            if (!actorStatus.CanUseStamina())
+            {
+                return false;
+            }
+
+            actorStatus.UseStamina(DodgeStaminaCost);
             actorMovement.RotateImmediate(rotation);
             actorAnimation.SetTrigger(ActorAnimation.Parameter.Dodge);
             actorAnimation.UpdateAnimator();
