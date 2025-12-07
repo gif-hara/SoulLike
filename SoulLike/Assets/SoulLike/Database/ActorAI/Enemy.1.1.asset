@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1d6cd0564f4d714183228fb2facf417, type: 3}
   m_Name: Enemy.1.1
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ActorControllers.AISystems.ActorAI
-  <InitialSequenceName>k__BackingField: WalkRight
+  <InitialSequenceName>k__BackingField: Think
   <OnStunSequenceName>k__BackingField: 
   <Sequences>k__BackingField:
   - {fileID: 11400000, guid: f2ff38d3006672b46a66a0bf8dea4191, type: 2}
+  - {fileID: 11400000, guid: 4c2c29231403eaf41b008ecf823d6d57, type: 2}
+  - {fileID: 11400000, guid: c83417fce679d754389a7c919f1ad26b, type: 2}
