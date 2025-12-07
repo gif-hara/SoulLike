@@ -41,6 +41,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         private float staminaRecoveryPerSecond;
 
+        public readonly Blocker StaminaRecoveryBlocker = new();
+
         public float HitPointRate => hitPointMax.Value > 0f ? hitPoint.Value / hitPointMax.Value : 0f;
 
         public float StaminaRate => staminaMax.Value > 0f ? stamina.Value / staminaMax.Value : 0f;
@@ -54,6 +56,7 @@ namespace SoulLike.ActorControllers.Abilities
             actorDodge = actor.GetAbility<ActorDodge>();
             actorTime = actor.GetAbility<ActorTime>();
             actor.UpdateAsObservable()
+                .Where(this, static (_, @this) => !@this.StaminaRecoveryBlocker.IsBlocked)
                 .Subscribe(this, static (_, @this) =>
                 {
                     if (@this.stamina.Value < @this.staminaMax.Value)

@@ -52,6 +52,7 @@ namespace SoulLike.ActorControllers.Abilities
             actorMovement.MoveBlocker.Block(DodgeStateName);
             actorMovement.RotateBlocker.Block(DodgeStateName);
             actorInvincible.BeginInvincible(DodgeStateName);
+            actorStatus.StaminaRecoveryBlocker.Block(DodgeStateName);
             actorAnimation.OnStateExitAsObservable(ActorAnimation.Parameter.Dodge)
                 .Take(1)
                 .Subscribe(this, static (_, @this) =>
@@ -60,6 +61,7 @@ namespace SoulLike.ActorControllers.Abilities
                     @this.actorMovement.MoveBlocker.Unblock(DodgeStateName);
                     @this.actorMovement.RotateBlocker.Unblock(DodgeStateName);
                     @this.actorInvincible.EndInvincible(DodgeStateName);
+                    @this.actorStatus.StaminaRecoveryBlocker.Unblock(DodgeStateName);
                 })
                 .RegisterTo(actor.destroyCancellationToken);
 
