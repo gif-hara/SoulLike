@@ -14,5 +14,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public float StaminaRecoveryPerSecond { get; private set; }
+
+        [field: SerializeField]
+        public float DodgeStaminaCost { get; private set; }
     }
 }
