@@ -29,6 +29,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private ActorTargetHandler actorTargetHandler;
 
+        private ActorWalk actorWalk;
+
         private IDisposable preInputProcessDisposable;
 
         private Vector3 lastMoveInput;
@@ -51,9 +53,11 @@ namespace SoulLike.ActorControllers.Brains
             actorDodge = actor.AddAbility<ActorDodge>();
             var actorStatus = actor.AddAbility<ActorStatus>();
             actorTargetHandler = actor.AddAbility<ActorTargetHandler>();
+            actorWalk = actor.AddAbility<ActorWalk>();
 
             actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab, Layer.PlayerWeapon);
             actorStatus.ApplySpec(playerSpec.ActorStatusSpec);
+            actorWalk.MoveSpeed = playerSpec.MoveSpeed;
 
             actorMovement.SetRotationSpeed(playerSpec.RotateSpeed);
             actor.UpdateAsObservable()
@@ -69,18 +73,7 @@ namespace SoulLike.ActorControllers.Brains
                     forward.Normalize();
                     right.Normalize();
                     @this.lastMoveInput = right * moveInput.x + forward * moveInput.y;
-                    @this.actorMovement.Move(@this.lastMoveInput * @this.playerSpec.MoveSpeed);
-
-                    // 移動量をアニメーションに渡す
-                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveSpeed, @this.lastMoveInput.magnitude);
-                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveX, moveInput.x);
-                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveY, moveInput.y);
-                    // 移動入力がある場合、移動方向に向く
-                    if (@this.lastMoveInput.sqrMagnitude > 0.0001f)
-                    {
-                        var targetRotation = Quaternion.LookRotation(@this.lastMoveInput, Vector3.up);
-                        @this.actorMovement.Rotate(targetRotation);
-                    }
+                    @this.actorWalk.SetNormalizedVelocity(@this.lastMoveInput);
                 })
                 .RegisterTo(cancellationToken);
             playerInput.actions["Attack"].OnPerformedAsObservable()
