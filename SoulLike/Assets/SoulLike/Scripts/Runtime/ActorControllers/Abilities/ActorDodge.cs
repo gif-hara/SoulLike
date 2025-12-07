@@ -11,6 +11,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         private ActorAnimation actorAnimation;
 
+        private ActorInvincible actorInvincible;
+
         public readonly Blocker DodgeBlocker = new();
 
         public readonly ReactiveProperty<bool> CanDodge = new(true);
@@ -22,6 +24,7 @@ namespace SoulLike.ActorControllers.Abilities
             this.actor = actor;
             actorMovement = actor.GetAbility<ActorMovement>();
             actorAnimation = actor.GetAbility<ActorAnimation>();
+            actorInvincible = actor.GetAbility<ActorInvincible>();
         }
 
         public bool TryDodge(Quaternion rotation)
@@ -37,6 +40,7 @@ namespace SoulLike.ActorControllers.Abilities
             DodgeBlocker.Block(DodgeStateName);
             actorMovement.MoveBlocker.Block(DodgeStateName);
             actorMovement.RotateBlocker.Block(DodgeStateName);
+            actorInvincible.BeginInvincible(DodgeStateName);
             actorAnimation.OnStateExitAsObservable(ActorAnimation.Parameter.Dodge)
                 .Take(1)
                 .Subscribe(this, static (_, @this) =>
@@ -44,6 +48,7 @@ namespace SoulLike.ActorControllers.Abilities
                     @this.DodgeBlocker.Unblock(DodgeStateName);
                     @this.actorMovement.MoveBlocker.Unblock(DodgeStateName);
                     @this.actorMovement.RotateBlocker.Unblock(DodgeStateName);
+                    @this.actorInvincible.EndInvincible(DodgeStateName);
                 })
                 .RegisterTo(actor.destroyCancellationToken);
 
