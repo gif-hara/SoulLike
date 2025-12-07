@@ -22,6 +22,9 @@ namespace SoulLike
         [SerializeField]
         private List<BasicAttackElement> basicAttackElements = new();
 
+        [SerializeField]
+        private List<UniqueAttackElement> uniqueAttackElements = new();
+
         private Actor actor;
 
         private ActorAnimation actorAnimation;
@@ -60,19 +63,34 @@ namespace SoulLike
                 Debug.LogWarning($"No basic attack element found for combo ID: {BasicAttackComboId}");
                 return;
             }
+            BasicAttackComboId = element.NextComboId;
+            InvokeAttack(element.AnimationClip, element.AttackElements, element.Actions);
+        }
 
+        public void InvokeUniqueAttack(int index)
+        {
+            if (index < 0 || index >= uniqueAttackElements.Count)
+            {
+                Debug.LogWarning($"Unique attack index {index} is out of range.");
+                return;
+            }
+            var element = uniqueAttackElements[index];
+            InvokeAttack(element.AnimationClip, element.AttackElements, element.Actions);
+        }
+
+        private void InvokeAttack(AnimationClip animationClip, List<AttackElement> attackElements, List<SerializableInterface<IWeaponAction>> actions)
+        {
             endAttackCancellationTokenSource?.Cancel();
             endAttackCancellationTokenSource?.Dispose();
             endAttackCancellationTokenSource = new CancellationTokenSource();
             actorWeaponHandler.AttackBlocker.Block(AttackStateName);
             actorMovement.MoveBlocker.Block(AttackStateName);
             actorMovement.RotateBlocker.Block(AttackStateName);
-            BasicAttackComboId = element.NextComboId;
-            actorAnimation.PlayAttackAnimation(element.AnimationClip);
+            actorAnimation.PlayAttackAnimation(animationClip);
             actorAnimation.OnStateExitAsObservable()
-                .Subscribe((this, element), static (x, t) =>
+                .Subscribe((this, attackElements), static (x, t) =>
                 {
-                    var (@this, element) = t;
+                    var (@this, attackElements) = t;
                     if (x.StateInfo.IsName(@this.actorAnimation.GetCurrentAttackStateName()))
                     {
                         @this.actorMovement.MoveBlocker.Unblock(AttackStateName);
@@ -82,7 +100,7 @@ namespace SoulLike
                         @this.endAttackCancellationTokenSource?.Cancel();
                         @this.endAttackCancellationTokenSource?.Dispose();
                         @this.endAttackCancellationTokenSource = null;
-                        foreach (var attackElement in element.AttackElements)
+                        foreach (var attackElement in attackElements)
                         {
                             foreach (var activeObject in attackElement.ActiveObjects)
                             {
@@ -92,13 +110,13 @@ namespace SoulLike
                     }
                 })
                 .RegisterTo(endAttackCancellationTokenSource.Token);
-            foreach (var attackElement in element.AttackElements)
+            foreach (var attackElement in attackElements)
             {
                 actor.Event.Broker.Receive<ActorEvent.BeginAttack>()
                     .Where(attackElement.AttackId, static (x, attackId) => x.AttackId == attackId)
-                    .Subscribe((attackElement, this, actor, element), static (_, t) =>
+                    .Subscribe((attackElement, this, actor), static (_, t) =>
                     {
-                        var (attackElement, @this, actor, element) = t;
+                        var (attackElement, @this, actor) = t;
                         foreach (var activeObject in attackElement.ActiveObjects)
                         {
                             activeObject.SetActive(true);
@@ -128,9 +146,9 @@ namespace SoulLike
                     .RegisterTo(endAttackCancellationTokenSource.Token);
                 actor.Event.Broker.Receive<ActorEvent.EndAttack>()
                     .Where(attackElement.AttackId, static (x, attackId) => x.AttackId == attackId)
-                    .Subscribe((attackElement, this, actor, element), static (_, t) =>
+                    .Subscribe((attackElement, this, actor), static (_, t) =>
                     {
-                        var (attackElement, @this, actor, element) = t;
+                        var (attackElement, @this, actor) = t;
                         foreach (var activeObject in attackElement.ActiveObjects)
                         {
                             activeObject.SetActive(false);
@@ -142,7 +160,7 @@ namespace SoulLike
                     })
                     .RegisterTo(endAttackCancellationTokenSource.Token);
             }
-            foreach (var action in element.Actions)
+            foreach (var action in actions)
             {
                 action.Value.Invoke(this, actor, endAttackCancellationTokenSource.Token);
             }
@@ -157,6 +175,22 @@ namespace SoulLike
             [field: SerializeField]
             public int NextComboId { get; private set; }
 
+            [field: SerializeField]
+            public AnimationClip AnimationClip { get; private set; }
+
+            [field: SerializeField]
+            public List<AttackElement> AttackElements { get; private set; }
+
+#if UNITY_EDITOR
+            [ClassesOnly]
+#endif
+            [field: SerializeField]
+            public List<SerializableInterface<IWeaponAction>> Actions { get; private set; }
+        }
+
+        [Serializable]
+        public class UniqueAttackElement
+        {
             [field: SerializeField]
             public AnimationClip AnimationClip { get; private set; }
 
