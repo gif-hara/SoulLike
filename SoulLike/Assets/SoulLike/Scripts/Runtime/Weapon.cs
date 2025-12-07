@@ -93,6 +93,17 @@ namespace SoulLike
             return true;
         }
 
+        public void ForceInvokeUniqueAttack(int uniqueAttackId)
+        {
+            if (uniqueAttackId < 0 || uniqueAttackId >= uniqueAttackElements.Count)
+            {
+                Debug.LogWarning($"Unique attack index {uniqueAttackId} is out of range.");
+                return;
+            }
+            var element = uniqueAttackElements[uniqueAttackId];
+            InvokeAttack(element.StaminaCost, element.AnimationClip, element.AttackElements, element.Actions);
+        }
+
         private void InvokeAttack(float staminaCost, AnimationClip animationClip, List<AttackElement> attackElements, List<SerializableInterface<IWeaponAction>> actions)
         {
             actorStatus.UseStamina(staminaCost);
@@ -149,9 +160,9 @@ namespace SoulLike
                             @this.hitActors[attackElement.AttackId].Clear();
                         }
                         attackElement.AttackData.Collider.OnTriggerStayAsObservable()
-                            .Subscribe((attackElement, actor, @this.hitActors[attackElement.AttackId]), static (x, t) =>
+                            .Subscribe((@this, attackElement, actor, @this.hitActors[attackElement.AttackId]), static (x, t) =>
                             {
-                                var (attackElement, actor, hitActors) = t;
+                                var (@this, attackElement, actor, hitActors) = t;
                                 var target = x.attachedRigidbody?.GetComponent<Actor>();
                                 if (target == null)
                                 {
@@ -171,7 +182,15 @@ namespace SoulLike
                                     return;
                                 }
                                 hitActors.Add(target);
-                                targetStatus.TakeDamage(actor, attackElement.AttackData);
+                                if (targetStatus.IsParrying)
+                                {
+                                    var targetWeaponHandler = target.GetAbility<ActorWeaponHandler>();
+                                    targetWeaponHandler.ForceInvokeUniqueAttack(1);
+                                }
+                                else
+                                {
+                                    targetStatus.TakeDamage(actor, attackElement.AttackData);
+                                }
                             })
                             .RegisterTo(@this.endAttackAnimationCancellationTokenSource.Token);
                     })
