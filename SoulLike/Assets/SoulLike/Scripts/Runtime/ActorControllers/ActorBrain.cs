@@ -2,7 +2,7 @@ using System.Threading;
 using SoulLike.ActorControllers.Brains;
 using UnityEngine;
 
-namespace SoulLike.ActorControllers.Abilities
+namespace SoulLike.ActorControllers
 {
     public sealed class ActorBrain
     {
