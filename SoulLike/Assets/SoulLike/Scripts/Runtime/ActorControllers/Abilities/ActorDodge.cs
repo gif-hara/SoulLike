@@ -35,8 +35,7 @@ namespace SoulLike.ActorControllers.Abilities
             CanDodge.Value = false;
             actorMovement.MoveBlocker.Block(DodgeStateName);
             actorMovement.RotateBlocker.Block(DodgeStateName);
-            actorAnimation.OnStateExitAsObservable()
-                .Where(x => x.StateInfo.IsName(ActorAnimation.Parameter.Dodge))
+            actorAnimation.OnStateExitAsObservable(ActorAnimation.Parameter.Dodge)
                 .Take(1)
                 .Subscribe(this, static (_, @this) =>
                 {
