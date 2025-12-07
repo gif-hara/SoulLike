@@ -7,5 +7,8 @@ namespace SoulLike.MasterDataSystem
     {
         [field: SerializeField]
         public PlayerSpec PlayerSpec { get; private set; }
+
+        [field: SerializeField]
+        public EnemySpec[] EnemySpecs { get; private set; }
     }
 }
