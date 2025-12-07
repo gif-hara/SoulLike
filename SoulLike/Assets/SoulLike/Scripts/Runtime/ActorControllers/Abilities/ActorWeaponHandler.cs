@@ -37,5 +37,16 @@ namespace SoulLike.ActorControllers.Abilities
             currentWeapon.InvokeBasicAttack();
             return true;
         }
+
+        public bool TryUniqueAttack(int uniqueAttackId)
+        {
+            if (AttackBlocker.IsBlocked)
+            {
+                return false;
+            }
+
+            currentWeapon.InvokeUniqueAttack(uniqueAttackId);
+            return true;
+        }
     }
 }
