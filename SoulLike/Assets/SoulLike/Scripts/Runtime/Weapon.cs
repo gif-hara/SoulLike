@@ -150,6 +150,11 @@ namespace SoulLike
                                 {
                                     return;
                                 }
+                                var targetInvincible = target.GetAbility<ActorInvincible>();
+                                if (targetInvincible.IsInvincible.CurrentValue)
+                                {
+                                    return;
+                                }
                                 hitActors.Add(target);
                                 targetStatus.TakeDamage(actor, attackElement.AttackData);
                             })
