@@ -17,6 +17,10 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
+      rid: 8736876788586905789
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
       rid: 8736876788586905757
   - mode: 1
     unityReference: {fileID: 0}
@@ -33,3 +37,16 @@ MonoBehaviour:
       type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
         uniqueAttackId: 0
+    - rid: 8736876788586905789
+      type: {class: Walk, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
+      data:
+        velocity: {x: 0, y: 1}
+        completeCondition:
+          mode: 1
+          unityReference: {fileID: 0}
+          rawReference:
+            rid: 8736876788586905790
+    - rid: 8736876788586905790
+      type: {class: TargetDistance, ns: SoulLike.ActorControllers.AISystems.Conditions, asm: SoulLike.Runtime}
+      data:
+        distance: 2
