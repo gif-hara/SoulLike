@@ -46,5 +46,10 @@ namespace SoulLike.ActorControllers.Abilities
 
             return currentWeapon.TryInvokeUniqueAttack(uniqueAttackId);
         }
+
+        public void ForceInvokeUniqueAttack(int uniqueAttackId)
+        {
+            currentWeapon.ForceInvokeUniqueAttack(uniqueAttackId);
+        }
     }
 }
