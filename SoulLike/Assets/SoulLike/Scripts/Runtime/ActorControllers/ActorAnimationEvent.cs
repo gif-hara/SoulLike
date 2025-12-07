@@ -67,5 +67,15 @@ namespace SoulLike.ActorControllers
         {
             actor.GetAbility<ActorStatus>().EndInvincible(topic);
         }
+
+        public void BeginParry()
+        {
+            actor.GetAbility<ActorStatus>().IsParrying = true;
+        }
+
+        public void EndParry()
+        {
+            actor.GetAbility<ActorStatus>().IsParrying = false;
+        }
     }
 }
