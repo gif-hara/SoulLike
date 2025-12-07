@@ -36,6 +36,9 @@ namespace SoulLike
         [SerializeField]
         private UIViewPlayerStatus uiViewPlayerStatus;
 
+        [SerializeField]
+        private UIViewEnemyStatus uiViewEnemyStatus;
+
         void Start()
         {
             var worldCameraController = Instantiate(worldCameraControllerPrefab);
@@ -55,6 +58,7 @@ namespace SoulLike
             worldCameraController.SetActiveLockOnCamera(true);
 
             uiViewPlayerStatus.Bind(player);
+            uiViewEnemyStatus.Bind(enemy);
         }
     }
 }
