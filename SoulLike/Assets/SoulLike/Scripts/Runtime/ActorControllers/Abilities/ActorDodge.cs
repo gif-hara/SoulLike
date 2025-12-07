@@ -11,6 +11,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         private ActorAnimation actorAnimation;
 
+        public readonly Blocker DodgeBlocker = new();
+
         public readonly ReactiveProperty<bool> CanDodge = new(true);
 
         private const string DodgeStateName = "Dodge";
@@ -24,7 +26,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         public bool TryDodge(Quaternion rotation)
         {
-            if (!CanDodge.Value)
+            if (DodgeBlocker.IsBlocked)
             {
                 return false;
             }
@@ -32,14 +34,14 @@ namespace SoulLike.ActorControllers.Abilities
             actorMovement.RotateImmediate(rotation);
             actorAnimation.SetTrigger(ActorAnimation.Parameter.Dodge);
             actorAnimation.UpdateAnimator();
-            CanDodge.Value = false;
+            DodgeBlocker.Block(DodgeStateName);
             actorMovement.MoveBlocker.Block(DodgeStateName);
             actorMovement.RotateBlocker.Block(DodgeStateName);
             actorAnimation.OnStateExitAsObservable(ActorAnimation.Parameter.Dodge)
                 .Take(1)
                 .Subscribe(this, static (_, @this) =>
                 {
-                    @this.CanDodge.Value = true;
+                    @this.DodgeBlocker.Unblock(DodgeStateName);
                     @this.actorMovement.MoveBlocker.Unblock(DodgeStateName);
                     @this.actorMovement.RotateBlocker.Unblock(DodgeStateName);
                 })

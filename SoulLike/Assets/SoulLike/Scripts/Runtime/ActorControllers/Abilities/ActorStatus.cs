@@ -14,6 +14,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         private ActorWeaponHandler actorWeaponHandler;
 
+        private ActorDodge actorDodge;
+
         private ReactiveProperty<float> hitPoint = new();
 
         private ReactiveProperty<float> hitPointMax = new();
@@ -32,6 +34,7 @@ namespace SoulLike.ActorControllers.Abilities
             actorMovement = actor.GetAbility<ActorMovement>();
             actorAnimation = actor.GetAbility<ActorAnimation>();
             actorWeaponHandler = actor.GetAbility<ActorWeaponHandler>();
+            actorDodge = actor.GetAbility<ActorDodge>();
         }
 
         public void ApplySpec(MasterDataSystem.ActorStatusSpec spec)
@@ -62,6 +65,7 @@ namespace SoulLike.ActorControllers.Abilities
             actorMovement.MoveBlocker.Block(TakeDamageStateName);
             actorMovement.RotateBlocker.Block(TakeDamageStateName);
             actorWeaponHandler.AttackBlocker.Block(TakeDamageStateName);
+            actorDodge.DodgeBlocker.Block(TakeDamageStateName);
             endTakeDamageDisposable?.Dispose();
             endTakeDamageDisposable = actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.Idle)
                 .Subscribe(this, static (x, @this) =>
@@ -69,6 +73,7 @@ namespace SoulLike.ActorControllers.Abilities
                     @this.actorMovement.MoveBlocker.Unblock(TakeDamageStateName);
                     @this.actorMovement.RotateBlocker.Unblock(TakeDamageStateName);
                     @this.actorWeaponHandler.AttackBlocker.Unblock(TakeDamageStateName);
+                    @this.actorDodge.DodgeBlocker.Unblock(TakeDamageStateName);
                 });
         }
     }

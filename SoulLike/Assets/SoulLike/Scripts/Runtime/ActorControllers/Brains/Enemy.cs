@@ -25,6 +25,7 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorTargetHandler>();
             var actorWalk = actor.AddAbility<ActorWalk>();
             var actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
+            actor.AddAbility<ActorDodge>();
             var actorStatus = actor.AddAbility<ActorStatus>();
             actor.ActivateAbilities();
 
