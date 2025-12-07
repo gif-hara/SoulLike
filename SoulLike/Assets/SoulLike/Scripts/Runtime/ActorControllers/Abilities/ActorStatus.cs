@@ -1,5 +1,6 @@
 using System;
 using R3;
+using R3.Triggers;
 using UnityEngine;
 
 namespace SoulLike.ActorControllers.Abilities
@@ -16,19 +17,33 @@ namespace SoulLike.ActorControllers.Abilities
 
         private ActorDodge actorDodge;
 
-        private ReactiveProperty<float> hitPoint = new();
+        private ActorTime actorTime;
 
-        private ReactiveProperty<float> hitPointMax = new();
+        private ReactiveProperty<float> hitPoint = new();
 
         public ReadOnlyReactiveProperty<float> HitPoint => hitPoint;
 
+        private ReactiveProperty<float> hitPointMax = new();
+
         public ReadOnlyReactiveProperty<float> HitPointMax => hitPointMax;
+
+        private ReactiveProperty<float> stamina = new();
+
+        public ReadOnlyReactiveProperty<float> Stamina => stamina;
+
+        private ReactiveProperty<float> staminaMax = new();
+
+        public ReadOnlyReactiveProperty<float> StaminaMax => staminaMax;
 
         private const string TakeDamageStateName = "TakeDamage";
 
         private IDisposable endTakeDamageDisposable;
 
+        private float staminaRecoveryPerSecond;
+
         public float HitPointRate => hitPointMax.Value > 0f ? hitPoint.Value / hitPointMax.Value : 0f;
+
+        public float StaminaRate => staminaMax.Value > 0f ? stamina.Value / staminaMax.Value : 0f;
 
         public void Activate(Actor actor)
         {
@@ -37,6 +52,16 @@ namespace SoulLike.ActorControllers.Abilities
             actorAnimation = actor.GetAbility<ActorAnimation>();
             actorWeaponHandler = actor.GetAbility<ActorWeaponHandler>();
             actorDodge = actor.GetAbility<ActorDodge>();
+            actorTime = actor.GetAbility<ActorTime>();
+            actor.UpdateAsObservable()
+                .Subscribe(this, static (_, @this) =>
+                {
+                    if (@this.stamina.Value < @this.staminaMax.Value)
+                    {
+                        @this.stamina.Value = Mathf.Min(@this.staminaMax.Value, @this.stamina.Value + @this.staminaRecoveryPerSecond * @this.actorTime.Time.deltaTime);
+                    }
+                })
+                .RegisterTo(actor.destroyCancellationToken);
         }
 
         public void ApplySpec(MasterDataSystem.ActorStatusSpec spec)
@@ -44,6 +69,9 @@ namespace SoulLike.ActorControllers.Abilities
             hitPointMax.Value = spec.HitPoint;
             hitPoint.Value = spec.HitPoint;
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
+            staminaMax.Value = spec.Stamina;
+            stamina.Value = spec.Stamina;
+            staminaRecoveryPerSecond = spec.StaminaRecoveryPerSecond;
         }
 
         public void TakeDamage(Actor attacker, AttackData attackData)
