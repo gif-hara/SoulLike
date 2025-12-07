@@ -33,6 +33,9 @@ namespace SoulLike
         [field: SerializeField]
         private WorldCameraController worldCameraControllerPrefab;
 
+        [SerializeField]
+        private UIViewPlayerStatus uiViewPlayerStatus;
+
         void Start()
         {
             var worldCameraController = Instantiate(worldCameraControllerPrefab);
@@ -50,6 +53,8 @@ namespace SoulLike
             worldCameraController.SetDefaultCameraTarget(player.transform);
             worldCameraController.SetLockOnCameraTarget(player.transform, enemy.transform);
             worldCameraController.SetActiveLockOnCamera(true);
+
+            uiViewPlayerStatus.Bind(player);
         }
     }
 }
