@@ -57,5 +57,15 @@ namespace SoulLike.ActorControllers
         {
             actor.GetAbility<ActorMovement>().RotateBlocker.Unblock(topic);
         }
+
+        public void BeginInvincible(string topic)
+        {
+            actor.GetAbility<ActorInvincible>().BeginInvincible(topic);
+        }
+
+        public void EndInvincible(string topic)
+        {
+            actor.GetAbility<ActorInvincible>().EndInvincible(topic);
+        }
     }
 }
