@@ -12,16 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887c46d5ac497cc479c1fa0fee0f9fc3, type: 3}
   m_Name: Enemy.1.1
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ActorControllers.AISystems.AIElement
-  <SequenceName>k__BackingField: Test
+  <SequenceName>k__BackingField: Walk.Right
   <Actions>k__BackingField:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8736876788586905694
+      rid: 8736876788586905728
   references:
     version: 2
     RefIds:
-    - rid: 8736876788586905694
-      type: {class: Log, ns: SoulLike.ActorControllers.AISystems, asm: SoulLike.Runtime}
+    - rid: 8736876788586905728
+      type: {class: Walk, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
-        message: Hello
+        velocity: {x: 0.5, y: 0}
+        completeCondition:
+          mode: 1
+          unityReference: {fileID: 0}
+          rawReference:
+            rid: 8736876788586905734
+    - rid: 8736876788586905734
+      type: {class: Timer, ns: SoulLike.ActorControllers.AISystems.Conditions, asm: SoulLike.Runtime}
+      data:
+        durationMin: 1
+        durationMax: 2
