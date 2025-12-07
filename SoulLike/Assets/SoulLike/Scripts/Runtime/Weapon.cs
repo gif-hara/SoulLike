@@ -35,7 +35,9 @@ namespace SoulLike
 
         public int BasicAttackComboId { get; set; } = 0;
 
-        private CancellationTokenSource endAttackCancellationTokenSource;
+        private Dictionary<int, HashSet<Actor>> hitActors = new();
+
+        private CancellationTokenSource endAttackAnimationCancellationTokenSource;
 
         private const string AttackStateName = "Attack";
 
@@ -80,9 +82,9 @@ namespace SoulLike
 
         private void InvokeAttack(AnimationClip animationClip, List<AttackElement> attackElements, List<SerializableInterface<IWeaponAction>> actions)
         {
-            endAttackCancellationTokenSource?.Cancel();
-            endAttackCancellationTokenSource?.Dispose();
-            endAttackCancellationTokenSource = new CancellationTokenSource();
+            endAttackAnimationCancellationTokenSource?.Cancel();
+            endAttackAnimationCancellationTokenSource?.Dispose();
+            endAttackAnimationCancellationTokenSource = new CancellationTokenSource();
             actorWeaponHandler.AttackBlocker.Block(AttackStateName);
             actorMovement.MoveBlocker.Block(AttackStateName);
             actorMovement.RotateBlocker.Block(AttackStateName);
@@ -95,9 +97,9 @@ namespace SoulLike
                     @this.actorMovement.RotateBlocker.Unblock(AttackStateName);
                     @this.actorWeaponHandler.AttackBlocker.Unblock(AttackStateName);
                     @this.BasicAttackComboId = 0;
-                    @this.endAttackCancellationTokenSource?.Cancel();
-                    @this.endAttackCancellationTokenSource?.Dispose();
-                    @this.endAttackCancellationTokenSource = null;
+                    @this.endAttackAnimationCancellationTokenSource?.Cancel();
+                    @this.endAttackAnimationCancellationTokenSource?.Dispose();
+                    @this.endAttackAnimationCancellationTokenSource = null;
                     foreach (var attackElement in attackElements)
                     {
                         foreach (var activeObject in attackElement.ActiveObjects)
@@ -106,7 +108,7 @@ namespace SoulLike
                         }
                     }
                 })
-                .RegisterTo(endAttackCancellationTokenSource.Token);
+                .RegisterTo(endAttackAnimationCancellationTokenSource.Token);
             foreach (var attackElement in attackElements)
             {
                 actor.Event.Broker.Receive<ActorEvent.BeginAttack>()
@@ -120,14 +122,26 @@ namespace SoulLike
                         }
                         foreach (var actionInterface in attackElement.BeginAttackActions)
                         {
-                            actionInterface.Value.Invoke(@this, actor, @this.endAttackCancellationTokenSource.Token);
+                            actionInterface.Value.Invoke(@this, actor, @this.endAttackAnimationCancellationTokenSource.Token);
                         }
-                        attackElement.AttackData.Collider.OnTriggerEnterAsObservable()
-                            .Subscribe((attackElement, actor), static (x, t) =>
+                        if (!@this.hitActors.ContainsKey(attackElement.AttackId))
+                        {
+                            @this.hitActors[attackElement.AttackId] = new HashSet<Actor>();
+                        }
+                        else
+                        {
+                            @this.hitActors[attackElement.AttackId].Clear();
+                        }
+                        attackElement.AttackData.Collider.OnTriggerStayAsObservable()
+                            .Subscribe((attackElement, actor, @this.hitActors[attackElement.AttackId]), static (x, t) =>
                             {
-                                var (attackElement, actor) = t;
+                                var (attackElement, actor, hitActors) = t;
                                 var target = x.attachedRigidbody?.GetComponent<Actor>();
                                 if (target == null)
+                                {
+                                    return;
+                                }
+                                if (hitActors.Contains(target))
                                 {
                                     return;
                                 }
@@ -136,11 +150,12 @@ namespace SoulLike
                                 {
                                     return;
                                 }
+                                hitActors.Add(target);
                                 targetStatus.TakeDamage(actor, attackElement.AttackData);
                             })
-                            .RegisterTo(@this.endAttackCancellationTokenSource.Token);
+                            .RegisterTo(@this.endAttackAnimationCancellationTokenSource.Token);
                     })
-                    .RegisterTo(endAttackCancellationTokenSource.Token);
+                    .RegisterTo(endAttackAnimationCancellationTokenSource.Token);
                 actor.Event.Broker.Receive<ActorEvent.EndAttack>()
                     .Where(attackElement.AttackId, static (x, attackId) => x.AttackId == attackId)
                     .Subscribe((attackElement, this, actor), static (_, t) =>
@@ -152,14 +167,14 @@ namespace SoulLike
                         }
                         foreach (var actionInterface in attackElement.EndAttackActions)
                         {
-                            actionInterface.Value.Invoke(@this, actor, @this.endAttackCancellationTokenSource.Token);
+                            actionInterface.Value.Invoke(@this, actor, @this.endAttackAnimationCancellationTokenSource.Token);
                         }
                     })
-                    .RegisterTo(endAttackCancellationTokenSource.Token);
+                    .RegisterTo(endAttackAnimationCancellationTokenSource.Token);
             }
             foreach (var action in actions)
             {
-                action.Value.Invoke(this, actor, endAttackCancellationTokenSource.Token);
+                action.Value.Invoke(this, actor, endAttackAnimationCancellationTokenSource.Token);
             }
         }
 
