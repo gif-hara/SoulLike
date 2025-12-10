@@ -29,5 +29,9 @@ namespace SoulLike.ActorControllers
         public readonly struct OnDead
         {
         }
+
+        public readonly struct OnBeginParry
+        {
+        }
     }
 }

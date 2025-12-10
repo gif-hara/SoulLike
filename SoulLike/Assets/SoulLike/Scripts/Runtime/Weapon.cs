@@ -184,8 +184,7 @@ namespace SoulLike
                                 hitActors.Add(target);
                                 if (targetStatus.IsParrying)
                                 {
-                                    var targetWeaponHandler = target.GetAbility<ActorWeaponHandler>();
-                                    targetWeaponHandler.ForceInvokeUniqueAttack(1);
+                                    target.Event.Broker.Publish(new ActorEvent.OnBeginParry());
                                 }
                                 else
                                 {
