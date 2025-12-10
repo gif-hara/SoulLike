@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using R3;
 using R3.Triggers;
 using UnityEngine;
@@ -116,6 +117,9 @@ namespace SoulLike.ActorControllers.Abilities
                     @this.actorWeaponHandler.AttackBlocker.Unblock(TakeDamageStateName);
                     @this.actorDodge.DodgeBlocker.Unblock(TakeDamageStateName);
                 });
+
+            actor.GetAbility<ActorTime>().Time.BeginHitStopAsync(attackData.HitStopDuration, attackData.HitStopTimeScale, actor.destroyCancellationToken).Forget();
+            attacker.GetAbility<ActorTime>().Time.BeginHitStopAsync(attackData.HitStopDuration, attackData.HitStopTimeScale, attacker.destroyCancellationToken).Forget();
         }
 
         public bool CanUseStamina()
