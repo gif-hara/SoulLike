@@ -13,7 +13,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         private ActorAnimation actorAnimation;
 
-        private Actor target;
+        public Actor Target { get; private set; }
 
         private CancellationTokenSource endLockOnTokenSource;
 
@@ -34,19 +34,19 @@ namespace SoulLike.ActorControllers.Abilities
                 return;
             }
             endLockOnTokenSource = new CancellationTokenSource();
-            this.target = target;
+            this.Target = target;
             actorAnimation.SetBool(ActorAnimation.Parameter.LockedOn, true);
             actor.UpdateAsObservable()
                 .Subscribe(this, static (_, @this) =>
                 {
-                    @this.actorMovement.Rotate(Quaternion.LookRotation(@this.target.transform.position - @this.actor.transform.position));
+                    @this.actorMovement.Rotate(Quaternion.LookRotation(@this.Target.transform.position - @this.actor.transform.position));
                 })
                 .RegisterTo(endLockOnTokenSource.Token);
         }
 
         public void EndLockOn()
         {
-            target = null;
+            Target = null;
             endLockOnTokenSource?.Cancel();
             endLockOnTokenSource?.Dispose();
             endLockOnTokenSource = null;
@@ -55,11 +55,11 @@ namespace SoulLike.ActorControllers.Abilities
 
         public float GetDistanceToTarget()
         {
-            if (target == null)
+            if (Target == null)
             {
                 return float.MaxValue;
             }
-            return Vector3.Distance(actor.transform.position, target.transform.position);
+            return Vector3.Distance(actor.transform.position, Target.transform.position);
         }
     }
 }
