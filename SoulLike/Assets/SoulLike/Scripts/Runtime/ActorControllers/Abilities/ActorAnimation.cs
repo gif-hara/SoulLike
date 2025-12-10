@@ -83,6 +83,15 @@ namespace SoulLike.ActorControllers.Abilities
 
             sceneView.ActorAnimationEvent.Activate(actor);
             sceneView.ActorAnimatorMove.Activate(actor);
+
+            var actorTime = actor.GetAbility<ActorTime>();
+            actorTime.UpdatedTimeScale
+                .Subscribe((this, actorTime), static (_, t) =>
+                {
+                    var (@this, actorTime) = t;
+                    @this.animator.speed = actorTime.Time.totalTimeScale;
+                })
+                .RegisterTo(actor.destroyCancellationToken);
         }
 
         public void PlayAttackAnimation(AnimationClip animationClip)
