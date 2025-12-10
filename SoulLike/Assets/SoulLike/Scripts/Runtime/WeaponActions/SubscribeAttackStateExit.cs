@@ -25,7 +25,6 @@ namespace SoulLike.WeaponActions
                 .Take(1)
                 .Subscribe((this, weapon, actor, scope), static (_, t) =>
                 {
-                    Debug.Log("Attack State Exit Triggered");
                     var (@this, weapon, actor, scope) = t;
                     foreach (var actionInterface in @this.actions)
                     {
