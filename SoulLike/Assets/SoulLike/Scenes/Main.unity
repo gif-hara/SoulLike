@@ -657,6 +657,7 @@ MonoBehaviour:
   playerInputPrefab: {fileID: 3844246669755102860, guid: 99ffccbf96653cb44aeacef395776fec, type: 3}
   worldCameraControllerPrefab: {fileID: 701007331496520580, guid: 43921dd418260d342907a3dbe0ffa037, type: 3}
   mainGlobalVolumeController: {fileID: 385871875}
+  audioManager: {fileID: 1050623709}
   uiViewPlayerStatus: {fileID: 1930120742}
   uiViewEnemyStatus: {fileID: 83174110}
 --- !u!43 &1005311037
@@ -837,6 +838,17 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!114 &1050623709 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+  m_PrefabInstance: {fileID: 9037550428197201430}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a40465432598cd2448757613b45b11bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SoulLike.Runtime::HK.AudioManager
 --- !u!1 &1390727969
 GameObject:
   m_ObjectHideFlags: 0
@@ -8390,6 +8402,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[0].key
+      value: Parry.Success.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[1].key
+      value: Hit.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 830aabcad9516884eba47ab3e3d1bca0, type: 3}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ae2df208a8c5da047aa9d2c25c95957a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

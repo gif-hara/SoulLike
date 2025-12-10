@@ -1,3 +1,5 @@
+using HK;
+using R3;
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
 using SoulLike.ActorControllers.Brains;
@@ -37,6 +39,9 @@ namespace SoulLike
         private MainGlobalVolumeController mainGlobalVolumeController;
 
         [SerializeField]
+        private AudioManager audioManager;
+
+        [SerializeField]
         private UIViewPlayerStatus uiViewPlayerStatus;
 
         [SerializeField]
@@ -44,6 +49,8 @@ namespace SoulLike
 
         void Start()
         {
+            TinyServiceLocator.Register(audioManager)
+                .RegisterTo(destroyCancellationToken);
             var worldCameraController = Instantiate(worldCameraControllerPrefab);
 
             var player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
