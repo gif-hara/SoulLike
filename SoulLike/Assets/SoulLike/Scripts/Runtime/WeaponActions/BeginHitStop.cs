@@ -28,7 +28,7 @@ namespace SoulLike.WeaponActions
         public void Invoke(Weapon weapon, Actor actor, CancellationToken scope)
         {
             var target = targetType == TragetType.Self ? actor : actor.GetAbility<ActorTargetHandler>().Target;
-            target.GetAbility<ActorTime>().Time.BeginHitStopAsync(duration, timeScale, default).Forget();
+            target.GetAbility<ActorTime>().Time.BeginHitStopAsync(duration, timeScale, target.destroyCancellationToken).Forget();
         }
     }
 }
