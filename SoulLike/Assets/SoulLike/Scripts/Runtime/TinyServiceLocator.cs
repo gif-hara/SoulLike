@@ -1,67 +1,52 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
+using R3;
 using UnityEngine.Assertions;
 
 namespace HK
 {
     public static class TinyServiceLocator
     {
-        private static readonly Dictionary<Type, (object service, CancellationTokenSource scope)> services = new();
+        private static readonly Dictionary<Type, (object service, int version)> services = new();
 
-        private static readonly Dictionary<Type, Dictionary<string, (object service, CancellationTokenSource scope)>> namedServices = new();
+        private static readonly Dictionary<Type, Dictionary<string, (object service, int version)>> namedServices = new();
 
-        public static async UniTaskVoid RegisterAsync<T>(T service, CancellationToken cancellationToken = default)
+        private static int currentVersion = 0;
+
+        public static IDisposable Register<T>(T service)
         {
-            if (services.ContainsKey(typeof(T)))
+            Assert.IsFalse(services.ContainsKey(typeof(T)), $"Service already registered: {typeof(T)}");
+            var v = currentVersion++;
+            services[typeof(T)] = (service, v);
+            return Disposable.Create((services, v), static (t) =>
             {
-                Debug.LogError($"Service already registered: {typeof(T)}");
-                return;
-            }
-            var scope = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-#if UNITY_EDITOR
-            scope = CancellationTokenSource.CreateLinkedTokenSource(Application.exitCancellationToken);
-#endif
-            services[typeof(T)] = (service, scope);
-            await scope.Token.ToUniTask().Item1;
-            services[typeof(T)].scope.Dispose();
-            services.Remove(typeof(T));
+                var (services, v) = t;
+                if (services[typeof(T)].version != v)
+                {
+                    return;
+                }
+                services.Remove(typeof(T));
+            });
         }
 
-        public static async UniTaskVoid RegisterAsync<T>(string name, T service, CancellationToken cancellationToken = default)
+        public static IDisposable Register<T>(string name, T service)
         {
-            if (!namedServices.TryGetValue(typeof(T), out var namedService))
+            if (!namedServices.ContainsKey(typeof(T)))
             {
-                namedService = new Dictionary<string, (object service, CancellationTokenSource scope)>();
-                namedServices.Add(typeof(T), namedService);
+                namedServices[typeof(T)] = new Dictionary<string, (object service, int version)>();
             }
-
-            if (namedService.ContainsKey(name))
+            Assert.IsFalse(namedServices[typeof(T)].ContainsKey(name), $"Service already registered: {typeof(T)} with name: {name}");
+            var v = currentVersion++;
+            namedServices[typeof(T)][name] = (service, v);
+            return Disposable.Create((namedServices[typeof(T)], name, v), static (t) =>
             {
-                Debug.LogError($"Service already registered: {typeof(T)}, name: {name}");
-                return;
-            }
-
-            var scope = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-#if UNITY_EDITOR
-            scope = CancellationTokenSource.CreateLinkedTokenSource(Application.exitCancellationToken);
-#endif
-            namedService[name] = (service, scope);
-            await UniTask.WaitUntilCanceled(scope.Token, completeImmediately: true);
-            namedService[name].scope.Dispose();
-            namedService.Remove(name);
-        }
-
-        public static void Register<T>(T service)
-        {
-            RegisterAsync(service).Forget();
-        }
-
-        public static void Register<T>(string name, T service)
-        {
-            RegisterAsync(name, service).Forget();
+                var (namedServicesOfT, name, v) = t;
+                if (namedServicesOfT[name].version != v)
+                {
+                    return;
+                }
+                namedServicesOfT.Remove(name);
+            });
         }
 
         public static T Resolve<T>()
@@ -77,27 +62,26 @@ namespace HK
             return (T)namedServices[typeof(T)][name].service;
         }
 
-        public static T TryResolve<T>()
+        public static bool TryResolve<T>(out T service)
         {
-            return services.ContainsKey(typeof(T)) ? (T)services[typeof(T)].service : default;
+            if (services.ContainsKey(typeof(T)))
+            {
+                service = (T)services[typeof(T)].service;
+                return true;
+            }
+            service = default;
+            return false;
         }
 
-        public static T TryResolve<T>(string name)
+        public static bool TryResolve<T>(string name, out T service)
         {
-            return namedServices.ContainsKey(typeof(T)) && namedServices[typeof(T)].ContainsKey(name) ? (T)namedServices[typeof(T)][name].service : default;
-        }
-
-        public static void Remove<T>()
-        {
-            Assert.IsTrue(services.ContainsKey(typeof(T)), $"Service not found: {typeof(T)}");
-            services[typeof(T)].scope.Cancel();
-        }
-
-        public static void Remove<T>(string name)
-        {
-            Assert.IsTrue(namedServices.ContainsKey(typeof(T)), $"Service not found: {typeof(T)}");
-            Assert.IsTrue(namedServices[typeof(T)].ContainsKey(name), $"Service not found: {typeof(T)}");
-            namedServices[typeof(T)][name].scope.Cancel();
+            if (namedServices.ContainsKey(typeof(T)) && namedServices[typeof(T)].ContainsKey(name))
+            {
+                service = (T)namedServices[typeof(T)][name].service;
+                return true;
+            }
+            service = default;
+            return false;
         }
 
         public static bool Contains<T>()
