@@ -34,6 +34,9 @@ namespace SoulLike
         private WorldCameraController worldCameraControllerPrefab;
 
         [SerializeField]
+        private MainGlobalVolumeController mainGlobalVolumeController;
+
+        [SerializeField]
         private UIViewPlayerStatus uiViewPlayerStatus;
 
         [SerializeField]
@@ -56,6 +59,8 @@ namespace SoulLike
             worldCameraController.SetDefaultCameraTarget(player.transform);
             worldCameraController.SetLockOnCameraTarget(player.transform, enemy.transform);
             worldCameraController.SetActiveLockOnCamera(true);
+
+            mainGlobalVolumeController.BeginObserve(player);
 
             uiViewPlayerStatus.Bind(player);
             uiViewEnemyStatus.Bind(enemy);
