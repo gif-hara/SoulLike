@@ -127,6 +127,8 @@ namespace SoulLike.ActorControllers.Abilities
             attacker.GetAbility<ActorTime>().Time.BeginHitStopAsync(attackData.HitStopDuration, attackData.HitStopTimeScale, attacker.destroyCancellationToken).Forget();
 
             LMotion.Shake.Create(attackData.SceneViewShakeStartValue, attackData.SceneViewShakeStrength, attackData.SceneViewShakeDuration)
+                .WithFrequency(attackData.SceneViewShakeFrequency)
+                .WithDampingRatio(attackData.SceneViewShakeDampingRatio)
                 .BindToLocalPosition(actorSceneViewHandler.SceneView.transform)
                 .AddTo(actor);
         }

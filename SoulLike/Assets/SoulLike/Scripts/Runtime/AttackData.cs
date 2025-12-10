@@ -21,5 +21,9 @@ namespace SoulLike
         public Vector3 SceneViewShakeStrength;
 
         public float SceneViewShakeDuration;
+
+        public int SceneViewShakeFrequency;
+
+        public int SceneViewShakeDampingRatio;
     }
 }
