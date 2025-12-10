@@ -80,6 +80,11 @@ namespace SoulLike.ActorControllers.Abilities
                 overrideController.runtimeAnimatorController = animator.runtimeAnimatorController;
                 animator.runtimeAnimatorController = overrideController;
             }
+            else
+            {
+                overrideController = UnityEngine.Object.Instantiate(overrideController);
+                animator.runtimeAnimatorController = overrideController;
+            }
 
             sceneView.ActorAnimationEvent.Activate(actor);
             sceneView.ActorAnimatorMove.Activate(actor);
