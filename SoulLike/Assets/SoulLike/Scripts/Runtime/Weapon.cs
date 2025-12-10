@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using HK;
 using R3;
 using R3.Triggers;
 using SoulLike.ActorControllers;
@@ -189,6 +190,10 @@ namespace SoulLike
                                 else
                                 {
                                     targetStatus.TakeDamage(actor, attackElement.AttackData);
+                                    if (!string.IsNullOrEmpty(attackElement.AttackData.SfxKey))
+                                    {
+                                        TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKey);
+                                    }
                                 }
                             })
                             .RegisterTo(@this.endAttackAnimationCancellationTokenSource.Token);
