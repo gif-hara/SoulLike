@@ -1,5 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
+using LitMotion;
+using LitMotion.Extensions;
 using R3;
 using R3.Triggers;
 using UnityEngine;
@@ -19,6 +21,8 @@ namespace SoulLike.ActorControllers.Abilities
         private ActorDodge actorDodge;
 
         private ActorTime actorTime;
+
+        private ActorSceneViewHandler actorSceneViewHandler;
 
         private ReactiveProperty<float> hitPoint = new();
 
@@ -64,6 +68,7 @@ namespace SoulLike.ActorControllers.Abilities
             actorWeaponHandler = actor.GetAbility<ActorWeaponHandler>();
             actorDodge = actor.GetAbility<ActorDodge>();
             actorTime = actor.GetAbility<ActorTime>();
+            actorSceneViewHandler = actor.GetAbility<ActorSceneViewHandler>();
             actor.UpdateAsObservable()
                 .Where(this, static (_, @this) => !@this.StaminaRecoveryBlocker.IsBlocked)
                 .Subscribe(this, static (_, @this) =>
@@ -120,6 +125,10 @@ namespace SoulLike.ActorControllers.Abilities
 
             actor.GetAbility<ActorTime>().Time.BeginHitStopAsync(attackData.HitStopDuration, attackData.HitStopTimeScale, actor.destroyCancellationToken).Forget();
             attacker.GetAbility<ActorTime>().Time.BeginHitStopAsync(attackData.HitStopDuration, attackData.HitStopTimeScale, attacker.destroyCancellationToken).Forget();
+
+            LMotion.Shake.Create(attackData.SceneViewShakeStartValue, attackData.SceneViewShakeStrength, attackData.SceneViewShakeDuration)
+                .BindToLocalPosition(actorSceneViewHandler.SceneView.transform)
+                .AddTo(actor);
         }
 
         public bool CanUseStamina()
