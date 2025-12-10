@@ -15,5 +15,11 @@ namespace SoulLike
         public float HitStopDuration;
 
         public float HitStopTimeScale;
+
+        public Vector3 SceneViewShakeStartValue;
+
+        public Vector3 SceneViewShakeStrength;
+
+        public float SceneViewShakeDuration;
     }
 }
