@@ -40063,15 +40063,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5
-    functionName: EndInvincible
+  - time: 0.4
+    functionName: UnblockRotate
     data: Dodge
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.53333336
-    functionName: UnblockRotate
+  - time: 0.5
+    functionName: EndInvincible
     data: Dodge
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
