@@ -18,7 +18,7 @@ MonoBehaviour:
       <Stamina>k__BackingField: 100
       <StaminaRecoveryPerSecond>k__BackingField: 50
       <DodgeStaminaCost>k__BackingField: 22
-    <MoveSpeed>k__BackingField: 5
+    <MoveSpeed>k__BackingField: 4
     <RotateSpeed>k__BackingField: 10
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 4a64460cd1eefe74eadf87cde3e12b7d, type: 3}
   <EnemySpecs>k__BackingField:
