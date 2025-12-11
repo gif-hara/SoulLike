@@ -1,6 +1,7 @@
 ﻿<Solution>
   <Project Path="SoulLike.Runtime.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="OpenCharacterController.Runtime.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="MeleeWeaponTrail.csproj" />
 </Solution>
