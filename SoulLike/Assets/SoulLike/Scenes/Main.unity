@@ -8404,7 +8404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.data[0].key
@@ -8435,6 +8435,10 @@ PrefabInstance:
       value: FootStep.1
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[7].key
+      value: Dodge.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.data[0].clip
       value: 
       objectReference: {fileID: 8300000, guid: 830aabcad9516884eba47ab3e3d1bca0, type: 3}
@@ -8462,6 +8466,10 @@ PrefabInstance:
       propertyPath: sfx.list.Array.data[6].clip
       value: 
       objectReference: {fileID: 8300000, guid: 84746a033988d1645a4c98fc386f8105, type: 3}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[7].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 628f7d8dc4cd6d84d8e92f9c4831acec, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
