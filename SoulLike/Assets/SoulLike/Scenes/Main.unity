@@ -8404,7 +8404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.data[0].key
@@ -8431,6 +8431,10 @@ PrefabInstance:
       value: Attack.2
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[6].key
+      value: FootStep.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.data[0].clip
       value: 
       objectReference: {fileID: 8300000, guid: 830aabcad9516884eba47ab3e3d1bca0, type: 3}
@@ -8454,6 +8458,10 @@ PrefabInstance:
       propertyPath: sfx.list.Array.data[5].clip
       value: 
       objectReference: {fileID: 8300000, guid: 8c88f3a6107a4514dadbf791abcc6f63, type: 3}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 84746a033988d1645a4c98fc386f8105, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
