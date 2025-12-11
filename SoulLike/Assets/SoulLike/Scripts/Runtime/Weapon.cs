@@ -202,6 +202,10 @@ namespace SoulLike
                                     {
                                         TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKey);
                                     }
+                                    foreach (var hitEffectPrefab in attackElement.HitEffectPrefabs)
+                                    {
+                                        Instantiate(hitEffectPrefab, x.ClosestPoint(attackElement.AttackData.Collider.transform.position), Quaternion.identity);
+                                    }
                                 }
                             })
                             .RegisterTo(@this.endAttackAnimationCancellationTokenSource.Token);
@@ -288,6 +292,9 @@ namespace SoulLike
 
             [field: SerializeField]
             public List<MeleeWeaponTrail> Trails { get; private set; }
+
+            [field: SerializeField]
+            public List<GameObject> HitEffectPrefabs { get; private set; }
 
             [field: SerializeField]
             public AttackData AttackData { get; private set; }
