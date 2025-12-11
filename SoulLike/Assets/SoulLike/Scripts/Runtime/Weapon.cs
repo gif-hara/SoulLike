@@ -134,6 +134,10 @@ namespace SoulLike
                         {
                             activeObject.SetActive(false);
                         }
+                        foreach (var trail in attackElement.Trails)
+                        {
+                            trail.Emit = false;
+                        }
                     }
                 })
                 .RegisterTo(endAttackAnimationCancellationTokenSource.Token);
@@ -147,6 +151,10 @@ namespace SoulLike
                         foreach (var activeObject in attackElement.ActiveObjects)
                         {
                             activeObject.SetActive(true);
+                        }
+                        foreach (var trail in attackElement.Trails)
+                        {
+                            trail.Emit = true;
                         }
                         foreach (var actionInterface in attackElement.BeginAttackActions)
                         {
@@ -207,6 +215,10 @@ namespace SoulLike
                         foreach (var activeObject in attackElement.ActiveObjects)
                         {
                             activeObject.SetActive(false);
+                        }
+                        foreach (var trail in attackElement.Trails)
+                        {
+                            trail.Emit = false;
                         }
                         foreach (var actionInterface in attackElement.EndAttackActions)
                         {
@@ -273,6 +285,9 @@ namespace SoulLike
 
             [field: SerializeField]
             public List<GameObject> ActiveObjects { get; private set; }
+
+            [field: SerializeField]
+            public List<MeleeWeaponTrail> Trails { get; private set; }
 
             [field: SerializeField]
             public AttackData AttackData { get; private set; }
