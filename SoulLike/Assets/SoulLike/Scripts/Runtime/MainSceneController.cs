@@ -52,10 +52,10 @@ namespace SoulLike
             TinyServiceLocator.Register(audioManager)
                 .RegisterTo(destroyCancellationToken);
             var worldCameraController = Instantiate(worldCameraControllerPrefab);
-
+            var userData = new UserData();
             var player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
             var playerInput = Instantiate(playerInputPrefab);
-            player.Brain.Attach(new Player(playerInput, worldCameraController.WorldCamera, masterData.PlayerSpec));
+            player.Brain.Attach(new Player(playerInput, worldCameraController.WorldCamera, masterData.PlayerSpec, userData));
 
             var enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, enemySpawnPoint.rotation);
             enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId]));
@@ -69,7 +69,7 @@ namespace SoulLike
 
             mainGlobalVolumeController.BeginObserve(player);
 
-            uiViewPlayerStatus.Bind(player);
+            uiViewPlayerStatus.Bind(player, userData);
             uiViewEnemyStatus.Bind(enemy);
         }
     }
