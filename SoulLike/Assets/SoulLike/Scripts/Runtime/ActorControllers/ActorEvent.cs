@@ -33,5 +33,15 @@ namespace SoulLike.ActorControllers
         public readonly struct OnBeginParry
         {
         }
+
+        public readonly struct OnGiveDamage
+        {
+            public readonly bool IsStunned;
+
+            public OnGiveDamage(bool isStunned)
+            {
+                IsStunned = isStunned;
+            }
+        }
     }
 }
