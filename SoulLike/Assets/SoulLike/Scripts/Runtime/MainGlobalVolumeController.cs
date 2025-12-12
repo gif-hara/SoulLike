@@ -17,6 +17,14 @@ namespace SoulLike
         [SerializeField]
         private Ease parryEffectEase;
 
+        [SerializeField]
+        private Volume onGiveDamageInStunVolume;
+
+        [SerializeField]
+        private float onGiveDamageInStunEffectDuration;
+
+        [SerializeField]
+        private Ease onGiveDamageInStunEffectEase;
 
         public void BeginObserve(Actor actor)
         {
@@ -28,7 +36,21 @@ namespace SoulLike
                         .Bind(x => @this.parryVolume.weight = x)
                         .AddTo(@this);
                 })
-                .AddTo(actor);
+                .RegisterTo(actor.destroyCancellationToken);
+            actor.Event.Broker.Receive<ActorEvent.OnGiveDamage>()
+                .Subscribe(this, static (e, @this) =>
+                {
+                    if (!e.IsStunned)
+                    {
+                        return;
+                    }
+
+                    LMotion.Create(1.0f, 0.0f, @this.onGiveDamageInStunEffectDuration)
+                        .WithEase(@this.onGiveDamageInStunEffectEase)
+                        .Bind(x => @this.onGiveDamageInStunVolume.weight = x)
+                        .AddTo(@this);
+                })
+                .RegisterTo(actor.destroyCancellationToken);
         }
     }
 }
