@@ -203,7 +203,7 @@ namespace SoulLike
                                 else
                                 {
                                     targetStatus.TakeDamage(actor, attackElement.AttackData);
-                                    actor.Event.Broker.Publish(new ActorEvent.OnGiveDamage(targetStatus.IsStunned));
+                                    actor.Event.Broker.Publish(new ActorEvent.OnGiveDamage(attackElement.AttackData, targetStatus.IsStunned));
                                     if (!string.IsNullOrEmpty(attackElement.AttackData.SfxKey))
                                     {
                                         TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKey);

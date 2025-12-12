@@ -36,10 +36,13 @@ namespace SoulLike.ActorControllers
 
         public readonly struct OnGiveDamage
         {
+            public readonly AttackData AttackData;
+
             public readonly bool IsStunned;
 
-            public OnGiveDamage(bool isStunned)
+            public OnGiveDamage(AttackData attackData, bool isStunned)
             {
+                AttackData = attackData;
                 IsStunned = isStunned;
             }
         }
