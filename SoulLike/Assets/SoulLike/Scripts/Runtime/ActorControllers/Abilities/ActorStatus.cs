@@ -4,6 +4,7 @@ using LitMotion;
 using LitMotion.Extensions;
 using R3;
 using R3.Triggers;
+using SoulLike.ActorControllers.ActorActions;
 using UnityEngine;
 
 namespace SoulLike.ActorControllers.Abilities
@@ -49,6 +50,8 @@ namespace SoulLike.ActorControllers.Abilities
         public ReadOnlyReactiveProperty<float> StunResistanceMax => stunResistanceMax;
 
         private float stunDuration;
+
+        private ActorAction onStunAction;
 
         private const string TakeDamageStateName = "TakeDamage";
 
@@ -104,6 +107,7 @@ namespace SoulLike.ActorControllers.Abilities
             stunResistanceMax.Value = spec.StunResistance;
             stunResistance.Value = 0;
             stunDuration = spec.StunDuration;
+            onStunAction = spec.OnStunAction;
         }
 
         public void TakeDamage(Actor attacker, AttackData attackData)
@@ -180,6 +184,7 @@ namespace SoulLike.ActorControllers.Abilities
             {
                 return;
             }
+            onStunAction?.Invoke(actor);
             IsStunned = true;
             await UniTask.Delay(TimeSpan.FromSeconds(stunDuration), cancellationToken: actor.destroyCancellationToken);
             IsStunned = false;

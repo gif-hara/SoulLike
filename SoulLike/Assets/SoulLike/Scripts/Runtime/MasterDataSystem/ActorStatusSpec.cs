@@ -1,4 +1,5 @@
 using System;
+using SoulLike.ActorControllers.ActorActions;
 using UnityEngine;
 
 namespace SoulLike.MasterDataSystem
@@ -23,5 +24,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public float StunDuration { get; private set; }
+
+        [field: SerializeField]
+        public ActorAction OnStunAction { get; private set; }
     }
 }
