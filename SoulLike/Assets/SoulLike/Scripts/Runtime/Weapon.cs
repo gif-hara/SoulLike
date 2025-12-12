@@ -203,13 +203,17 @@ namespace SoulLike
                                 else
                                 {
                                     targetStatus.TakeDamage(actor, attackElement.AttackData);
+                                    actor.Event.Broker.Publish(new ActorEvent.OnGiveDamage(targetStatus.IsStunned));
                                     if (!string.IsNullOrEmpty(attackElement.AttackData.SfxKey))
                                     {
                                         TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKey);
                                     }
-                                    if (targetStatus.IsStunned && !string.IsNullOrEmpty(attackElement.AttackData.SfxKeyOnStun))
+                                    if (targetStatus.IsStunned)
                                     {
-                                        TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKeyOnStun);
+                                        if (!string.IsNullOrEmpty(attackElement.AttackData.SfxKeyOnStun))
+                                        {
+                                            TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKeyOnStun);
+                                        }
                                     }
                                     foreach (var hitEffectPrefab in attackElement.HitEffectPrefabs)
                                     {
