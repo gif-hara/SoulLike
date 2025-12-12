@@ -18,6 +18,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private readonly PlayerSpec playerSpec;
 
+        private readonly UserData userData;
+
         private ActorMovement actorMovement;
 
         private ActorWeaponHandler actorWeaponHandler;
@@ -30,11 +32,12 @@ namespace SoulLike.ActorControllers.Brains
 
         private Vector3 lastMoveInput;
 
-        public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec)
+        public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec, UserData userData)
         {
             this.playerInput = playerInput;
             this.camera = camera;
             this.playerSpec = playerSpec;
+            this.userData = userData;
         }
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
@@ -95,6 +98,13 @@ namespace SoulLike.ActorControllers.Brains
                 {
                     var (@this, actor) = t;
                     @this.PreInputProcess(actor, () => @this.actorWeaponHandler.TryUniqueAttack(0));
+                })
+                .RegisterTo(cancellationToken);
+            actor.Event.Broker.Receive<ActorEvent.OnGiveDamage>()
+                .Subscribe(this, static (x, @this) =>
+                {
+                    var attackData = x.AttackData;
+                    @this.userData.AddExperience(attackData.EarnedExperience);
                 })
                 .RegisterTo(cancellationToken);
         }
