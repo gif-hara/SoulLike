@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using LitMotion;
 using R3;
 using SoulLike.ActorControllers;
@@ -16,7 +18,24 @@ namespace SoulLike
         [SerializeField]
         private Slider stunSlider;
 
+        [SerializeField]
+        private Image stunSliderImage;
+
+        [SerializeField]
+        private Color stunDefaultColor;
+
+        [SerializeField]
+        private Color stunnedColor;
+
+        [SerializeField]
+        private float stunnedColorAnimationDuration;
+
+        [SerializeField]
+        private Ease stunnedColorAnimationEase;
+
         private MotionHandle stunnedSliderUpdate = MotionHandle.None;
+
+        private bool playingStunnedColorAnimation = false;
 
         public void Bind(Actor actor)
         {
@@ -40,15 +59,9 @@ namespace SoulLike
                     var (@this, actorStatus) = t;
                     if (actorStatus.StunResistanceRate >= 1.0f)
                     {
-                        if (@this.stunnedSliderUpdate == MotionHandle.None)
+                        if (!@this.playingStunnedColorAnimation)
                         {
-                            @this.stunnedSliderUpdate = LMotion.Create(1.0f, 0.0f, actorStatus.StunDuration)
-                                .WithOnComplete(() =>
-                                {
-                                    @this.stunnedSliderUpdate = MotionHandle.None;
-                                })
-                                .Bind(x => @this.stunSlider.value = x)
-                                .AddTo(@this);
+                            @this.BeginStunnedGaugeAnimationAsync(actorStatus.StunDuration, @this.destroyCancellationToken).Forget();
                         }
                     }
                     else
@@ -57,6 +70,21 @@ namespace SoulLike
                     }
                 })
                 .RegisterTo(actor.destroyCancellationToken);
+        }
+
+        private async UniTask BeginStunnedGaugeAnimationAsync(float duration, CancellationToken cancellationToken)
+        {
+            var colorAnimation = LMotion.Create(stunnedColor, stunDefaultColor, stunnedColorAnimationDuration)
+                .WithEase(stunnedColorAnimationEase)
+                .WithLoops(-1, LoopType.Yoyo)
+                .Bind(x => stunSliderImage.color = x)
+                .AddTo(this);
+            await LMotion.Create(1.0f, 0.0f, duration)
+                .Bind(x => stunSlider.value = x)
+                .AddTo(this)
+                .ToUniTask(cancellationToken);
+            colorAnimation.Cancel();
+            stunSliderImage.color = stunDefaultColor;
         }
     }
 }
