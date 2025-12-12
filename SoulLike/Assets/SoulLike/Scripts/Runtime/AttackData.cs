@@ -29,5 +29,7 @@ namespace SoulLike
         public int SceneViewShakeDampingRatio;
 
         public string SfxKey;
+
+        public string SfxKeyOnStun;
     }
 }
