@@ -49,7 +49,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         public ReadOnlyReactiveProperty<float> StunResistanceMax => stunResistanceMax;
 
-        private float stunDuration;
+        public float StunDuration { get; private set; }
 
         private ActorAction onStunAction;
 
@@ -74,6 +74,8 @@ namespace SoulLike.ActorControllers.Abilities
         public float HitPointRate => hitPointMax.Value > 0f ? hitPoint.Value / hitPointMax.Value : 0f;
 
         public float StaminaRate => staminaMax.Value > 0f ? stamina.Value / staminaMax.Value : 0f;
+
+        public float StunResistanceRate => stunResistanceMax.Value > 0f ? stunResistance.Value / stunResistanceMax.Value : 0f;
 
         public void Activate(Actor actor)
         {
@@ -106,7 +108,7 @@ namespace SoulLike.ActorControllers.Abilities
             staminaRecoveryPerSecond = spec.StaminaRecoveryPerSecond;
             stunResistanceMax.Value = spec.StunResistance;
             stunResistance.Value = 0;
-            stunDuration = spec.StunDuration;
+            StunDuration = spec.StunDuration;
             onStunAction = spec.OnStunAction;
         }
 
@@ -186,7 +188,7 @@ namespace SoulLike.ActorControllers.Abilities
             }
             onStunAction?.Invoke(actor);
             IsStunned = true;
-            await UniTask.Delay(TimeSpan.FromSeconds(stunDuration), cancellationToken: actor.destroyCancellationToken);
+            await UniTask.Delay(TimeSpan.FromSeconds(StunDuration), cancellationToken: actor.destroyCancellationToken);
             IsStunned = false;
             stunResistance.Value = 0f;
         }
