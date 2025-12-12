@@ -467,6 +467,14 @@ PrefabInstance:
       value: SoulLike.Runtime SoulLike.WeaponActions.Instantiate
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: 'managedReferences[8736876888187994417]'
+      value: SoulLike.Runtime SoulLike.WeaponActions.BeginHitStop
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: 'managedReferences[8736876888187994418]'
+      value: SoulLike.Runtime SoulLike.WeaponActions.PlaySfx
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: initializeActions.Array.data[0].rawReference
       value: 8736876744802041856
       objectReference: {fileID: 0}
@@ -510,6 +518,10 @@ PrefabInstance:
       propertyPath: managedReferences[8736876884512997609].prefab
       value: 
       objectReference: {fileID: 3751974732030733098, guid: 6e7af518aaf1cf046b42b2f941ce4005, type: 3}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: managedReferences[8736876888187994418].sfxKey
+      value: Parry.Success.1
+      objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876744802041961].comboId
       value: 0
@@ -643,6 +655,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: managedReferences[8736876888187994417].duration
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876861359652950].timeScale
       value: 0.05
       objectReference: {fileID: 0}
@@ -657,6 +673,10 @@ PrefabInstance:
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876861697294419].frequency
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: managedReferences[8736876888187994417].timeScale
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876861359652950].targetType
@@ -685,6 +705,10 @@ PrefabInstance:
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876861697294419].targetType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: managedReferences[8736876888187994417].targetType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876744802041856].locatorName
@@ -852,7 +876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876861359652943].actions.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876884512997602].actions.Array.size
@@ -1036,7 +1060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876861359652943].actions.Array.data[3].rawReference
-      value: 8736876861697294419
+      value: 8736876888187994418
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876744802041944].actions.Array.data[0].unityReference
