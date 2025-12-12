@@ -84,7 +84,10 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe((this, actor), static (_, t) =>
                 {
                     var (@this, actor) = t;
-                    @this.PreInputProcess(actor, () => @this.actorDodge.TryDodge(Quaternion.LookRotation(@this.lastMoveInput, Vector3.up)));
+                    var rotation = @this.lastMoveInput.sqrMagnitude > 0.01f
+                        ? Quaternion.LookRotation(@this.lastMoveInput, Vector3.up)
+                        : actor.transform.rotation;
+                    @this.PreInputProcess(actor, () => @this.actorDodge.TryDodge(rotation));
                 })
                 .RegisterTo(cancellationToken);
             playerInput.actions["Parry"].OnPerformedAsObservable()
