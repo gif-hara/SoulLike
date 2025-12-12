@@ -120,26 +120,23 @@ namespace SoulLike.ActorControllers.Abilities
                 actorAnimation.SetTrigger(ActorAnimation.Parameter.Dead);
                 actor.Event.Broker.Publish(new ActorEvent.OnDead());
             }
-            else
+            else if (stunResistance.Value >= stunResistanceMax.Value)
             {
-                if (stunResistance.Value >= stunResistanceMax.Value)
-                {
-                    actorAnimation.PlayDamageAnimation(attackData.DamageId);
-                    actorMovement.MoveBlocker.Block(TakeDamageStateName);
-                    actorMovement.RotateBlocker.Block(TakeDamageStateName);
-                    actorWeaponHandler.AttackBlocker.Block(TakeDamageStateName);
-                    actorDodge.DodgeBlocker.Block(TakeDamageStateName);
-                    endTakeDamageDisposable?.Dispose();
-                    endTakeDamageDisposable = actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.Idle)
-                        .Subscribe(this, static (x, @this) =>
-                        {
-                            @this.actorMovement.MoveBlocker.Unblock(TakeDamageStateName);
-                            @this.actorMovement.RotateBlocker.Unblock(TakeDamageStateName);
-                            @this.actorWeaponHandler.AttackBlocker.Unblock(TakeDamageStateName);
-                            @this.actorDodge.DodgeBlocker.Unblock(TakeDamageStateName);
-                        });
-                    BeginStunAsync().Forget();
-                }
+                actorAnimation.PlayDamageAnimation(attackData.DamageId);
+                actorMovement.MoveBlocker.Block(TakeDamageStateName);
+                actorMovement.RotateBlocker.Block(TakeDamageStateName);
+                actorWeaponHandler.AttackBlocker.Block(TakeDamageStateName);
+                actorDodge.DodgeBlocker.Block(TakeDamageStateName);
+                endTakeDamageDisposable?.Dispose();
+                endTakeDamageDisposable = actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.Idle)
+                    .Subscribe(this, static (x, @this) =>
+                    {
+                        @this.actorMovement.MoveBlocker.Unblock(TakeDamageStateName);
+                        @this.actorMovement.RotateBlocker.Unblock(TakeDamageStateName);
+                        @this.actorWeaponHandler.AttackBlocker.Unblock(TakeDamageStateName);
+                        @this.actorDodge.DodgeBlocker.Unblock(TakeDamageStateName);
+                    });
+                BeginStunAsync().Forget();
             }
 
             actor.GetAbility<ActorTime>().Time.BeginHitStopAsync(attackData.HitStopDuration, attackData.HitStopTimeScale, actor.destroyCancellationToken).Forget();
