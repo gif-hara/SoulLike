@@ -7,6 +7,9 @@ namespace SoulLike.ActorControllers.ActorActions
     [CreateAssetMenu(menuName = "SoulLike/ActorControllers/ActorAction")]
     public class ActorAction : ScriptableObject
     {
+#if UNITY_EDITOR
+        [ClassesOnly]
+#endif
         [SerializeField]
         private List<SerializableInterface<IActorAction>> actions = new();
 
