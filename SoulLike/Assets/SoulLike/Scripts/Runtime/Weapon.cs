@@ -36,6 +36,8 @@ namespace SoulLike
 
         private ActorStatus actorStatus;
 
+        private ActorDodge actorDodge;
+
         public int BasicAttackComboId { get; set; } = 0;
 
         private Dictionary<int, HashSet<Actor>> hitActors = new();
@@ -51,6 +53,7 @@ namespace SoulLike
             actorWeaponHandler = actor.GetAbility<ActorWeaponHandler>();
             actorMovement = actor.GetAbility<ActorMovement>();
             actorStatus = actor.GetAbility<ActorStatus>();
+            actorDodge = actor.GetAbility<ActorDodge>();
             transform.SetParent(actor.transform, false);
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
@@ -115,6 +118,7 @@ namespace SoulLike
             actorMovement.MoveBlocker.Block(AttackStateName);
             actorMovement.RotateBlocker.Block(AttackStateName);
             actorStatus.StaminaRecoveryBlocker.Block(AttackStateName);
+            actorDodge.DodgeBlocker.Block(AttackStateName);
             actorAnimation.PlayAttackAnimation(animationClip);
             actorAnimation.OnStateExitAsObservable(actorAnimation.GetCurrentAttackStateName())
                 .Subscribe((this, attackElements), static (x, t) =>
@@ -124,6 +128,7 @@ namespace SoulLike
                     @this.actorMovement.RotateBlocker.Unblock(AttackStateName);
                     @this.actorWeaponHandler.AttackBlocker.Unblock(AttackStateName);
                     @this.actorStatus.StaminaRecoveryBlocker.Unblock(AttackStateName);
+                    @this.actorDodge.DodgeBlocker.Unblock(AttackStateName);
                     @this.BasicAttackComboId = 0;
                     @this.endAttackAnimationCancellationTokenSource?.Cancel();
                     @this.endAttackAnimationCancellationTokenSource?.Dispose();
