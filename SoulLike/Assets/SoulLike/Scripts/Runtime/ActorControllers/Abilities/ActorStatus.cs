@@ -40,6 +40,16 @@ namespace SoulLike.ActorControllers.Abilities
 
         public ReadOnlyReactiveProperty<float> StaminaMax => staminaMax;
 
+        private ReactiveProperty<float> stunResistance = new();
+
+        public ReadOnlyReactiveProperty<float> StunResistance => stunResistance;
+
+        private ReactiveProperty<float> stunResistanceMax = new();
+
+        public ReadOnlyReactiveProperty<float> StunResistanceMax => stunResistanceMax;
+
+        private float stunDuration;
+
         private const string TakeDamageStateName = "TakeDamage";
 
         private IDisposable endTakeDamageDisposable;
@@ -55,6 +65,8 @@ namespace SoulLike.ActorControllers.Abilities
         public ReadOnlyReactiveProperty<bool> IsInvincible => isInvincible;
 
         public bool IsParrying { get; set; } = false;
+
+        public bool IsStunned { get; private set; } = false;
 
         public float HitPointRate => hitPointMax.Value > 0f ? hitPoint.Value / hitPointMax.Value : 0f;
 
@@ -89,6 +101,9 @@ namespace SoulLike.ActorControllers.Abilities
             staminaMax.Value = spec.Stamina;
             stamina.Value = spec.Stamina;
             staminaRecoveryPerSecond = spec.StaminaRecoveryPerSecond;
+            stunResistanceMax.Value = spec.StunResistance;
+            stunResistance.Value = 0;
+            stunDuration = spec.StunDuration;
         }
 
         public void TakeDamage(Actor attacker, AttackData attackData)
@@ -98,6 +113,7 @@ namespace SoulLike.ActorControllers.Abilities
                 return;
             }
             hitPoint.Value = Mathf.Max(0f, hitPoint.Value - attackData.Power);
+            stunResistance.Value = Mathf.Min(stunResistance.Value + attackData.StunDamage, stunResistanceMax.Value);
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
             if (hitPoint.Value <= 0f)
             {
@@ -106,22 +122,25 @@ namespace SoulLike.ActorControllers.Abilities
             }
             else
             {
-                actorAnimation.PlayDamageAnimation(attackData.DamageId);
-            }
-
-            actorMovement.MoveBlocker.Block(TakeDamageStateName);
-            actorMovement.RotateBlocker.Block(TakeDamageStateName);
-            actorWeaponHandler.AttackBlocker.Block(TakeDamageStateName);
-            actorDodge.DodgeBlocker.Block(TakeDamageStateName);
-            endTakeDamageDisposable?.Dispose();
-            endTakeDamageDisposable = actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.Idle)
-                .Subscribe(this, static (x, @this) =>
+                if (stunResistance.Value >= stunResistanceMax.Value)
                 {
-                    @this.actorMovement.MoveBlocker.Unblock(TakeDamageStateName);
-                    @this.actorMovement.RotateBlocker.Unblock(TakeDamageStateName);
-                    @this.actorWeaponHandler.AttackBlocker.Unblock(TakeDamageStateName);
-                    @this.actorDodge.DodgeBlocker.Unblock(TakeDamageStateName);
-                });
+                    actorAnimation.PlayDamageAnimation(attackData.DamageId);
+                    actorMovement.MoveBlocker.Block(TakeDamageStateName);
+                    actorMovement.RotateBlocker.Block(TakeDamageStateName);
+                    actorWeaponHandler.AttackBlocker.Block(TakeDamageStateName);
+                    actorDodge.DodgeBlocker.Block(TakeDamageStateName);
+                    endTakeDamageDisposable?.Dispose();
+                    endTakeDamageDisposable = actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.Idle)
+                        .Subscribe(this, static (x, @this) =>
+                        {
+                            @this.actorMovement.MoveBlocker.Unblock(TakeDamageStateName);
+                            @this.actorMovement.RotateBlocker.Unblock(TakeDamageStateName);
+                            @this.actorWeaponHandler.AttackBlocker.Unblock(TakeDamageStateName);
+                            @this.actorDodge.DodgeBlocker.Unblock(TakeDamageStateName);
+                        });
+                    BeginStunAsync().Forget();
+                }
+            }
 
             actor.GetAbility<ActorTime>().Time.BeginHitStopAsync(attackData.HitStopDuration, attackData.HitStopTimeScale, actor.destroyCancellationToken).Forget();
             attacker.GetAbility<ActorTime>().Time.BeginHitStopAsync(attackData.HitStopDuration, attackData.HitStopTimeScale, attacker.destroyCancellationToken).Forget();
@@ -156,6 +175,18 @@ namespace SoulLike.ActorControllers.Abilities
             {
                 isInvincible.Value = false;
             }
+        }
+
+        private async UniTask BeginStunAsync()
+        {
+            if (IsStunned)
+            {
+                return;
+            }
+            IsStunned = true;
+            await UniTask.Delay(TimeSpan.FromSeconds(stunDuration), cancellationToken: actor.destroyCancellationToken);
+            IsStunned = false;
+            stunResistance.Value = 0f;
         }
     }
 }

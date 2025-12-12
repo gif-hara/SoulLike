@@ -10,6 +10,8 @@ namespace SoulLike
 
         public float Power;
 
+        public float StunDamage;
+
         public int DamageId;
 
         public float HitStopDuration;

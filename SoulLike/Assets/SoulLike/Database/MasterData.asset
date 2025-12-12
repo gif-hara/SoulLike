@@ -18,15 +18,19 @@ MonoBehaviour:
       <Stamina>k__BackingField: 100
       <StaminaRecoveryPerSecond>k__BackingField: 50
       <DodgeStaminaCost>k__BackingField: 22
+      <StunResistance>k__BackingField: 0
+      <StunDuration>k__BackingField: 0
     <MoveSpeed>k__BackingField: 4
     <RotateSpeed>k__BackingField: 10
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 4a64460cd1eefe74eadf87cde3e12b7d, type: 3}
   <EnemySpecs>k__BackingField:
   - <ActorStatusSpec>k__BackingField:
-      <HitPoint>k__BackingField: 100
+      <HitPoint>k__BackingField: 1200
       <Stamina>k__BackingField: 100
       <StaminaRecoveryPerSecond>k__BackingField: 1000
       <DodgeStaminaCost>k__BackingField: 0
+      <StunResistance>k__BackingField: 100
+      <StunDuration>k__BackingField: 5
     <MoveSpeed>k__BackingField: 5
     <RotateSpeed>k__BackingField: 10
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 7c9e22536580646488f3726a605e35d6, type: 3}

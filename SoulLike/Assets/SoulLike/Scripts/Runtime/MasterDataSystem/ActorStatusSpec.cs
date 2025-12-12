@@ -17,5 +17,11 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public float DodgeStaminaCost { get; private set; }
+
+        [field: SerializeField]
+        public float StunResistance { get; private set; }
+
+        [field: SerializeField]
+        public float StunDuration { get; private set; }
     }
 }
