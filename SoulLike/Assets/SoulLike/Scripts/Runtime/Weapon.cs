@@ -207,6 +207,10 @@ namespace SoulLike
                                     {
                                         TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKey);
                                     }
+                                    if (targetStatus.IsStunned && !string.IsNullOrEmpty(attackElement.AttackData.SfxKeyOnStun))
+                                    {
+                                        TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKeyOnStun);
+                                    }
                                     foreach (var hitEffectPrefab in attackElement.HitEffectPrefabs)
                                     {
                                         Instantiate(hitEffectPrefab, x.ClosestPoint(attackElement.AttackData.Collider.transform.position), Quaternion.identity);
