@@ -317,7 +317,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -40, y: -40}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2876564326880331078
 CanvasRenderer:
@@ -599,6 +599,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1597061838853429428, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4868285674982824636}
+    - targetCorrespondingSourceObject: {fileID: 1597061838853429428, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6576566948719342123}
   m_SourcePrefab: {fileID: 100100000, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
 --- !u!224 &817375782734072682 stripped
 RectTransform:
@@ -623,3 +626,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewFade
   image: {fileID: 0}
+--- !u!114 &6576566948719342123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3251870453555543356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45117a40247f79e4dbfe215d0cd4fb97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewEnhance
+  elementListPrefab: {fileID: 3771869056511828034, guid: 788f42a1f2038fd40bf1e10e2f52ba96, type: 3}
