@@ -46,5 +46,9 @@ namespace SoulLike.ActorControllers
                 IsStunned = isStunned;
             }
         }
+
+        public readonly struct OnBeginStun
+        {
+        }
     }
 }
