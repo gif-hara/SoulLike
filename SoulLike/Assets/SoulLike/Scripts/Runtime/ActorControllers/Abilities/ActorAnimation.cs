@@ -115,8 +115,9 @@ namespace SoulLike.ActorControllers.Abilities
             UpdateAnimator();
         }
 
-        public void PlayIdleAnimation()
+        public void Reset()
         {
+            animator.ResetTrigger(Parameter.Attack);
             animator.Play(Parameter.Idle);
             UpdateAnimator();
         }

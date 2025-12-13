@@ -37,6 +37,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private ActorStatus actorStatus;
 
+        private ActorAnimation actorAnimation;
+
         private ActorTargetHandler actorTargetHandler;
 
         private IDisposable preInputProcessDisposable;
@@ -60,7 +62,7 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorTime>();
             actorMovement = actor.AddAbility<ActorMovement>();
             actor.AddAbility<ActorSceneViewHandler>();
-            actor.AddAbility<ActorAnimation>();
+            actorAnimation = actor.AddAbility<ActorAnimation>();
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actorDodge = actor.AddAbility<ActorDodge>();
             actorStatus = actor.AddAbility<ActorStatus>();
@@ -130,6 +132,7 @@ namespace SoulLike.ActorControllers.Brains
             sceneBroker.Receive<MainSceneEvent.RestartGame>()
                 .Subscribe(this, static (x, @this) =>
                 {
+                    @this.actorAnimation.Reset();
                     @this.actorStatus.ApplySpec(@this.playerSpec.ActorStatusSpec, new AdditionalStatusEmpty());
                     @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
                     @this.actorTargetHandler.BeginLockOn(x.Enemy);

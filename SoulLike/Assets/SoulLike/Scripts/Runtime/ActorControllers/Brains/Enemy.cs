@@ -59,11 +59,11 @@ namespace SoulLike.ActorControllers.Brains
             sceneBroker.Receive<MainSceneEvent.RestartGame>()
                 .Subscribe(this, static (x, @this) =>
                 {
+                    @this.actorAnimation.Reset();
                     @this.actorStatus.ApplySpec(@this.enemySpec.ActorStatusSpec, new AdditionalStatusEmpty());
                     @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
                     @this.actorTargetHandler.BeginLockOn(x.Player);
                     @this.actorAIController.Change(@this.enemySpec.ActorAI);
-                    @this.actorAnimation.PlayIdleAnimation();
                 })
                 .RegisterTo(cancellationToken);
         }
