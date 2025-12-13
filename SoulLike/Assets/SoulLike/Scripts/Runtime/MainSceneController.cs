@@ -51,6 +51,18 @@ namespace SoulLike
         private UIViewEnemyStatus uiViewEnemyStatus;
 
         [SerializeField]
+        private UIViewFade uiViewFade;
+
+        [SerializeField]
+        private Color fadeInColor;
+
+        [SerializeField]
+        private Color fadeOutColor;
+
+        [SerializeField]
+        private float fadeDuration = 1f;
+
+        [SerializeField]
         private AttackData debugDamageAttackData;
 
         async UniTaskVoid Start()
@@ -79,6 +91,8 @@ namespace SoulLike
 
             uiViewPlayerStatus.Bind(player, userData);
             uiViewEnemyStatus.Bind(enemy);
+
+            await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
 
 #if DEBUG
             this.UpdateAsObservable()
