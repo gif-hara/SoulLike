@@ -33,7 +33,7 @@ namespace SoulLike
         private Transform enemySpawnPoint;
 
         [field: SerializeField]
-        private PlayerInput playerInputPrefab;
+        private PlayerInput playerInput;
 
         [field: SerializeField]
         private WorldCameraController worldCameraControllerPrefab;
@@ -73,7 +73,6 @@ namespace SoulLike
             var worldCameraController = Instantiate(worldCameraControllerPrefab);
             var userData = new UserData();
             var player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
-            var playerInput = Instantiate(playerInputPrefab);
             player.Brain.Attach(new Player(playerInput, worldCameraController.WorldCamera, masterData.PlayerSpec, userData, sceneBroker));
 
             var enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, enemySpawnPoint.rotation);
