@@ -10,6 +10,6 @@ namespace SoulLike.ActorControllers
 
         public float AttackRate => 1f;
 
-        public float DamageCutRate => 1f;
+        public float DamageCutRate => 0f;
     }
 }
