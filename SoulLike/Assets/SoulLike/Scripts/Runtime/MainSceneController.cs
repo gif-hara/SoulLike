@@ -108,7 +108,7 @@ namespace SoulLike
                 .RegisterTo(destroyCancellationToken);
 #endif
 
-            await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
+            uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
 
             while (!destroyCancellationToken.IsCancellationRequested)
             {
