@@ -63,6 +63,7 @@ namespace SoulLike
             player.GetAbility<ActorTargetHandler>().BeginLockOn(enemy);
             enemy.GetAbility<ActorTargetHandler>().BeginLockOn(player);
 
+            worldCameraController.BeginObserve(player);
             worldCameraController.SetDefaultCameraTarget(player.transform);
             worldCameraController.SetLockOnCameraTarget(player.transform, enemy.transform);
             worldCameraController.SetActiveLockOnCamera(true);

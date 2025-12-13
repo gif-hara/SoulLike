@@ -1,3 +1,5 @@
+using R3;
+using SoulLike.ActorControllers;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -13,6 +15,23 @@ namespace SoulLike
 
         [SerializeField]
         private CinemachineCamera lockOnCamera;
+
+        [SerializeField]
+        private CinemachineImpulseSource onGiveDamageImpulseSource;
+
+        public void BeginObserve(Actor actor)
+        {
+            actor.Event.Broker.Receive<ActorEvent.OnGiveDamage>()
+                .Subscribe(this, (x, @this) =>
+                {
+                    if (!x.IsStunned)
+                    {
+                        return;
+                    }
+                    @this.onGiveDamageImpulseSource.GenerateImpulse();
+                })
+                .RegisterTo(actor.destroyCancellationToken);
+        }
 
         public void SetDefaultCameraTarget(Transform target)
         {
