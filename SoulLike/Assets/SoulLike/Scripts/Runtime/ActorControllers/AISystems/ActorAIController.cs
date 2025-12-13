@@ -39,6 +39,11 @@ namespace SoulLike.ActorControllers.AISystems
             }
             scope = CancellationTokenSource.CreateLinkedTokenSource(actor.destroyCancellationToken);
             currentAI = actorAI;
+            actor.Event.Broker.Receive<ActorEvent.OnBeginStun>()
+                .Subscribe(this, static (_, @this) =>
+                {
+                    @this.BeginSequenceAsync(@this.currentAI.OnStunSequenceName).Forget();
+                });
             BeginSequenceAsync(currentAI.InitialSequenceName).Forget();
         }
 
