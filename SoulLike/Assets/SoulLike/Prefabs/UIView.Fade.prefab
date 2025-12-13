@@ -212,7 +212,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1597061838853429428, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8462467747618205570}
+      addedObject: {fileID: 4868285674982824636}
   m_SourcePrefab: {fileID: 100100000, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
 --- !u!224 &817375782734072682 stripped
 RectTransform:
@@ -224,7 +224,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1597061838853429428, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
   m_PrefabInstance: {fileID: 4253950792701371784}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8462467747618205570
+--- !u!114 &4868285674982824636
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -233,13 +233,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3251870453555543356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45c865d24e079234a865b7b1d6b99cf9, type: 3}
+  m_Script: {fileID: 11500000, guid: d61e45335e88cd64b9992a0900468b42, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewEnemyStatus
-  hitPointSlider: {fileID: 0}
-  stunSlider: {fileID: 0}
-  stunSliderImage: {fileID: 0}
-  stunDefaultColor: {r: 0.8301887, g: 0, b: 0.4373368, a: 1}
-  stunnedColor: {r: 1, g: 1, b: 1, a: 1}
-  stunnedColorAnimationDuration: 0.25
-  stunnedColorAnimationEase: 6
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewFade
+  image: {fileID: 1110674679536346908}
