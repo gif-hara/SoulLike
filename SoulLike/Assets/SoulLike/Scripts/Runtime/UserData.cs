@@ -30,7 +30,7 @@ namespace SoulLike
 
         public ReadOnlyReactiveProperty<float> DamageCutRate => damageCutRate;
 
-        private List<PurchasedShopElement> purchasedShopElements = new();
+        private readonly Dictionary<string, int> purchasedShopElementCounts = new();
 
         int IAdditionalStatus.HitPoint => hitPoint.Value;
 
@@ -72,20 +72,18 @@ namespace SoulLike
             damageCutRate.Value += amount;
         }
 
-        public void AddOrSetPurchasedShopElement(string shopElementId, int priceIndex)
+        public void AddPurchasedShopElementCount(string shopElementId, int priceIndex)
         {
-            var element = purchasedShopElements.Find(x => x.ShopElementId == shopElementId);
-            if (element != null)
-            {
-                element.PriceIndex = priceIndex;
-                return;
-            }
+            purchasedShopElementCounts[shopElementId] = priceIndex;
+        }
 
-            purchasedShopElements.Add(new PurchasedShopElement
+        public int GetPurchasedShopElementCount(string shopElementId)
+        {
+            if (!purchasedShopElementCounts.ContainsKey(shopElementId))
             {
-                ShopElementId = shopElementId,
-                PriceIndex = priceIndex
-            });
+                return 0;
+            }
+            return purchasedShopElementCounts[shopElementId];
         }
     }
 }
