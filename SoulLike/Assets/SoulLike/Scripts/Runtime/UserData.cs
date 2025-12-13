@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using R3;
 using SoulLike.ActorControllers;
 
@@ -28,6 +29,8 @@ namespace SoulLike
         private readonly ReactiveProperty<float> damageCutRate = new();
 
         public ReadOnlyReactiveProperty<float> DamageCutRate => damageCutRate;
+
+        private List<PurchasedShopElement> purchasedShopElements = new();
 
         int IAdditionalStatus.HitPoint => hitPoint.Value;
 
@@ -67,6 +70,22 @@ namespace SoulLike
         public void AddDamageCutRate(float amount)
         {
             damageCutRate.Value += amount;
+        }
+
+        public void AddOrSetPurchasedShopElement(string shopElementId, int priceIndex)
+        {
+            var element = purchasedShopElements.Find(x => x.ShopElementId == shopElementId);
+            if (element != null)
+            {
+                element.PriceIndex = priceIndex;
+                return;
+            }
+
+            purchasedShopElements.Add(new PurchasedShopElement
+            {
+                ShopElementId = shopElementId,
+                PriceIndex = priceIndex
+            });
         }
     }
 }
