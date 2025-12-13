@@ -7,7 +7,7 @@ namespace SoulLike
     public class UIElementList : MonoBehaviour
     {
         [field: SerializeField]
-        public Selectable Selectable { get; private set; }
+        public Button Button { get; private set; }
 
         [SerializeField]
         private Image icon;
