@@ -49,6 +49,18 @@ namespace SoulLike.ActorControllers.Abilities
 
         public ReadOnlyReactiveProperty<float> StunResistanceMax => stunResistanceMax;
 
+        private ReactiveProperty<float> specialPower = new();
+
+        public ReadOnlyReactiveProperty<float> SpecialPower => specialPower;
+
+        private ReactiveProperty<int> specialStock = new();
+
+        public ReadOnlyReactiveProperty<int> SpecialStock => specialStock;
+
+        private ReactiveProperty<int> specialStockMax = new();
+
+        public ReadOnlyReactiveProperty<int> SpecialStockMax => specialStockMax;
+
         public float StunDuration { get; private set; }
 
         private ActorAction onStunAction;
@@ -113,6 +125,9 @@ namespace SoulLike.ActorControllers.Abilities
             stunResistance.Value = 0;
             StunDuration = spec.StunDuration;
             onStunAction = spec.OnStunAction;
+            specialPower.Value = 0.0f;
+            specialStock.Value = 0;
+            specialStockMax.Value = spec.SpecialStockMax;
         }
 
         public void TakeDamage(Actor attacker, AttackData attackData)
@@ -121,7 +136,9 @@ namespace SoulLike.ActorControllers.Abilities
             {
                 return;
             }
-            hitPoint.Value = Mathf.Max(0f, hitPoint.Value - attackData.Power);
+            var attackerStatus = attacker.GetAbility<ActorStatus>();
+            var damage = attackData.Power * attackerStatus.additionalStatus.AttackRate * (1f - additionalStatus.DamageCutRate);
+            hitPoint.Value = Mathf.Max(0f, hitPoint.Value - damage);
             stunResistance.Value = Mathf.Min(stunResistance.Value + attackData.StunDamage, stunResistanceMax.Value);
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
             if (hitPoint.Value <= 0f)
@@ -166,6 +183,28 @@ namespace SoulLike.ActorControllers.Abilities
         public void UseStamina(float amount)
         {
             stamina.Value -= amount;
+        }
+
+        public void AddSpecialPower(float amount)
+        {
+            var result = specialPower.Value + amount;
+            var addSpecialStock = (int)Mathf.Floor(result);
+            if (addSpecialStock > 0)
+            {
+                specialStock.Value += addSpecialStock;
+                result -= addSpecialStock;
+            }
+            specialPower.Value = result;
+        }
+
+        public bool CanUseSpecialStock()
+        {
+            return specialStock.Value > 0;
+        }
+
+        public void UseSpecialStock()
+        {
+            specialStock.Value = Math.Max(0, specialStock.Value - 1);
         }
 
         public void BeginInvincible(string topic)

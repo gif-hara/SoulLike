@@ -27,5 +27,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public ActorAction OnStunAction { get; private set; }
+
+        [field: SerializeField]
+        public int SpecialStockMax { get; private set; }
     }
 }
