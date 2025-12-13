@@ -166,6 +166,7 @@ namespace SoulLike.ActorControllers.Abilities
                         @this.actorDodge.DodgeBlocker.Unblock(TakeDamageStateName);
                     });
                 BeginStunAsync().Forget();
+                actor.Event.Broker.Publish(new ActorEvent.OnBeginStun());
             }
 
             actor.GetAbility<ActorTime>().Time.BeginHitStopAsync(attackData.HitStopDuration, attackData.HitStopTimeScale, actor.destroyCancellationToken).Forget();
