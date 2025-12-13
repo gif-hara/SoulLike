@@ -118,7 +118,9 @@ namespace SoulLike
                 else if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerLose)
                 {
                     await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: destroyCancellationToken);
+                    await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, fadeDuration, destroyCancellationToken);
                     sceneBroker.Publish(new MainSceneEvent.RestartGame(player, enemy));
+                    await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
                 }
             }
         }
