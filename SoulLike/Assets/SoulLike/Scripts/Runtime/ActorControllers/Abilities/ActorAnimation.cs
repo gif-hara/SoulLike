@@ -118,6 +118,8 @@ namespace SoulLike.ActorControllers.Abilities
         public void Reset()
         {
             animator.ResetTrigger(Parameter.Attack);
+            animator.ResetTrigger(Parameter.Damage);
+            animator.ResetTrigger(Parameter.Dodge);
             animator.Play(Parameter.Idle);
             UpdateAnimator();
         }
