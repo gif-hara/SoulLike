@@ -10,6 +10,6 @@ namespace SoulLike.ActorControllers
 
         float AttackRate { get; }
 
-        float DefenseRate { get; }
+        float DamageCutRate { get; }
     }
 }
