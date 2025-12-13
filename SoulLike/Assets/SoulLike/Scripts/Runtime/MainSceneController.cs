@@ -102,6 +102,10 @@ namespace SoulLike
                     {
                         player.GetAbility<ActorStatus>().TakeDamage(player, debugDamageAttackData);
                     }
+                    if (Keyboard.current.f2Key.wasPressedThisFrame)
+                    {
+                        player.GetAbility<ActorStatus>().AddSpecialPower(1.0f);
+                    }
                 })
                 .RegisterTo(destroyCancellationToken);
 #endif
