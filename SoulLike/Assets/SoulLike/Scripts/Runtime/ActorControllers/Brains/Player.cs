@@ -143,6 +143,11 @@ namespace SoulLike.ActorControllers.Brains
         private void PreInputProcess(Actor actor, Func<bool> process)
         {
             preInputProcessDisposable?.Dispose();
+            if (actorStatus.IsDead)
+            {
+                preInputProcessDisposable = null;
+                return;
+            }
             preInputProcessDisposable = actor.UpdateAsObservable()
                 .Take(TimeSpan.FromSeconds(0.5f))
                 .TakeWhile(_ => !process())
