@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using R3;
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
@@ -17,6 +18,17 @@ namespace SoulLike
 
         [SerializeField]
         private TMP_Text experienceText;
+
+        [SerializeField]
+        private Slider specialPowerSlider;
+
+        [SerializeField]
+        private Transform specialStockParent;
+
+        [SerializeField]
+        private UIViewSpecialStockElement specialStockElementPrefab;
+
+        private List<UIViewSpecialStockElement> specialStockElements = new();
 
         public void Bind(Actor actor, UserData userData)
         {
@@ -45,6 +57,48 @@ namespace SoulLike
                 .Subscribe(this, static (x, @this) =>
                 {
                     @this.experienceText.text = x.ToString();
+                })
+                .RegisterTo(actor.destroyCancellationToken);
+            actorStatus.SpecialPower
+                .Subscribe((this, actorStatus), static (x, t) =>
+                {
+                    var (@this, actorStatus) = t;
+                    @this.specialPowerSlider.value = x;
+                })
+                .RegisterTo(actor.destroyCancellationToken);
+            actorStatus.SpecialStock
+                .Subscribe((this, actorStatus), static (x, t) =>
+                {
+                    var (@this, actorStatus) = t;
+                    for (var i = 0; i < @this.specialStockElements.Count; i++)
+                    {
+                        @this.specialStockElements[i].SetActive(i < x);
+                    }
+                })
+                .RegisterTo(actor.destroyCancellationToken);
+            actorStatus.SpecialStockMax
+                .Subscribe((this, actorStatus), static (_, t) =>
+                {
+                    var (@this, actorStatus) = t;
+                    var diff = actorStatus.SpecialStockMax.CurrentValue - @this.specialStockElements.Count;
+                    if (diff > 0)
+                    {
+                        for (var i = 0; i < diff; i++)
+                        {
+                            var element = Instantiate(@this.specialStockElementPrefab, @this.specialStockParent);
+                            element.SetActive(actorStatus.SpecialStock.CurrentValue > @this.specialStockElements.Count);
+                            @this.specialStockElements.Add(element);
+                        }
+                    }
+                    else if (diff < 0)
+                    {
+                        for (var i = 0; i < -diff; i++)
+                        {
+                            var lastIndex = @this.specialStockElements.Count - 1;
+                            Destroy(@this.specialStockElements[lastIndex].gameObject);
+                            @this.specialStockElements.RemoveAt(lastIndex);
+                        }
+                    }
                 })
                 .RegisterTo(actor.destroyCancellationToken);
         }
