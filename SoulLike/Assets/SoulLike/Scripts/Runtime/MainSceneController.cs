@@ -1,5 +1,6 @@
 using HK;
 using R3;
+using R3.Triggers;
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
 using SoulLike.ActorControllers.Brains;
@@ -47,6 +48,9 @@ namespace SoulLike
         [SerializeField]
         private UIViewEnemyStatus uiViewEnemyStatus;
 
+        [SerializeField]
+        private AttackData debugDamageAttackData;
+
         void Start()
         {
             TinyServiceLocator.Register(audioManager)
@@ -72,6 +76,18 @@ namespace SoulLike
 
             uiViewPlayerStatus.Bind(player, userData);
             uiViewEnemyStatus.Bind(enemy);
+
+#if DEBUG
+            this.UpdateAsObservable()
+                .Subscribe(_ =>
+                {
+                    if (Keyboard.current.f1Key.wasPressedThisFrame)
+                    {
+                        player.GetAbility<ActorStatus>().TakeDamage(player, debugDamageAttackData);
+                    }
+                })
+                .RegisterTo(destroyCancellationToken);
+#endif
         }
     }
 }

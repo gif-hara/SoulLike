@@ -740,6 +740,22 @@ MonoBehaviour:
   audioManager: {fileID: 1050623709}
   uiViewPlayerStatus: {fileID: 1930120742}
   uiViewEnemyStatus: {fileID: 83174110}
+  debugDamageAttackData:
+    Collider: {fileID: 0}
+    Power: 9999
+    StunDamage: 0
+    EarnedExperience: 0
+    SpecialPowerRecovery: 0
+    DamageId: 0
+    HitStopDuration: 0
+    HitStopTimeScale: 0
+    SceneViewShakeStartValue: {x: 0, y: 0, z: 0}
+    SceneViewShakeStrength: {x: 0, y: 0, z: 0}
+    SceneViewShakeDuration: 0
+    SceneViewShakeFrequency: 0
+    SceneViewShakeDampingRatio: 0
+    SfxKey: 
+    SfxKeyOnStun: 
 --- !u!43 &1005311037
 Mesh:
   m_ObjectHideFlags: 0
