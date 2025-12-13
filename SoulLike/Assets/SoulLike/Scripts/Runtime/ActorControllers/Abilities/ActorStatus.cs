@@ -65,6 +65,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         private ActorAction onStunAction;
 
+        private ActorAction onSpecialStockReached;
+
         private const string TakeDamageStateName = "TakeDamage";
 
         private IDisposable endTakeDamageDisposable;
@@ -128,6 +130,7 @@ namespace SoulLike.ActorControllers.Abilities
             specialPower.Value = 0.0f;
             specialStock.Value = 0;
             specialStockMax.Value = spec.SpecialStockMax;
+            onSpecialStockReached = spec.OnSpecialStockReached;
         }
 
         public void TakeDamage(Actor attacker, AttackData attackData)
@@ -188,11 +191,18 @@ namespace SoulLike.ActorControllers.Abilities
         public void AddSpecialPower(float amount)
         {
             var result = specialPower.Value + amount;
+            if (specialStock.Value >= specialStockMax.Value)
+            {
+                specialPower.Value = Mathf.Min(result, 1.0f);
+                return;
+            }
+
             var addSpecialStock = (int)Mathf.Floor(result);
             if (addSpecialStock > 0)
             {
                 specialStock.Value = Mathf.Min(specialStock.Value + addSpecialStock, specialStockMax.Value);
                 result -= addSpecialStock;
+                onSpecialStockReached?.Invoke(actor);
             }
             specialPower.Value = result;
         }

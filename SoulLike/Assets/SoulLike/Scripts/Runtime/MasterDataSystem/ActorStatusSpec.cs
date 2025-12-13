@@ -30,5 +30,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public int SpecialStockMax { get; private set; }
+
+        [field: SerializeField]
+        public ActorAction OnSpecialStockReached { get; private set; }
     }
 }
