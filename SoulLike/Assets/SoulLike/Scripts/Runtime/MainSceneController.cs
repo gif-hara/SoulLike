@@ -126,7 +126,7 @@ namespace SoulLike
                 {
                     await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: destroyCancellationToken);
                     await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, fadeDuration, destroyCancellationToken);
-                    await uiViewEnhance.BeginAsync(playerInput, uiViewFade, destroyCancellationToken);
+                    await uiViewEnhance.BeginAsync(masterData, userData, playerInput, uiViewFade, destroyCancellationToken);
                     sceneBroker.Publish(new MainSceneEvent.RestartGame(player, enemy));
                     await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
                 }
