@@ -12,9 +12,14 @@ namespace SoulLike
         [SerializeField]
         private Image image;
 
-        public async UniTask BeginAsync(Color color, float duration, CancellationToken cancellationToken)
+        public UniTask BeginAsync(Color to, float duration, CancellationToken cancellationToken)
         {
-            await LMotion.Create(image.color, color, duration)
+            return BeginAsync(image.color, to, duration, cancellationToken);
+        }
+
+        public UniTask BeginAsync(Color from, Color to, float duration, CancellationToken cancellationToken)
+        {
+            return LMotion.Create(from, to, duration)
                 .BindToColor(image)
                 .ToUniTask(cancellationToken);
         }
