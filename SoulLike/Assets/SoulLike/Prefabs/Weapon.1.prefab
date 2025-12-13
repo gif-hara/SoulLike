@@ -999,6 +999,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: uniqueAttackElements.Array.data[0].<IsUseSpecialStock>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[0].<Actions>k__BackingField.Array.size
       value: 2
       objectReference: {fileID: 0}

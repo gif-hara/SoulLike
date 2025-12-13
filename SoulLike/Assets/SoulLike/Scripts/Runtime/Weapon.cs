@@ -93,6 +93,15 @@ namespace SoulLike
                 return false;
             }
             var element = uniqueAttackElements[index];
+            if (element.IsUseSpecialStock)
+            {
+                if (!actorStatus.CanUseSpecialStock())
+                {
+                    return false;
+                }
+                actorStatus.UseSpecialStock();
+            }
+
             InvokeAttack(element.StaminaCost, element.AnimationClip, element.AttackElements, element.Actions);
             return true;
         }
@@ -279,6 +288,9 @@ namespace SoulLike
         [Serializable]
         public class UniqueAttackElement
         {
+            [field: SerializeField]
+            public bool IsUseSpecialStock { get; private set; }
+
             [field: SerializeField]
             public float StaminaCost { get; private set; }
 
