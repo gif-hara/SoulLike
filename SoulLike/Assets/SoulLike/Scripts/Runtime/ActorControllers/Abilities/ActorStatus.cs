@@ -77,6 +77,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         public float StunResistanceRate => stunResistanceMax.Value > 0f ? stunResistance.Value / stunResistanceMax.Value : 0f;
 
+        private IAdditionalStatus additionalStatus;
+
         public void Activate(Actor actor)
         {
             this.actor = actor;
@@ -98,14 +100,15 @@ namespace SoulLike.ActorControllers.Abilities
                 .RegisterTo(actor.destroyCancellationToken);
         }
 
-        public void ApplySpec(MasterDataSystem.ActorStatusSpec spec)
+        public void ApplySpec(MasterDataSystem.ActorStatusSpec spec, IAdditionalStatus additionalStatus)
         {
-            hitPointMax.Value = spec.HitPoint;
-            hitPoint.Value = spec.HitPoint;
+            this.additionalStatus = additionalStatus;
+            hitPointMax.Value = spec.HitPoint + additionalStatus.HitPoint;
+            hitPoint.Value = spec.HitPoint + additionalStatus.HitPoint;
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
-            staminaMax.Value = spec.Stamina;
-            stamina.Value = spec.Stamina;
-            staminaRecoveryPerSecond = spec.StaminaRecoveryPerSecond;
+            staminaMax.Value = spec.Stamina + additionalStatus.Stamina;
+            stamina.Value = spec.Stamina + additionalStatus.Stamina;
+            staminaRecoveryPerSecond = spec.StaminaRecoveryPerSecond + additionalStatus.StaminaRecoveryPerSecond;
             stunResistanceMax.Value = spec.StunResistance;
             stunResistance.Value = 0;
             StunDuration = spec.StunDuration;

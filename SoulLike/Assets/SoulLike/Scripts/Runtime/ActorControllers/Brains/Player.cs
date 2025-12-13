@@ -55,7 +55,7 @@ namespace SoulLike.ActorControllers.Brains
             actor.ActivateAbilities();
 
             actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab, Layer.PlayerWeapon);
-            actorStatus.ApplySpec(playerSpec.ActorStatusSpec);
+            actorStatus.ApplySpec(playerSpec.ActorStatusSpec, new AdditionalStatusEmpty());
             actorWalk.MoveSpeed = playerSpec.MoveSpeed;
             actorDodge.DodgeStaminaCost = playerSpec.ActorStatusSpec.DodgeStaminaCost;
 
