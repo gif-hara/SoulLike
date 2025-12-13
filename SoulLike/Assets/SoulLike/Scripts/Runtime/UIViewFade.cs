@@ -23,5 +23,13 @@ namespace SoulLike
                 .BindToColor(image)
                 .ToUniTask(cancellationToken);
         }
+
+        public UniTask BeginAsync(float alpha, float duration, CancellationToken cancellationToken)
+        {
+            var fromColor = image.color;
+            var toColor = image.color;
+            toColor.a = alpha;
+            return BeginAsync(fromColor, toColor, duration, cancellationToken);
+        }
     }
 }
