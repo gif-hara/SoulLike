@@ -54,6 +54,9 @@ namespace SoulLike
         private UIViewFade uiViewFade;
 
         [SerializeField]
+        private UIViewEnhance uiViewEnhance;
+
+        [SerializeField]
         private Color fadeInColor;
 
         [SerializeField]
@@ -88,6 +91,7 @@ namespace SoulLike
 
             mainGlobalVolumeController.BeginObserve(player);
 
+            uiViewEnhance.Initialize();
             uiViewPlayerStatus.Bind(player, userData);
             uiViewEnemyStatus.Bind(enemy);
 
@@ -122,6 +126,7 @@ namespace SoulLike
                 {
                     await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: destroyCancellationToken);
                     await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, fadeDuration, destroyCancellationToken);
+                    await uiViewEnhance.BeginAsync(playerInput, uiViewFade, destroyCancellationToken);
                     sceneBroker.Publish(new MainSceneEvent.RestartGame(player, enemy));
                     await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
                 }
