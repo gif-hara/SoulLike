@@ -9,10 +9,10 @@ namespace SoulLike
     public class ShopElement : ScriptableObject
     {
         [field: SerializeField]
-        public string ElementName { get; private set; }
+        public Sprite Icon { get; private set; }
 
         [field: SerializeField]
-        public string Description { get; private set; }
+        public string ElementName { get; private set; }
 
         [field: SerializeField]
         public int[] Prices { get; private set; }
@@ -25,5 +25,15 @@ namespace SoulLike
 #endif
         [field: SerializeField]
         public List<SerializableInterface<IShopAction>> Actions { get; private set; } = new();
+
+        public bool IsDisplayable(int purchasedCount)
+        {
+            if (CanPurchaseInfinitely)
+            {
+                return true;
+            }
+
+            return purchasedCount < Prices.Length;
+        }
     }
 }
