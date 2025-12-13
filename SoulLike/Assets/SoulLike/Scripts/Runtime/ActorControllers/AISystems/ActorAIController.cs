@@ -29,15 +29,14 @@ namespace SoulLike.ActorControllers.AISystems
 
         public void Change(ActorAI actorAI)
         {
-            scope?.Cancel();
-            scope?.Dispose();
-            scope = null;
             if (actorAI == null)
             {
                 currentAI = null;
+                scope?.Cancel();
+                scope?.Dispose();
+                scope = null;
                 return;
             }
-            scope = CancellationTokenSource.CreateLinkedTokenSource(actor.destroyCancellationToken);
             currentAI = actorAI;
             actor.Event.Broker.Receive<ActorEvent.OnBeginStun>()
                 .Subscribe(this, static (_, @this) =>
@@ -49,6 +48,9 @@ namespace SoulLike.ActorControllers.AISystems
 
         public async UniTask BeginSequenceAsync(string sequenceName)
         {
+            scope?.Cancel();
+            scope?.Dispose();
+            scope = CancellationTokenSource.CreateLinkedTokenSource(actor.destroyCancellationToken);
             var sequence = currentAI.GetSequence(sequenceName);
             BeginSequenceDurationTimer();
             foreach (var action in sequence.Actions)
