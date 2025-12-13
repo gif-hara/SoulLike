@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using HK;
 using R3;
 using R3.Triggers;
@@ -51,15 +52,16 @@ namespace SoulLike
         [SerializeField]
         private AttackData debugDamageAttackData;
 
-        void Start()
+        async UniTaskVoid Start()
         {
             TinyServiceLocator.Register(audioManager)
                 .RegisterTo(destroyCancellationToken);
+            var sceneBroker = new MessageBroker();
             var worldCameraController = Instantiate(worldCameraControllerPrefab);
             var userData = new UserData();
             var player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
             var playerInput = Instantiate(playerInputPrefab);
-            player.Brain.Attach(new Player(playerInput, worldCameraController.WorldCamera, masterData.PlayerSpec, userData));
+            player.Brain.Attach(new Player(playerInput, worldCameraController.WorldCamera, masterData.PlayerSpec, userData, sceneBroker));
 
             var enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, enemySpawnPoint.rotation);
             enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId]));
@@ -88,6 +90,21 @@ namespace SoulLike
                 })
                 .RegisterTo(destroyCancellationToken);
 #endif
+
+            while (!destroyCancellationToken.IsCancellationRequested)
+            {
+                var gameJudgement = await sceneBroker.Receive<MainSceneEvent.GameJudgement>()
+                    .FirstAsync(destroyCancellationToken)
+                    .AsUniTask();
+                if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerWin)
+                {
+                    Debug.Log("Player Win!");
+                }
+                else if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerLose)
+                {
+                    Debug.Log("Player Lose!");
+                }
+            }
         }
     }
 }

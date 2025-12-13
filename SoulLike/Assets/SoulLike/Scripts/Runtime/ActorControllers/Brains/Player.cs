@@ -20,6 +20,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private readonly UserData userData;
 
+        private readonly MessageBroker sceneBroker;
+
         private ActorMovement actorMovement;
 
         private ActorWeaponHandler actorWeaponHandler;
@@ -32,12 +34,13 @@ namespace SoulLike.ActorControllers.Brains
 
         private Vector3 lastMoveInput;
 
-        public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec, UserData userData)
+        public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec, UserData userData, MessageBroker sceneBroker)
         {
             this.playerInput = playerInput;
             this.camera = camera;
             this.playerSpec = playerSpec;
             this.userData = userData;
+            this.sceneBroker = sceneBroker;
         }
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
@@ -105,6 +108,12 @@ namespace SoulLike.ActorControllers.Brains
                 {
                     var attackData = x.AttackData;
                     @this.userData.AddExperience(attackData.EarnedExperience);
+                })
+                .RegisterTo(cancellationToken);
+            actor.Event.Broker.Receive<ActorEvent.OnDead>()
+                .Subscribe((this), static (_, @this) =>
+                {
+                    @this.sceneBroker.Publish(new MainSceneEvent.GameJudgement(MainSceneEvent.JudgementType.PlayerLose));
                 })
                 .RegisterTo(cancellationToken);
         }
