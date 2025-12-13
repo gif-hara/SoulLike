@@ -486,6 +486,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1532746842593778150, guid: 10c19962f12c5ff4287b522a4098524b, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 3771869056511828034}
+    - targetCorrespondingSourceObject: {fileID: 1532746842593778150, guid: 10c19962f12c5ff4287b522a4098524b, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3790241560144703897}
   m_SourcePrefab: {fileID: 100100000, guid: 10c19962f12c5ff4287b522a4098524b, type: 3}
 --- !u!1 &7527090496059282428 stripped
@@ -493,6 +496,21 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1532746842593778150, guid: 10c19962f12c5ff4287b522a4098524b, type: 3}
   m_PrefabInstance: {fileID: 9020975915902061082}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3771869056511828034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7527090496059282428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b013ad8398fb168468ea507c329c87d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIElementList
+  <Selectable>k__BackingField: {fileID: 771571889326182236}
+  icon: {fileID: 6744227464766428097}
+  message: {fileID: 6739394369554085486}
 --- !u!114 &3790241560144703897
 MonoBehaviour:
   m_ObjectHideFlags: 0
