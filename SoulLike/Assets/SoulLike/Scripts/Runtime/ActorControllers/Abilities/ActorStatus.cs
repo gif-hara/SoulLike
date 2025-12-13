@@ -191,7 +191,7 @@ namespace SoulLike.ActorControllers.Abilities
             var addSpecialStock = (int)Mathf.Floor(result);
             if (addSpecialStock > 0)
             {
-                specialStock.Value += addSpecialStock;
+                specialStock.Value = Mathf.Min(specialStock.Value + addSpecialStock, specialStockMax.Value);
                 result -= addSpecialStock;
             }
             specialPower.Value = result;
