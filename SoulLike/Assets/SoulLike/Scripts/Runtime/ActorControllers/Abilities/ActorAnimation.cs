@@ -115,6 +115,12 @@ namespace SoulLike.ActorControllers.Abilities
             UpdateAnimator();
         }
 
+        public void PlayIdleAnimation()
+        {
+            animator.Play(Parameter.Idle);
+            UpdateAnimator();
+        }
+
         public string GetCurrentAttackStateName()
         {
             return $"Attack{currentAttackId}";

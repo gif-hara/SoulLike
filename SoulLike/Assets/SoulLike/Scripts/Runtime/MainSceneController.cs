@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using HK;
 using R3;
@@ -64,7 +65,7 @@ namespace SoulLike
             player.Brain.Attach(new Player(playerInput, worldCameraController.WorldCamera, masterData.PlayerSpec, userData, sceneBroker));
 
             var enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, enemySpawnPoint.rotation);
-            enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId]));
+            enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker));
 
             player.GetAbility<ActorTargetHandler>().BeginLockOn(enemy);
             enemy.GetAbility<ActorTargetHandler>().BeginLockOn(player);
@@ -102,7 +103,8 @@ namespace SoulLike
                 }
                 else if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerLose)
                 {
-                    Debug.Log("Player Lose!");
+                    await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: destroyCancellationToken);
+                    sceneBroker.Publish(new MainSceneEvent.RestartGame(player, enemy));
                 }
             }
         }

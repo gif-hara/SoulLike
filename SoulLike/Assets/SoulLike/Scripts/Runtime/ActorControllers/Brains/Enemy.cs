@@ -1,8 +1,10 @@
 using System.Threading;
 using HK;
+using R3;
 using SoulLike.ActorControllers.Abilities;
 using SoulLike.ActorControllers.AISystems;
 using SoulLike.MasterDataSystem;
+using UnityEngine;
 
 namespace SoulLike.ActorControllers.Brains
 {
@@ -10,30 +12,60 @@ namespace SoulLike.ActorControllers.Brains
     {
         private readonly EnemySpec enemySpec;
 
-        public Enemy(EnemySpec enemySpec)
+        private readonly MessageBroker sceneBroker;
+
+        private Vector3 initialPosition;
+
+        private Quaternion initialRotation;
+
+        private ActorMovement actorMovement;
+
+        private ActorStatus actorStatus;
+
+        private ActorTargetHandler actorTargetHandler;
+
+        private ActorAIController actorAIController;
+
+        private ActorAnimation actorAnimation;
+
+        public Enemy(EnemySpec enemySpec, MessageBroker sceneBroker)
         {
             this.enemySpec = enemySpec;
+            this.sceneBroker = sceneBroker;
         }
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
         {
+            initialPosition = actor.transform.position;
+            initialRotation = actor.transform.rotation;
             actor.gameObject.SetLayerRecursive(Layer.Enemy);
             actor.AddAbility<ActorTime>();
-            actor.AddAbility<ActorMovement>();
+            actorMovement = actor.AddAbility<ActorMovement>();
             actor.AddAbility<ActorSceneViewHandler>();
-            actor.AddAbility<ActorAnimation>();
-            actor.AddAbility<ActorTargetHandler>();
+            actorAnimation = actor.AddAbility<ActorAnimation>();
+            actorTargetHandler = actor.AddAbility<ActorTargetHandler>();
             var actorWalk = actor.AddAbility<ActorWalk>();
             var actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actor.AddAbility<ActorDodge>();
-            var actorStatus = actor.AddAbility<ActorStatus>();
+            actorStatus = actor.AddAbility<ActorStatus>();
             actor.ActivateAbilities();
 
             actorWeaponHandler.CreateWeapon(enemySpec.WeaponPrefab, Layer.EnemyWeapon);
             actorWalk.MoveSpeed = enemySpec.MoveSpeed;
             actorStatus.ApplySpec(enemySpec.ActorStatusSpec, new AdditionalStatusEmpty());
-            var actorAIController = new ActorAIController(actor);
+            actorAIController = new ActorAIController(actor);
             actorAIController.Change(enemySpec.ActorAI);
+
+            sceneBroker.Receive<MainSceneEvent.RestartGame>()
+                .Subscribe(this, static (x, @this) =>
+                {
+                    @this.actorStatus.ApplySpec(@this.enemySpec.ActorStatusSpec, new AdditionalStatusEmpty());
+                    @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
+                    @this.actorTargetHandler.BeginLockOn(x.Player);
+                    @this.actorAIController.Change(@this.enemySpec.ActorAI);
+                    @this.actorAnimation.PlayIdleAnimation();
+                })
+                .RegisterTo(cancellationToken);
         }
     }
 }

@@ -54,6 +54,13 @@ namespace SoulLike.ActorControllers.Abilities
             this.rotationSpeed = rotationSpeed;
         }
 
+        public void Teleport(Vector3 position, Quaternion rotation)
+        {
+            actor.transform.position = position;
+            TargetRotation = rotation;
+            actor.transform.rotation = rotation;
+        }
+
         public void Activate(Actor actor)
         {
             this.actor = actor;

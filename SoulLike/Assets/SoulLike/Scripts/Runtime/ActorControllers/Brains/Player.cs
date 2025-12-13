@@ -5,6 +5,7 @@ using R3;
 using R3.Triggers;
 using SoulLike.ActorControllers.Abilities;
 using SoulLike.MasterDataSystem;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +23,10 @@ namespace SoulLike.ActorControllers.Brains
 
         private readonly MessageBroker sceneBroker;
 
+        private Vector3 initialPosition;
+
+        private Quaternion initialRotation;
+
         private ActorMovement actorMovement;
 
         private ActorWeaponHandler actorWeaponHandler;
@@ -29,6 +34,10 @@ namespace SoulLike.ActorControllers.Brains
         private ActorDodge actorDodge;
 
         private ActorWalk actorWalk;
+
+        private ActorStatus actorStatus;
+
+        private ActorTargetHandler actorTargetHandler;
 
         private IDisposable preInputProcessDisposable;
 
@@ -45,6 +54,8 @@ namespace SoulLike.ActorControllers.Brains
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
         {
+            initialPosition = actor.transform.position;
+            initialRotation = actor.transform.rotation;
             actor.gameObject.SetLayerRecursive(Layer.Player);
             actor.AddAbility<ActorTime>();
             actorMovement = actor.AddAbility<ActorMovement>();
@@ -52,8 +63,8 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorAnimation>();
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actorDodge = actor.AddAbility<ActorDodge>();
-            var actorStatus = actor.AddAbility<ActorStatus>();
-            actor.AddAbility<ActorTargetHandler>();
+            actorStatus = actor.AddAbility<ActorStatus>();
+            actorTargetHandler = actor.AddAbility<ActorTargetHandler>();
             actorWalk = actor.AddAbility<ActorWalk>();
             actor.ActivateAbilities();
 
@@ -114,6 +125,14 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe((this), static (_, @this) =>
                 {
                     @this.sceneBroker.Publish(new MainSceneEvent.GameJudgement(MainSceneEvent.JudgementType.PlayerLose));
+                })
+                .RegisterTo(cancellationToken);
+            sceneBroker.Receive<MainSceneEvent.RestartGame>()
+                .Subscribe(this, static (x, @this) =>
+                {
+                    @this.actorStatus.ApplySpec(@this.playerSpec.ActorStatusSpec, new AdditionalStatusEmpty());
+                    @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
+                    @this.actorTargetHandler.BeginLockOn(x.Enemy);
                 })
                 .RegisterTo(cancellationToken);
         }
