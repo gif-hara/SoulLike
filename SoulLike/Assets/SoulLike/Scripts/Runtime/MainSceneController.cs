@@ -92,8 +92,6 @@ namespace SoulLike
             uiViewPlayerStatus.Bind(player, userData);
             uiViewEnemyStatus.Bind(enemy);
 
-            await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
-
 #if DEBUG
             this.UpdateAsObservable()
                 .Subscribe(_ =>
@@ -109,6 +107,8 @@ namespace SoulLike
                 })
                 .RegisterTo(destroyCancellationToken);
 #endif
+
+            await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
 
             while (!destroyCancellationToken.IsCancellationRequested)
             {
