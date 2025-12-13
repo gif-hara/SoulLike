@@ -17,19 +17,23 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8736876788586905752
+      rid: 8736876923342028902
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736876923342028899
   references:
     version: 2
     RefIds:
-    - rid: 8736876788586905752
+    - rid: 8736876923342028899
       type: {class: SelectSequence, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
         selectors:
         - mode: 1
           unityReference: {fileID: 0}
           rawReference:
-            rid: 8736876788586905753
-    - rid: 8736876788586905753
+            rid: 8736876923342028900
+    - rid: 8736876923342028900
       type: {class: Weight, ns: SoulLike.ActorControllers.AISystems.SelectSequences, asm: SoulLike.Runtime}
       data:
         elements:
@@ -39,3 +43,7 @@ MonoBehaviour:
           <Weight>k__BackingField: 50
         - <SequenceName>k__BackingField: TryUniqueAttack.0
           <Weight>k__BackingField: 100
+    - rid: 8736876923342028902
+      type: {class: WaitOnStateEnter, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
+      data:
+        stateName: LockOn
