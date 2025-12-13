@@ -43,5 +43,30 @@ namespace SoulLike
         {
             experience.Value += amount;
         }
+
+        public void AddHitPoint(int amount)
+        {
+            hitPoint.Value += amount;
+        }
+
+        public void AddStamina(int amount)
+        {
+            stamina.Value += amount;
+        }
+
+        public void AddStaminaRecoveryPerSecond(float amount)
+        {
+            staminaRecoveryPerSecond.Value += amount;
+        }
+
+        public void AddAttackRate(float amount)
+        {
+            attackRate.Value += amount;
+        }
+
+        public void AddDamageCutRate(float amount)
+        {
+            damageCutRate.Value += amount;
+        }
     }
 }
