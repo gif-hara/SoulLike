@@ -14,6 +14,8 @@ namespace SoulLike
 
         public int EarnedExperience;
 
+        public float SpecialPowerRecovery;
+
         public int DamageId;
 
         public float HitStopDuration;

@@ -203,6 +203,7 @@ namespace SoulLike
                                 else
                                 {
                                     targetStatus.TakeDamage(actor, attackElement.AttackData);
+                                    @this.actorStatus.AddSpecialPower(attackElement.AttackData.SpecialPowerRecovery);
                                     actor.Event.Broker.Publish(new ActorEvent.OnGiveDamage(attackElement.AttackData, targetStatus.IsStunned));
                                     if (!string.IsNullOrEmpty(attackElement.AttackData.SfxKey))
                                     {
