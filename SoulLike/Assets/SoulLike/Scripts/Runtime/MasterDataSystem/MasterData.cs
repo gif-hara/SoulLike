@@ -10,5 +10,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public EnemySpec[] EnemySpecs { get; private set; }
+
+        [field: SerializeField]
+        public ShopElement[] ShopElements { get; private set; }
     }
 }
