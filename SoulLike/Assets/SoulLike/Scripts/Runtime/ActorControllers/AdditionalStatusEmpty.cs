@@ -17,5 +17,7 @@ namespace SoulLike.ActorControllers
         public int DodgeUniqueAttackId => 0;
 
         public int StrongAttackUniqueAttackId => 0;
+
+        public int ParryUniqueAttackId => 0;
     }
 }

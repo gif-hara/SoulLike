@@ -20,5 +20,7 @@ namespace SoulLike.ActorControllers
         int DodgeUniqueAttackId { get; }
 
         int StrongAttackUniqueAttackId { get; }
+
+        int ParryUniqueAttackId { get; }
     }
 }

@@ -40,6 +40,8 @@ namespace SoulLike
 
         private int strongAttackUniqueAttackId = 0;
 
+        private int parryUniqueAttackId = 0;
+
         int IAdditionalStatus.HitPoint => hitPoint.Value;
 
         int IAdditionalStatus.Stamina => stamina.Value;
@@ -55,6 +57,8 @@ namespace SoulLike
         public int DodgeUniqueAttackId => dodgeUniqueAttackId;
 
         public int StrongAttackUniqueAttackId => strongAttackUniqueAttackId;
+
+        public int ParryUniqueAttackId => parryUniqueAttackId;
 
         public void AddExperience(int amount)
         {
@@ -91,7 +95,7 @@ namespace SoulLike
             aqcuireExperienceRate.Value += amount;
         }
 
-        public void SetParryUniqueAttackId(int attackId)
+        public void SetDodgeUniqueAttackId(int attackId)
         {
             dodgeUniqueAttackId = attackId;
         }
@@ -99,6 +103,11 @@ namespace SoulLike
         public void SetStrongAttackUniqueAttackId(int attackId)
         {
             strongAttackUniqueAttackId = attackId;
+        }
+
+        public void SetParryUniqueAttackId(int attackId)
+        {
+            parryUniqueAttackId = attackId;
         }
 
         public void AddPurchasedShopElementCount(string shopElementId, int priceIndex)
