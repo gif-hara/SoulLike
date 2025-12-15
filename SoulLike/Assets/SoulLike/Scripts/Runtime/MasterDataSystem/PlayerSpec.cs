@@ -19,5 +19,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public int[] StrongAttackUniqueAttackIds { get; private set; }
+
+        [field: SerializeField]
+        public int[] ParryUniqueAttackIds { get; private set; }
     }
 }
