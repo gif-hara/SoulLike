@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: HitPoint
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ShopElement
   <Icon>k__BackingField: {fileID: 0}
-  <ElementName>k__BackingField: "\u4F53\u529B\u4E0A\u6607 Lv.{0}"
-  <Prices>k__BackingField: 78000000a1000000d800000022010000860100000c020000c0020000b2030000f8040000ae060000fb080000
+  <ElementName>k__BackingField: "Lv.{0} \u4F53\u529B\u4E0A\u6607"
+  <Prices>k__BackingField: 78000000a1000000d800000022010000860100000c020000c0020000b2030000f8040000ae060000
   <CanPurchaseInfinitely>k__BackingField: 0
   <Actions>k__BackingField:
   - mode: 1
@@ -28,4 +28,4 @@ MonoBehaviour:
       type: {class: AddParameter, ns: SoulLike.ShopActions, asm: SoulLike.Runtime}
       data:
         parameterType: 0
-        amount: 20
+        amount: 14
