@@ -28,4 +28,4 @@ MonoBehaviour:
       type: {class: AddParameter, ns: SoulLike.ShopActions, asm: SoulLike.Runtime}
       data:
         parameterType: 3
-        amount: 0.2
+        amount: 0.25
