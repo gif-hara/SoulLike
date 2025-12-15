@@ -34,6 +34,9 @@ namespace SoulLike
         [SerializeField]
         private float staminaSliderLengthRate;
 
+        [SerializeField]
+        private Image attackBuffIcon;
+
         private List<UIViewSpecialStockElement> specialStockElements = new();
 
         public void Bind(Actor actor, UserData userData)
@@ -121,6 +124,13 @@ namespace SoulLike
                             @this.specialStockElements.RemoveAt(lastIndex);
                         }
                     }
+                })
+                .RegisterTo(actor.destroyCancellationToken);
+            actorStatus.AttackBuffAvailable
+                .Subscribe((this, actorStatus), static (x, t) =>
+                {
+                    var (@this, actorStatus) = t;
+                    @this.attackBuffIcon.enabled = x;
                 })
                 .RegisterTo(actor.destroyCancellationToken);
         }
