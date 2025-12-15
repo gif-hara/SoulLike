@@ -87,5 +87,10 @@ namespace SoulLike.ActorControllers
         {
             actor.GetAbility<ActorStatus>().RecoveryHitPoint(rate);
         }
+
+        public void SetAttackBuffTimer(float duration)
+        {
+            actor.GetAbility<ActorStatus>().SetAttackBuffTimer(duration);
+        }
     }
 }
