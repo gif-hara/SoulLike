@@ -34,7 +34,7 @@ namespace SoulLike.ActorControllers.Abilities
                 return;
             }
             endLockOnTokenSource = new CancellationTokenSource();
-            this.Target = target;
+            Target = target;
             actorAnimation.SetBool(ActorAnimation.Parameter.LockedOn, true);
             actor.UpdateAsObservable()
                 .Where(this, static (_, @this) => @this.Target != null)
