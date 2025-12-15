@@ -28,7 +28,7 @@ namespace SoulLike
 
         private List<ShopElement> availableShopElements = new();
 
-        private Button selectedButton;
+        private int selectedIndex;
 
         public void Initialize()
         {
@@ -51,8 +51,11 @@ namespace SoulLike
 
             while (!scope.Token.IsCancellationRequested)
             {
+                var elementListResult = elementLists.Count > 0
+                    ? UniTask.WhenAny(elementLists.Select(x => x.Button.OnClickAsObservable().FirstAsync(scope.Token).AsUniTask()))
+                    : UniTask.Never<(int winArgumentIndex, Unit result)>(scope.Token);
                 var result = await UniTask.WhenAny(
-                    UniTask.WhenAny(elementLists.Select(x => x.Button.OnClickAsObservable().FirstAsync(scope.Token).AsUniTask())),
+                    elementListResult,
                     cancelAction.OnPerformedAsObservable().FirstAsync(scope.Token).AsUniTask()
                 );
                 if (result.winArgumentIndex == 0)
@@ -63,7 +66,7 @@ namespace SoulLike
                     if (userData.Experience.CurrentValue < price)
                     {
                         await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" }, cancelAction, 0, scope.Token);
-                        selectedButton.Select();
+                        elementLists[selectedIndex].Button.Select();
                         continue;
                     }
                     var purchaseResult = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" }, cancelAction, 1, scope.Token);
@@ -79,7 +82,7 @@ namespace SoulLike
                     }
                     else
                     {
-                        selectedButton.Select();
+                        elementLists[selectedIndex].Button.Select();
                     }
                 }
                 else
@@ -91,7 +94,10 @@ namespace SoulLike
                     }
                     else
                     {
-                        selectedButton.Select();
+                        if (elementLists.Count > 0)
+                        {
+                            elementLists[selectedIndex].Button.Select();
+                        }
                     }
                 }
             }
@@ -110,25 +116,26 @@ namespace SoulLike
             elementLists.Clear();
             availableShopElements = masterData.ShopElements.Where(x => x.IsDisplayable(userData.GetPurchasedShopElementCount(x.name))).ToList();
 
-            foreach (var shopElement in availableShopElements)
+            for (int i = 0; i < availableShopElements.Count; i++)
             {
+                var shopElement = availableShopElements[i];
                 var purchasedCount = userData.GetPurchasedShopElementCount(shopElement.name);
                 var elementList = Instantiate(elementListPrefab, elementListParent);
                 elementList.Setup(shopElement.Icon, string.Format(shopElement.ElementName, purchasedCount + 1), shopElement.Prices[purchasedCount].ToString());
                 elementLists.Add(elementList);
                 elementList.Button.OnSelectAsObservable()
-                    .Subscribe((this, elementList.Button), static (_, t) =>
+                    .Subscribe((this, i), static (_, t) =>
                     {
-                        var (@this, button) = t;
-                        @this.selectedButton = button;
+                        var (@this, i) = t;
+                        @this.selectedIndex = i;
                     })
                     .AddTo(elementList);
             }
 
             if (elementLists.Count > 0)
             {
-                selectedButton = elementLists[0].Button;
-                elementLists[0].Button.Select();
+                var firstElement = elementLists[Mathf.Clamp(selectedIndex, 0, elementLists.Count - 1)];
+                firstElement.Button.Select();
                 elementLists.Select(x => x.Button).ToList().SetNavigationVertical();
             }
         }
