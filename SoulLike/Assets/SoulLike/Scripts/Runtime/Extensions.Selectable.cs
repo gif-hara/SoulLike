@@ -41,7 +41,7 @@ namespace SoulLike
 
         public static void SetNavigationHorizontal(this IList<Button> self)
         {
-            SetNavigationHorizontal((IList<Selectable>)self);
+            SetNavigationHorizontal(self.Cast<Selectable>().ToList());
         }
     }
 }
