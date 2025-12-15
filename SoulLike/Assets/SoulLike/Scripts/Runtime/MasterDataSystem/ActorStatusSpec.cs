@@ -33,5 +33,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public ActorAction OnSpecialStockReached { get; private set; }
+
+        [field: SerializeField]
+        public float AttackBuffRate { get; private set; }
     }
 }
