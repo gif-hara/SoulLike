@@ -4,12 +4,10 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using HK;
 using R3;
-using R3.Triggers;
 using SoulLike.MasterDataSystem;
+using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace SoulLike
 {
@@ -21,6 +19,9 @@ namespace SoulLike
         [SerializeField]
         private UIElementList elementListPrefab;
 
+        [SerializeField]
+        private TMP_Text experienceText;
+
         private List<UIElementList> elementLists = new();
 
         public void Initialize()
@@ -31,6 +32,12 @@ namespace SoulLike
         public async UniTask BeginAsync(MasterData masterData, UserData userData, PlayerInput playerInput, UIViewFade uiViewFade, UIViewDialog uiViewDialog, CancellationToken cancellationToken)
         {
             using var scope = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            userData.Experience
+                .Subscribe(this, static (x, @this) =>
+                {
+                    @this.experienceText.SetText(x.ToString());
+                })
+                .RegisterTo(scope.Token);
             uiViewFade.BeginAsync(0.0f, 0.25f, scope.Token).Forget();
             CreateList(masterData, userData, uiViewDialog);
             gameObject.SetActive(true);
@@ -61,12 +68,18 @@ namespace SoulLike
                 }
 
                 var elementList = Instantiate(elementListPrefab, elementListParent);
-                elementList.Setup(shopElement.Icon, string.Format(shopElement.ElementName, purchasedCount + 1));
+                elementList.Setup(shopElement.Icon, string.Format(shopElement.ElementName, purchasedCount + 1), shopElement.Prices[purchasedCount].ToString());
                 elementLists.Add(elementList);
                 elementList.Button.OnClickAsObservable()
                     .SubscribeAwait((this, masterData, shopElement, userData, purchasedCount, uiViewDialog), static async (_, t, cts) =>
                     {
                         var (@this, masterData, shopElement, userData, purchasedCount, uiViewDialog) = t;
+                        var price = shopElement.Prices[purchasedCount];
+                        if (userData.Experience.CurrentValue < price)
+                        {
+                            await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" });
+                            return;
+                        }
                         var result = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" });
                         if (result == 0)
                         {
@@ -74,6 +87,7 @@ namespace SoulLike
                             {
                                 action.Value.Invoke(userData);
                             }
+                            userData.AddExperience(-price);
                             userData.AddPurchasedShopElementCount(shopElement.name, purchasedCount + 1);
                             @this.CreateList(masterData, userData, uiViewDialog);
                         }
