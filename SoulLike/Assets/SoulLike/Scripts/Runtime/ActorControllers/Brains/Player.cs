@@ -134,7 +134,8 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe((this, actor), static (_, t) =>
                 {
                     var (@this, actor) = t;
-                    @this.PreInputProcess(actor, () => @this.actorWeaponHandler.TryUniqueAttack(0));
+                    var uniqueAttackId = @this.playerSpec.ParryUniqueAttackIds[@this.userData.ParryUniqueAttackId];
+                    @this.PreInputProcess(actor, () => @this.actorWeaponHandler.TryUniqueAttack(uniqueAttackId));
                 })
                 .RegisterTo(cancellationToken);
             actor.Event.Broker.Receive<ActorEvent.OnGiveDamage>()
