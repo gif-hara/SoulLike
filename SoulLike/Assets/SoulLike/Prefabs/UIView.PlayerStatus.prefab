@@ -1401,3 +1401,5 @@ MonoBehaviour:
   specialPowerSlider: {fileID: 6327410726472328512}
   specialStockParent: {fileID: 5725962524401780748}
   specialStockElementPrefab: {fileID: 66928119528478928, guid: 9553d68863506b54aa9c6aecd35cac25, type: 3}
+  hitPointSliderLengthRate: 3
+  staminaSliderLengthRate: 3

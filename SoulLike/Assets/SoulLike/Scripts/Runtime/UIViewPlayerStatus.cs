@@ -28,11 +28,33 @@ namespace SoulLike
         [SerializeField]
         private UIViewSpecialStockElement specialStockElementPrefab;
 
+        [SerializeField]
+        private float hitPointSliderLengthRate;
+
+        [SerializeField]
+        private float staminaSliderLengthRate;
+
         private List<UIViewSpecialStockElement> specialStockElements = new();
 
         public void Bind(Actor actor, UserData userData)
         {
             var actorStatus = actor.GetAbility<ActorStatus>();
+            actorStatus.HitPointMax
+                .Subscribe(this, static (x, @this) =>
+                {
+                    var t = (RectTransform)@this.hitPointSlider.transform;
+                    var sizeDelta = t.sizeDelta;
+                    t.sizeDelta = new Vector2(x * @this.hitPointSliderLengthRate, sizeDelta.y);
+                })
+                .RegisterTo(actor.destroyCancellationToken);
+            actorStatus.StaminaMax
+                .Subscribe(this, static (x, @this) =>
+                {
+                    var t = (RectTransform)@this.staminaSlider.transform;
+                    var sizeDelta = t.sizeDelta;
+                    t.sizeDelta = new Vector2(x * @this.staminaSliderLengthRate, sizeDelta.y);
+                })
+                .RegisterTo(actor.destroyCancellationToken);
             Observable.Merge(
                 actorStatus.HitPointMax,
                 actorStatus.HitPoint
