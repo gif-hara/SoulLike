@@ -22,7 +22,7 @@ namespace SoulLike
 
         public ReadOnlyReactiveProperty<float> StaminaRecoveryPerSecond => staminaRecoveryPerSecond;
 
-        private readonly ReactiveProperty<float> attackRate = new();
+        private readonly ReactiveProperty<float> attackRate = new(1.0f);
 
         public ReadOnlyReactiveProperty<float> AttackRate => attackRate;
 
