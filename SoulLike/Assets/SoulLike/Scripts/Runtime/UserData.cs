@@ -96,6 +96,11 @@ namespace SoulLike
             dodgeUniqueAttackId = attackId;
         }
 
+        public void SetStrongAttackUniqueAttackId(int attackId)
+        {
+            strongAttackUniqueAttackId = attackId;
+        }
+
         public void AddPurchasedShopElementCount(string shopElementId, int priceIndex)
         {
             purchasedShopElementCounts[shopElementId] = priceIndex;
