@@ -28,11 +28,11 @@ namespace SoulLike
             gameObject.SetActive(false);
         }
 
-        public async UniTask BeginAsync(MasterData masterData, UserData userData, PlayerInput playerInput, UIViewFade uiViewFade, CancellationToken cancellationToken)
+        public async UniTask BeginAsync(MasterData masterData, UserData userData, PlayerInput playerInput, UIViewFade uiViewFade, UIViewDialog uiViewDialog, CancellationToken cancellationToken)
         {
             using var scope = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             uiViewFade.BeginAsync(0.0f, 0.25f, scope.Token).Forget();
-            CreateList(masterData, userData);
+            CreateList(masterData, userData, uiViewDialog);
             gameObject.SetActive(true);
 
             await playerInput.actions["UI/Cancel"].OnPerformedAsObservable()
@@ -44,7 +44,7 @@ namespace SoulLike
             scope.Cancel();
         }
 
-        public void CreateList(MasterData masterData, UserData userData)
+        public void CreateList(MasterData masterData, UserData userData, UIViewDialog uiViewDialog)
         {
             foreach (var elementList in elementLists)
             {
@@ -64,9 +64,19 @@ namespace SoulLike
                 elementList.Setup(shopElement.Icon, string.Format(shopElement.ElementName, purchasedCount + 1));
                 elementLists.Add(elementList);
                 elementList.Button.OnClickAsObservable()
-                    .Subscribe(_ =>
+                    .SubscribeAwait((this, masterData, shopElement, userData, purchasedCount, uiViewDialog), static async (_, t, cts) =>
                     {
-                        Debug.Log($"Selected Shop Element: {shopElement.ElementName}");
+                        var (@this, masterData, shopElement, userData, purchasedCount, uiViewDialog) = t;
+                        var result = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" });
+                        if (result == 0)
+                        {
+                            foreach (var action in shopElement.Actions)
+                            {
+                                action.Value.Invoke(userData);
+                            }
+                            userData.AddPurchasedShopElementCount(shopElement.name, purchasedCount + 1);
+                            @this.CreateList(masterData, userData, uiViewDialog);
+                        }
                     })
                     .AddTo(elementList);
             }
