@@ -4,10 +4,12 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using HK;
 using R3;
+using R3.Triggers;
 using SoulLike.MasterDataSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace SoulLike
 {
@@ -23,6 +25,8 @@ namespace SoulLike
         private TMP_Text experienceText;
 
         private List<UIElementList> elementLists = new();
+
+        private Button selectedButton;
 
         public void Initialize()
         {
@@ -42,9 +46,21 @@ namespace SoulLike
             CreateList(masterData, userData, uiViewDialog);
             gameObject.SetActive(true);
 
-            await playerInput.actions["UI/Cancel"].OnPerformedAsObservable()
-                .FirstAsync(scope.Token)
-                .AsUniTask();
+            while (!scope.Token.IsCancellationRequested)
+            {
+                await playerInput.actions["UI/Cancel"].OnPerformedAsObservable()
+                    .FirstAsync(scope.Token)
+                    .AsUniTask();
+                var result = await uiViewDialog.ShowAsync("再戦します。よろしいですか？", new string[] { "はい", "いいえ" });
+                if (result == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    selectedButton.Select();
+                }
+            }
             await uiViewFade.BeginAsync(1.0f, 0.25f, scope.Token);
 
             gameObject.SetActive(false);
@@ -78,7 +94,7 @@ namespace SoulLike
                         if (userData.Experience.CurrentValue < price)
                         {
                             await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" });
-                            button.Select();
+                            @this.selectedButton.Select();
                             return;
                         }
                         var result = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" });
@@ -92,6 +108,13 @@ namespace SoulLike
                             userData.AddPurchasedShopElementCount(shopElement.name, purchasedCount + 1);
                             @this.CreateList(masterData, userData, uiViewDialog);
                         }
+                    })
+                    .AddTo(elementList);
+                elementList.Button.OnSelectAsObservable()
+                    .Subscribe((this, elementList.Button), static (_, t) =>
+                    {
+                        var (@this, button) = t;
+                        @this.selectedButton = button;
                     })
                     .AddTo(elementList);
             }
