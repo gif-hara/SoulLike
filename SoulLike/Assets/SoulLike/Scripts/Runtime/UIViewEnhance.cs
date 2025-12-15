@@ -71,13 +71,14 @@ namespace SoulLike
                 elementList.Setup(shopElement.Icon, string.Format(shopElement.ElementName, purchasedCount + 1), shopElement.Prices[purchasedCount].ToString());
                 elementLists.Add(elementList);
                 elementList.Button.OnClickAsObservable()
-                    .SubscribeAwait((this, masterData, shopElement, userData, purchasedCount, uiViewDialog), static async (_, t, cts) =>
+                    .SubscribeAwait((this, masterData, shopElement, userData, purchasedCount, uiViewDialog, elementList.Button), static async (_, t, cts) =>
                     {
-                        var (@this, masterData, shopElement, userData, purchasedCount, uiViewDialog) = t;
+                        var (@this, masterData, shopElement, userData, purchasedCount, uiViewDialog, button) = t;
                         var price = shopElement.Prices[purchasedCount];
                         if (userData.Experience.CurrentValue < price)
                         {
                             await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" });
+                            button.Select();
                             return;
                         }
                         var result = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" });
