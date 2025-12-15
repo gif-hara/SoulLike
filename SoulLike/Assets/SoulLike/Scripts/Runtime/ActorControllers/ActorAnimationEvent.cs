@@ -77,5 +77,10 @@ namespace SoulLike.ActorControllers
         {
             actor.GetAbility<ActorStatus>().IsParrying = false;
         }
+
+        public void EnableDodge(string topic)
+        {
+            actor.GetAbility<ActorDodge>().DodgeBlocker.Unblock(topic);
+        }
     }
 }
