@@ -190,6 +190,7 @@ namespace SoulLike.ActorControllers.Abilities
             var amount = hitPointMax.Value * rate;
             hitPoint.Value = Mathf.Min(hitPointMax.Value, hitPoint.Value + amount);
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
+            actor.Event.Broker.Publish(new ActorEvent.OnRecoveryHitPoint());
         }
 
         public bool CanUseStamina()

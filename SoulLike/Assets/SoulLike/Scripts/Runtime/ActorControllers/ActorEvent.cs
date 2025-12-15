@@ -50,5 +50,9 @@ namespace SoulLike.ActorControllers
         public readonly struct OnBeginStun
         {
         }
+
+        public readonly struct OnRecoveryHitPoint
+        {
+        }
     }
 }
