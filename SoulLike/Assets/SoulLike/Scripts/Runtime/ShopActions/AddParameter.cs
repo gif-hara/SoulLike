@@ -12,8 +12,9 @@ namespace SoulLike.ShopActions
             AttackRate,
             DamageCutRate,
             AddExperienceRate,
+            DodgeUniqueAttackId,
+            StrongAttackUniqueAttackId,
             ParryUniqueAttackId,
-            StrongAttackUniqueAttackId
         }
 
         [SerializeField]
@@ -44,11 +45,14 @@ namespace SoulLike.ShopActions
                 case ParameterType.AddExperienceRate:
                     userData.AddAqcuireExperienceRate(amount);
                     break;
-                case ParameterType.ParryUniqueAttackId:
-                    userData.SetParryUniqueAttackId((int)amount);
+                case ParameterType.DodgeUniqueAttackId:
+                    userData.SetDodgeUniqueAttackId((int)amount);
                     break;
                 case ParameterType.StrongAttackUniqueAttackId:
                     userData.SetStrongAttackUniqueAttackId((int)amount);
+                    break;
+                case ParameterType.ParryUniqueAttackId:
+                    userData.SetParryUniqueAttackId((int)amount);
                     break;
             }
         }
