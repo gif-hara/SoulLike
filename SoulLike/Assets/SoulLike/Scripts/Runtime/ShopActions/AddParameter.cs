@@ -10,7 +10,8 @@ namespace SoulLike.ShopActions
             Stamina,
             StaminaRecoveryPerSecond,
             AttackRate,
-            DamageCutRate
+            DamageCutRate,
+            AddExperienceRate
         }
 
         [SerializeField]
@@ -37,6 +38,9 @@ namespace SoulLike.ShopActions
                     break;
                 case ParameterType.DamageCutRate:
                     userData.AddDamageCutRate(amount);
+                    break;
+                case ParameterType.AddExperienceRate:
+                    userData.AddAqcuireExperienceRate(amount);
                     break;
             }
         }

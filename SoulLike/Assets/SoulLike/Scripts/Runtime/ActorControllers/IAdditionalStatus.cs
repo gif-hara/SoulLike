@@ -11,5 +11,7 @@ namespace SoulLike.ActorControllers
         float AttackRate { get; }
 
         float DamageCutRate { get; }
+
+        float AcquireExperienceRate { get; }
     }
 }

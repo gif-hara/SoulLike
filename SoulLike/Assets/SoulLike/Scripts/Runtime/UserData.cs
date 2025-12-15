@@ -30,6 +30,10 @@ namespace SoulLike
 
         public ReadOnlyReactiveProperty<float> DamageCutRate => damageCutRate;
 
+        private readonly ReactiveProperty<float> aqcuireExperienceRate = new(1.0f);
+
+        public ReadOnlyReactiveProperty<float> AqcuireExperienceRate => aqcuireExperienceRate;
+
         private readonly Dictionary<string, int> purchasedShopElementCounts = new();
 
         int IAdditionalStatus.HitPoint => hitPoint.Value;
@@ -41,6 +45,8 @@ namespace SoulLike
         float IAdditionalStatus.AttackRate => attackRate.Value;
 
         float IAdditionalStatus.DamageCutRate => damageCutRate.Value;
+
+        float IAdditionalStatus.AcquireExperienceRate => aqcuireExperienceRate.Value;
 
         public void AddExperience(int amount)
         {
@@ -70,6 +76,11 @@ namespace SoulLike
         public void AddDamageCutRate(float amount)
         {
             damageCutRate.Value += amount;
+        }
+
+        public void AddAqcuireExperienceRate(float amount)
+        {
+            aqcuireExperienceRate.Value += amount;
         }
 
         public void AddPurchasedShopElementCount(string shopElementId, int priceIndex)

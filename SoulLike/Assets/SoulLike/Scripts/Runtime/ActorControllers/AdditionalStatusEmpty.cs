@@ -11,5 +11,7 @@ namespace SoulLike.ActorControllers
         public float AttackRate => 1f;
 
         public float DamageCutRate => 0f;
+
+        public float AcquireExperienceRate => 1.0f;
     }
 }
