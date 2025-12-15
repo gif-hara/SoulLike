@@ -95,6 +95,14 @@ namespace SoulLike.ActorControllers.Abilities
 
         private IAdditionalStatus additionalStatus;
 
+        private float attackBuffTimer = 0.0f;
+
+        private float attackBuffRate = 0.0f;
+
+        private ReactiveProperty<bool> attackBuffAvailable = new(false);
+
+        public ReadOnlyReactiveProperty<bool> AttackBuffAvailable => attackBuffAvailable;
+
         public void Activate(Actor actor)
         {
             this.actor = actor;
@@ -105,13 +113,17 @@ namespace SoulLike.ActorControllers.Abilities
             actorTime = actor.GetAbility<ActorTime>();
             actorSceneViewHandler = actor.GetAbility<ActorSceneViewHandler>();
             actor.UpdateAsObservable()
-                .Where(this, static (_, @this) => !@this.StaminaRecoveryBlocker.IsBlocked)
                 .Subscribe(this, static (_, @this) =>
                 {
-                    if (@this.stamina.Value < @this.staminaMax.Value)
+                    if (!@this.StaminaRecoveryBlocker.IsBlocked)
                     {
-                        @this.stamina.Value = Mathf.Min(@this.staminaMax.Value, @this.stamina.Value + @this.staminaRecoveryPerSecond * @this.actorTime.Time.deltaTime);
+                        if (@this.stamina.Value < @this.staminaMax.Value)
+                        {
+                            @this.stamina.Value = Mathf.Min(@this.staminaMax.Value, @this.stamina.Value + @this.staminaRecoveryPerSecond * @this.actorTime.Time.deltaTime);
+                        }
                     }
+                    @this.attackBuffTimer -= @this.actorTime.Time.deltaTime;
+                    @this.attackBuffAvailable.Value = @this.attackBuffTimer > 0.0f;
                 })
                 .RegisterTo(actor.destroyCancellationToken);
         }
@@ -133,6 +145,8 @@ namespace SoulLike.ActorControllers.Abilities
             specialStock.Value = 0;
             specialStockMax.Value = spec.SpecialStockMax;
             onSpecialStockReached = spec.OnSpecialStockReached;
+            attackBuffTimer = 0.0f;
+            attackBuffRate = spec.AttackBuffRate;
         }
 
         public void TakeDamage(Actor attacker, AttackData attackData)
@@ -142,7 +156,7 @@ namespace SoulLike.ActorControllers.Abilities
                 return;
             }
             var attackerStatus = attacker.GetAbility<ActorStatus>();
-            var damage = attackData.Power * attackerStatus.additionalStatus.AttackRate * (1f - additionalStatus.DamageCutRate);
+            var damage = attackData.Power * attackerStatus.additionalStatus.AttackRate * (attackerStatus.attackBuffTimer > 0.0f ? attackerStatus.attackBuffRate : 1.0f) * (1f - additionalStatus.DamageCutRate);
             hitPoint.Value = Mathf.Max(0f, hitPoint.Value - damage);
             stunResistance.Value = Mathf.Min(stunResistance.Value + attackData.StunDamage, stunResistanceMax.Value);
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
@@ -191,6 +205,11 @@ namespace SoulLike.ActorControllers.Abilities
             hitPoint.Value = Mathf.Min(hitPointMax.Value, hitPoint.Value + amount);
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
             actor.Event.Broker.Publish(new ActorEvent.OnRecoveryHitPoint());
+        }
+
+        public void SetAttackBuffTimer(float duration)
+        {
+            attackBuffTimer = duration;
         }
 
         public bool CanUseStamina()
