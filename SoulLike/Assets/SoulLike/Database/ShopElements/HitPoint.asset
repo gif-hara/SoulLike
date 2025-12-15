@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca363fdba019a364fb2c3bd3e4e726a1, type: 3}
+  m_Name: HitPoint
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ShopElement
+  <Icon>k__BackingField: {fileID: 0}
+  <ElementName>k__BackingField: "\u4F53\u529B\u4E0A\u6607 Lv.{0}"
+  <Prices>k__BackingField: 78000000a1000000d800000022010000860100000c020000c0020000b2030000f8040000ae060000fb080000
+  <CanPurchaseInfinitely>k__BackingField: 0
+  <Actions>k__BackingField:
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736876923342028950
+  references:
+    version: 2
+    RefIds:
+    - rid: 8736876923342028950
+      type: {class: AddParameter, ns: SoulLike.ShopActions, asm: SoulLike.Runtime}
+      data:
+        parameterType: 0
+        amount: 20
