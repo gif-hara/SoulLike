@@ -15,10 +15,14 @@ namespace SoulLike
         [SerializeField]
         private TMP_Text message;
 
-        public void Setup(Sprite icon, string message)
+        [SerializeField]
+        private TMP_Text footer;
+
+        public void Setup(Sprite icon, string message, string footer)
         {
             this.icon.sprite = icon;
-            this.message.text = message;
+            this.message.SetText(message);
+            this.footer.SetText(footer);
         }
     }
 }
