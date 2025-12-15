@@ -121,6 +121,7 @@ namespace SoulLike
 
             if (elementLists.Count > 0)
             {
+                selectedButton = elementLists[0].Button;
                 elementLists[0].Button.Select();
                 elementLists.Select(x => x.Button).ToList().SetNavigationVertical();
             }
