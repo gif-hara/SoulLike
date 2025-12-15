@@ -383,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIElementButton
   <Button>k__BackingField: {fileID: 2115716032691979511}
+  <Text>k__BackingField: {fileID: 6739394369554085486}
 --- !u!114 &3790241560144703897
 MonoBehaviour:
   m_ObjectHideFlags: 0
