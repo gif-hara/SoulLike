@@ -28,7 +28,7 @@ MonoBehaviour:
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 4a64460cd1eefe74eadf87cde3e12b7d, type: 3}
   <EnemySpecs>k__BackingField:
   - <ActorStatusSpec>k__BackingField:
-      <HitPoint>k__BackingField: 9360
+      <HitPoint>k__BackingField: 4680
       <Stamina>k__BackingField: 100
       <StaminaRecoveryPerSecond>k__BackingField: 1000
       <DodgeStaminaCost>k__BackingField: 0
