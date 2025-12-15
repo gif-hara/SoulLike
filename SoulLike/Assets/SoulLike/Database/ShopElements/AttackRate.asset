@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca363fdba019a364fb2c3bd3e4e726a1, type: 3}
   m_Name: AttackRate
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ShopElement
+  <Icon>k__BackingField: {fileID: 0}
   <ElementName>k__BackingField: "\u653B\u6483\u529B\u4E0A\u6607 Lv.{0}"
-  <Description>k__BackingField: "\u4E0E\u3048\u308B\u30C0\u30E1\u30FC\u30B8\u304C\u4E0A\u6607\u3059\u308B"
   <Prices>k__BackingField: 78000000a1000000d800000022010000860100000c020000c0020000b2030000f8040000ae060000fb080000140c00003e100000d8150000611d0000832700002435000079470000216000004b810000
+  <CanPurchaseInfinitely>k__BackingField: 0
   <Actions>k__BackingField:
   - mode: 1
     unityReference: {fileID: 0}
@@ -27,4 +28,4 @@ MonoBehaviour:
       type: {class: AddParameter, ns: SoulLike.ShopActions, asm: SoulLike.Runtime}
       data:
         parameterType: 3
-        amount: 0.1
+        amount: 0.2
