@@ -5,7 +5,6 @@ using R3;
 using R3.Triggers;
 using SoulLike.ActorControllers.Abilities;
 using SoulLike.MasterDataSystem;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
