@@ -69,7 +69,7 @@ namespace SoulLike
                         elementLists[selectedIndex].Button.Select();
                         continue;
                     }
-                    var purchaseResult = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" }, cancelAction, 1, scope.Token);
+                    var purchaseResult = await uiViewDialog.ShowAsync("会得しますか？", new string[] { "はい", "いいえ" }, cancelAction, 1, scope.Token);
                     if (purchaseResult == 0)
                     {
                         foreach (var action in shopElement.Actions)
