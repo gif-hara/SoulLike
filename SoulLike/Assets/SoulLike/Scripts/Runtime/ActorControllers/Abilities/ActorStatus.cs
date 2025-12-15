@@ -181,6 +181,17 @@ namespace SoulLike.ActorControllers.Abilities
                 .AddTo(actor);
         }
 
+        public void RecoveryHitPoint(float rate)
+        {
+            if (hitPoint.Value <= 0f)
+            {
+                return;
+            }
+            var amount = hitPointMax.Value * rate;
+            hitPoint.Value = Mathf.Min(hitPointMax.Value, hitPoint.Value + amount);
+            actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
+        }
+
         public bool CanUseStamina()
         {
             return stamina.Value > 0f;
