@@ -47,12 +47,13 @@ namespace SoulLike
             uiViewFade.BeginAsync(0.0f, 0.25f, scope.Token).Forget();
             CreateList(masterData, userData, uiViewDialog);
             gameObject.SetActive(true);
+            var cancelAction = playerInput.actions["UI/Cancel"];
 
             while (!scope.Token.IsCancellationRequested)
             {
                 var result = await UniTask.WhenAny(
                     UniTask.WhenAny(elementLists.Select(x => x.Button.OnClickAsObservable().FirstAsync(scope.Token).AsUniTask())),
-                    playerInput.actions["UI/Cancel"].OnPerformedAsObservable().FirstAsync(scope.Token).AsUniTask()
+                    cancelAction.OnPerformedAsObservable().FirstAsync(scope.Token).AsUniTask()
                 );
                 if (result.winArgumentIndex == 0)
                 {
@@ -61,11 +62,11 @@ namespace SoulLike
                     var price = shopElement.Prices[purchasedCount];
                     if (userData.Experience.CurrentValue < price)
                     {
-                        await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" });
+                        await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" }, cancelAction, 0, scope.Token);
                         selectedButton.Select();
                         continue;
                     }
-                    var purchaseResult = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" });
+                    var purchaseResult = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" }, cancelAction, 1, scope.Token);
                     if (purchaseResult == 0)
                     {
                         foreach (var action in shopElement.Actions)
@@ -83,7 +84,7 @@ namespace SoulLike
                 }
                 else
                 {
-                    var cancelResult = await uiViewDialog.ShowAsync("再戦します。よろしいですか？", new string[] { "はい", "いいえ" });
+                    var cancelResult = await uiViewDialog.ShowAsync("再戦します。よろしいですか？", new string[] { "はい", "いいえ" }, cancelAction, 1, scope.Token);
                     if (cancelResult == 0)
                     {
                         break;
