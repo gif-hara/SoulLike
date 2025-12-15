@@ -24,7 +24,9 @@ namespace SoulLike
         [SerializeField]
         private TMP_Text experienceText;
 
-        private List<UIElementList> elementLists = new();
+        private readonly List<UIElementList> elementLists = new();
+
+        private List<ShopElement> availableShopElements = new();
 
         private Button selectedButton;
 
@@ -48,17 +50,48 @@ namespace SoulLike
 
             while (!scope.Token.IsCancellationRequested)
             {
-                await playerInput.actions["UI/Cancel"].OnPerformedAsObservable()
-                    .FirstAsync(scope.Token)
-                    .AsUniTask();
-                var result = await uiViewDialog.ShowAsync("再戦します。よろしいですか？", new string[] { "はい", "いいえ" });
-                if (result == 0)
+                var result = await UniTask.WhenAny(
+                    UniTask.WhenAny(elementLists.Select(x => x.Button.OnClickAsObservable().FirstAsync(scope.Token).AsUniTask())),
+                    playerInput.actions["UI/Cancel"].OnPerformedAsObservable().FirstAsync(scope.Token).AsUniTask()
+                );
+                if (result.winArgumentIndex == 0)
                 {
-                    break;
+                    var shopElement = availableShopElements[result.result1.winArgumentIndex];
+                    var purchasedCount = userData.GetPurchasedShopElementCount(shopElement.name);
+                    var price = shopElement.Prices[purchasedCount];
+                    if (userData.Experience.CurrentValue < price)
+                    {
+                        await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" });
+                        selectedButton.Select();
+                        continue;
+                    }
+                    var purchaseResult = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" });
+                    if (purchaseResult == 0)
+                    {
+                        foreach (var action in shopElement.Actions)
+                        {
+                            action.Value.Invoke(userData);
+                        }
+                        userData.AddExperience(-price);
+                        userData.AddPurchasedShopElementCount(shopElement.name, purchasedCount + 1);
+                        CreateList(masterData, userData, uiViewDialog);
+                    }
+                    else
+                    {
+                        selectedButton.Select();
+                    }
                 }
                 else
                 {
-                    selectedButton.Select();
+                    var cancelResult = await uiViewDialog.ShowAsync("再戦します。よろしいですか？", new string[] { "はい", "いいえ" });
+                    if (cancelResult == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        selectedButton.Select();
+                    }
                 }
             }
             await uiViewFade.BeginAsync(1.0f, 0.25f, scope.Token);
@@ -74,42 +107,14 @@ namespace SoulLike
                 Destroy(elementList.gameObject);
             }
             elementLists.Clear();
+            availableShopElements = masterData.ShopElements.Where(x => x.IsDisplayable(userData.GetPurchasedShopElementCount(x.name))).ToList();
 
-            foreach (var shopElement in masterData.ShopElements)
+            foreach (var shopElement in availableShopElements)
             {
                 var purchasedCount = userData.GetPurchasedShopElementCount(shopElement.name);
-                if (!shopElement.IsDisplayable(purchasedCount))
-                {
-                    continue;
-                }
-
                 var elementList = Instantiate(elementListPrefab, elementListParent);
                 elementList.Setup(shopElement.Icon, string.Format(shopElement.ElementName, purchasedCount + 1), shopElement.Prices[purchasedCount].ToString());
                 elementLists.Add(elementList);
-                elementList.Button.OnClickAsObservable()
-                    .SubscribeAwait((this, masterData, shopElement, userData, purchasedCount, uiViewDialog, elementList.Button), static async (_, t, cts) =>
-                    {
-                        var (@this, masterData, shopElement, userData, purchasedCount, uiViewDialog, button) = t;
-                        var price = shopElement.Prices[purchasedCount];
-                        if (userData.Experience.CurrentValue < price)
-                        {
-                            await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" });
-                            @this.selectedButton.Select();
-                            return;
-                        }
-                        var result = await uiViewDialog.ShowAsync("購入しますか？", new string[] { "はい", "いいえ" });
-                        if (result == 0)
-                        {
-                            foreach (var action in shopElement.Actions)
-                            {
-                                action.Value.Invoke(userData);
-                            }
-                            userData.AddExperience(-price);
-                            userData.AddPurchasedShopElementCount(shopElement.name, purchasedCount + 1);
-                            @this.CreateList(masterData, userData, uiViewDialog);
-                        }
-                    })
-                    .AddTo(elementList);
                 elementList.Button.OnSelectAsObservable()
                     .Subscribe((this, elementList.Button), static (_, t) =>
                     {
