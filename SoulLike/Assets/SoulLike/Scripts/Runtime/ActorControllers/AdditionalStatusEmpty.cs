@@ -15,5 +15,7 @@ namespace SoulLike.ActorControllers
         public float AcquireExperienceRate => 1.0f;
 
         public int DodgeUniqueAttackId => 0;
+
+        public int StrongAttackUniqueAttackId => 0;
     }
 }

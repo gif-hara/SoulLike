@@ -36,7 +36,9 @@ namespace SoulLike
 
         private readonly Dictionary<string, int> purchasedShopElementCounts = new();
 
-        private int parryUniqueAttackId = 0;
+        private int dodgeUniqueAttackId = 0;
+
+        private int strongAttackUniqueAttackId = 0;
 
         int IAdditionalStatus.HitPoint => hitPoint.Value;
 
@@ -50,7 +52,9 @@ namespace SoulLike
 
         float IAdditionalStatus.AcquireExperienceRate => aqcuireExperienceRate.Value;
 
-        public int DodgeUniqueAttackId => parryUniqueAttackId;
+        public int DodgeUniqueAttackId => dodgeUniqueAttackId;
+
+        public int StrongAttackUniqueAttackId => strongAttackUniqueAttackId;
 
         public void AddExperience(int amount)
         {
@@ -89,7 +93,7 @@ namespace SoulLike
 
         public void SetParryUniqueAttackId(int attackId)
         {
-            parryUniqueAttackId = attackId;
+            dodgeUniqueAttackId = attackId;
         }
 
         public void AddPurchasedShopElementCount(string shopElementId, int priceIndex)

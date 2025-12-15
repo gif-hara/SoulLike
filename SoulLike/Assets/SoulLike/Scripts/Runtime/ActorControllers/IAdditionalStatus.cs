@@ -18,5 +18,7 @@ namespace SoulLike.ActorControllers
         /// 回避モーションの攻撃Id
         /// </summary>
         int DodgeUniqueAttackId { get; }
+
+        int StrongAttackUniqueAttackId { get; }
     }
 }
