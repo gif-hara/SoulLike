@@ -79,7 +79,7 @@ namespace SoulLike
             var worldCameraController = Instantiate(worldCameraControllerPrefab);
             var userData = new UserData();
             var player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
-            player.Brain.Attach(new Player(playerInput, worldCameraController.WorldCamera, masterData.PlayerSpec, userData, sceneBroker));
+            player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker));
 
             var enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, enemySpawnPoint.rotation);
             enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker));

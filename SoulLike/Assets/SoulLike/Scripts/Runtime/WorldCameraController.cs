@@ -1,3 +1,6 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using LitMotion;
 using R3;
 using SoulLike.ActorControllers;
 using Unity.Cinemachine;
@@ -19,6 +22,12 @@ namespace SoulLike
         [SerializeField]
         private CinemachineImpulseSource onGiveDamageImpulseSource;
 
+        [SerializeField]
+        private CinemachineImpulseSource onDeadImpulseSource1;
+
+        [SerializeField]
+        private CinemachineBasicMultiChannelPerlin lockOnCameraNoise;
+
         public void BeginObserve(Actor actor)
         {
             actor.Event.Broker.Receive<ActorEvent.OnGiveDamage>()
@@ -31,6 +40,18 @@ namespace SoulLike
                     @this.onGiveDamageImpulseSource.GenerateImpulse();
                 })
                 .RegisterTo(actor.destroyCancellationToken);
+        }
+
+        public void PlayOnDeadImpulse1()
+        {
+            onDeadImpulseSource1.GenerateImpulse();
+        }
+
+        public UniTask PlayLockOnCameraNoiseAnimationAsync(float amplitudeGainFrom, float amplitudeGainTo, float duration, CancellationToken cancellationToken)
+        {
+            return LMotion.Create(amplitudeGainFrom, amplitudeGainTo, duration)
+                .Bind(lockOnCameraNoise, static (x, lockOnCameraNoise) => lockOnCameraNoise.AmplitudeGain = x)
+                .ToUniTask(cancellationToken);
         }
 
         public void SetDefaultCameraTarget(Transform target)

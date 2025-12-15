@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using HK;
 using R3;
 using R3.Triggers;
@@ -13,6 +14,8 @@ namespace SoulLike.ActorControllers.Brains
     public sealed class Player : IActorBrain
     {
         private readonly PlayerInput playerInput;
+
+        private readonly WorldCameraController worldCameraController;
 
         private readonly Camera camera;
 
@@ -44,10 +47,11 @@ namespace SoulLike.ActorControllers.Brains
 
         private Vector3 lastMoveInput;
 
-        public Player(PlayerInput playerInput, Camera camera, PlayerSpec playerSpec, UserData userData, MessageBroker sceneBroker)
+        public Player(PlayerInput playerInput, WorldCameraController worldCameraController, PlayerSpec playerSpec, UserData userData, MessageBroker sceneBroker)
         {
             this.playerInput = playerInput;
-            this.camera = camera;
+            this.worldCameraController = worldCameraController;
+            camera = worldCameraController.WorldCamera;
             this.playerSpec = playerSpec;
             this.userData = userData;
             this.sceneBroker = sceneBroker;
@@ -141,8 +145,14 @@ namespace SoulLike.ActorControllers.Brains
                 })
                 .RegisterTo(cancellationToken);
             actor.Event.Broker.Receive<ActorEvent.OnDead>()
-                .Subscribe((this), static (_, @this) =>
+                .SubscribeAwait((this, actor), async static (_, t, cts) =>
                 {
+                    var (@this, actor) = t;
+                    @this.worldCameraController.PlayOnDeadImpulse1();
+                    await HK.Time.Root.BeginHitStopAsync(1.0f, 0.0f, cts);
+                    @this.worldCameraController.PlayLockOnCameraNoiseAnimationAsync(10.0f, 0.0f, 3.0f, cts).Forget();
+                    TinyServiceLocator.Resolve<AudioManager>().PlaySfx("Defeat.1");
+                    await HK.Time.Root.BeginHitStopAsync(1.0f, 0.3f, cts);
                     @this.sceneBroker.Publish(new MainSceneEvent.GameJudgement(MainSceneEvent.JudgementType.PlayerLose));
                 })
                 .RegisterTo(cancellationToken);
