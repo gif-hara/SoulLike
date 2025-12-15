@@ -44,3 +44,4 @@ MonoBehaviour:
   <ShopElements>k__BackingField:
   - {fileID: 11400000, guid: 071783c4beb3f554a9ebca309d132d6c, type: 2}
   - {fileID: 11400000, guid: 6d3f4e32e8156b7428e5885627e19fd4, type: 2}
+  - {fileID: 11400000, guid: fd22634c494927743b66473a0c22d1a5, type: 2}
