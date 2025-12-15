@@ -210,6 +210,7 @@ namespace SoulLike.ActorControllers.Abilities
         public void SetAttackBuffTimer(float duration)
         {
             attackBuffTimer = duration;
+            actor.Event.Broker.Publish(new ActorEvent.OnSetAttackBuffTimer());
         }
 
         public bool CanUseStamina()
