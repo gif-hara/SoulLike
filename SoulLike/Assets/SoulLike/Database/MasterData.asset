@@ -17,7 +17,7 @@ MonoBehaviour:
       <HitPoint>k__BackingField: 100
       <Stamina>k__BackingField: 100
       <StaminaRecoveryPerSecond>k__BackingField: 50
-      <DodgeStaminaCost>k__BackingField: 22
+      <DodgeStaminaCost>k__BackingField: 12
       <StunResistance>k__BackingField: 0
       <StunDuration>k__BackingField: 0
       <OnStunAction>k__BackingField: {fileID: 0}
@@ -26,7 +26,7 @@ MonoBehaviour:
     <MoveSpeed>k__BackingField: 4
     <RotateSpeed>k__BackingField: 10
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 4a64460cd1eefe74eadf87cde3e12b7d, type: 3}
-    <StrongAttackUniqueAttackIds>k__BackingField: 04000000
+    <StrongAttackUniqueAttackIds>k__BackingField: 0400000005000000
   <EnemySpecs>k__BackingField:
   - <ActorStatusSpec>k__BackingField:
       <HitPoint>k__BackingField: 4680
@@ -50,3 +50,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fd22634c494927743b66473a0c22d1a5, type: 2}
   - {fileID: 11400000, guid: 67cf183cf8b03154991a69d3b7f0602f, type: 2}
   - {fileID: 11400000, guid: 61234bcad2284bc4ba1fe04295950a00, type: 2}
+  - {fileID: 11400000, guid: 409d23d6b38629443ac87f5b8e2bebb9, type: 2}
+  - {fileID: 11400000, guid: 957ef900a5580ae4aa9fbb24b29f0217, type: 2}
