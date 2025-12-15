@@ -98,6 +98,14 @@ namespace SoulLike.ActorControllers.Brains
                     @this.PreInputProcess(actor, () => @this.actorWeaponHandler.TryBasicAttack());
                 })
                 .RegisterTo(cancellationToken);
+            playerInput.actions["StrongAttack"].OnPerformedAsObservable()
+                .Subscribe((this, actor), static (_, t) =>
+                {
+                    var (@this, actor) = t;
+                    var uniqueAttackId = @this.playerSpec.StrongAttackUniqueAttackIds[@this.userData.StrongAttackUniqueAttackId];
+                    @this.PreInputProcess(actor, () => @this.actorWeaponHandler.TryUniqueAttack(uniqueAttackId));
+                })
+                .RegisterTo(cancellationToken);
             playerInput.actions["Dodge"].OnPerformedAsObservable()
                 .Subscribe((this, actor), static (_, t) =>
                 {
