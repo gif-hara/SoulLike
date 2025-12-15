@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ShopElement
   <Icon>k__BackingField: {fileID: 0}
   <ElementName>k__BackingField: "\"\u30D1\u30EA\u30A3\"\u3092\u5143\u306B\u623B\u3059"
-  <Prices>k__BackingField: b80b000000000000
+  <Prices>k__BackingField: 00000000
   <CanPurchaseInfinitely>k__BackingField: 1
   <Actions>k__BackingField:
   - mode: 1
