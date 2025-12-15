@@ -82,5 +82,10 @@ namespace SoulLike.ActorControllers
         {
             actor.GetAbility<ActorDodge>().DodgeBlocker.Unblock(topic);
         }
+
+        public void RecoveryHitPoint(float rate)
+        {
+            actor.GetAbility<ActorStatus>().RecoveryHitPoint(rate);
+        }
     }
 }
