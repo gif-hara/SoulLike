@@ -11,7 +11,8 @@ namespace SoulLike.ShopActions
             StaminaRecoveryPerSecond,
             AttackRate,
             DamageCutRate,
-            AddExperienceRate
+            AddExperienceRate,
+            ParryUniqueAttackId,
         }
 
         [SerializeField]
@@ -41,6 +42,9 @@ namespace SoulLike.ShopActions
                     break;
                 case ParameterType.AddExperienceRate:
                     userData.AddAqcuireExperienceRate(amount);
+                    break;
+                case ParameterType.ParryUniqueAttackId:
+                    userData.SetParryUniqueAttackId((int)amount);
                     break;
             }
         }

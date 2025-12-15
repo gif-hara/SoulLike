@@ -13,5 +13,10 @@ namespace SoulLike.ActorControllers
         float DamageCutRate { get; }
 
         float AcquireExperienceRate { get; }
+
+        /// <summary>
+        /// 回避モーションの攻撃Id
+        /// </summary>
+        int DodgeUniqueAttackId { get; }
     }
 }
