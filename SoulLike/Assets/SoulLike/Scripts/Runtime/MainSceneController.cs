@@ -57,6 +57,9 @@ namespace SoulLike
         private UIViewEnhance uiViewEnhance;
 
         [SerializeField]
+        private UIViewDialog uiViewDialog;
+
+        [SerializeField]
         private Color fadeInColor;
 
         [SerializeField]
@@ -94,6 +97,7 @@ namespace SoulLike
             uiViewEnhance.Initialize();
             uiViewPlayerStatus.Bind(player, userData);
             uiViewEnemyStatus.Bind(enemy);
+            uiViewDialog.Initialize();
 
 #if DEBUG
             this.UpdateAsObservable()
@@ -105,7 +109,15 @@ namespace SoulLike
                     }
                     if (Keyboard.current.f2Key.wasPressedThisFrame)
                     {
+                        enemy.GetAbility<ActorStatus>().TakeDamage(enemy, debugDamageAttackData);
+                    }
+                    if (Keyboard.current.f3Key.wasPressedThisFrame)
+                    {
                         player.GetAbility<ActorStatus>().AddSpecialPower(1.0f);
+                    }
+                    if (Keyboard.current.f4Key.wasPressedThisFrame)
+                    {
+                        userData.AddExperience(100000);
                     }
                 })
                 .RegisterTo(destroyCancellationToken);
@@ -126,7 +138,7 @@ namespace SoulLike
                 {
                     await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: destroyCancellationToken);
                     await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, fadeDuration, destroyCancellationToken);
-                    await uiViewEnhance.BeginAsync(masterData, userData, playerInput, uiViewFade, destroyCancellationToken);
+                    await uiViewEnhance.BeginAsync(masterData, userData, playerInput, uiViewFade, uiViewDialog, destroyCancellationToken);
                     sceneBroker.Publish(new MainSceneEvent.RestartGame(player, enemy));
                     await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
                 }
