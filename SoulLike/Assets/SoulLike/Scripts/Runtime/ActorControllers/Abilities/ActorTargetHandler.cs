@@ -37,6 +37,7 @@ namespace SoulLike.ActorControllers.Abilities
             this.Target = target;
             actorAnimation.SetBool(ActorAnimation.Parameter.LockedOn, true);
             actor.UpdateAsObservable()
+                .Where(this, static (_, @this) => @this.Target != null)
                 .Subscribe(this, static (_, @this) =>
                 {
                     @this.actorMovement.Rotate(Quaternion.LookRotation(@this.Target.transform.position - @this.actor.transform.position));
