@@ -71,7 +71,7 @@ namespace SoulLike.ActorControllers.Brains
             actor.ActivateAbilities();
 
             actorWeaponHandler.CreateWeapon(playerSpec.WeaponPrefab, Layer.PlayerWeapon);
-            actorStatus.ApplySpec(playerSpec.ActorStatusSpec, new AdditionalStatusEmpty());
+            actorStatus.ApplySpec(playerSpec.ActorStatusSpec, userData);
             actorWalk.MoveSpeed = playerSpec.MoveSpeed;
             actorDodge.DodgeStaminaCost = playerSpec.ActorStatusSpec.DodgeStaminaCost;
 
@@ -133,7 +133,7 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe(this, static (x, @this) =>
                 {
                     @this.actorAnimation.Reset();
-                    @this.actorStatus.ApplySpec(@this.playerSpec.ActorStatusSpec, new AdditionalStatusEmpty());
+                    @this.actorStatus.ApplySpec(@this.playerSpec.ActorStatusSpec, @this.userData);
                     @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
                     @this.actorTargetHandler.BeginLockOn(x.Enemy);
                 })
