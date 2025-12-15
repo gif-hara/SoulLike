@@ -35,5 +35,15 @@ namespace SoulLike
 
             return purchasedCount < Prices.Length;
         }
+
+        public int GetPrice(int purchasedCount)
+        {
+            if (CanPurchaseInfinitely)
+            {
+                purchasedCount = Mathf.Clamp(purchasedCount, 0, Prices.Length - 1);
+            }
+
+            return Prices[purchasedCount];
+        }
     }
 }

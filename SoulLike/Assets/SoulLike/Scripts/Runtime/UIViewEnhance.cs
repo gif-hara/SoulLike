@@ -62,7 +62,7 @@ namespace SoulLike
                 {
                     var shopElement = availableShopElements[result.result1.winArgumentIndex];
                     var purchasedCount = userData.GetPurchasedShopElementCount(shopElement.name);
-                    var price = shopElement.Prices[purchasedCount];
+                    var price = shopElement.GetPrice(purchasedCount);
                     if (userData.Experience.CurrentValue < price)
                     {
                         await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" }, cancelAction, 0, scope.Token);
@@ -121,7 +121,7 @@ namespace SoulLike
                 var shopElement = availableShopElements[i];
                 var purchasedCount = userData.GetPurchasedShopElementCount(shopElement.name);
                 var elementList = Instantiate(elementListPrefab, elementListParent);
-                elementList.Setup(shopElement.Icon, string.Format(shopElement.ElementName, purchasedCount + 1), shopElement.Prices[purchasedCount].ToString());
+                elementList.Setup(shopElement.Icon, string.Format(shopElement.ElementName, purchasedCount + 1), shopElement.GetPrice(purchasedCount).ToString());
                 elementLists.Add(elementList);
                 elementList.Button.OnSelectAsObservable()
                     .Subscribe((this, i), static (_, t) =>
