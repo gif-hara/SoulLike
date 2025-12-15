@@ -207,7 +207,6 @@ namespace SoulLike
                                 hitActors.Add(target);
                                 if (targetStatus.IsParrying)
                                 {
-                                    @this.actorAnimation.PlayDamageAnimation(attackElement.AttackData.DamageId);
                                     target.Event.Broker.Publish(new ActorEvent.OnBeginParry());
                                 }
                                 else
