@@ -120,7 +120,7 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe(this, static (x, @this) =>
                 {
                     var attackData = x.AttackData;
-                    @this.userData.AddExperience(attackData.EarnedExperience);
+                    @this.userData.AddExperience((int)(attackData.EarnedExperience * @this.userData.AqcuireExperienceRate.CurrentValue));
                 })
                 .RegisterTo(cancellationToken);
             actor.Event.Broker.Receive<ActorEvent.OnDead>()
