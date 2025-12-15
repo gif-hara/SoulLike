@@ -23,10 +23,12 @@ MonoBehaviour:
       <OnStunAction>k__BackingField: {fileID: 0}
       <SpecialStockMax>k__BackingField: 3
       <OnSpecialStockReached>k__BackingField: {fileID: 11400000, guid: 01aa158e595fa9d488c8477eaf8ee63b, type: 2}
+      <AttackBuffRate>k__BackingField: 1.3
     <MoveSpeed>k__BackingField: 4
     <RotateSpeed>k__BackingField: 10
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 4a64460cd1eefe74eadf87cde3e12b7d, type: 3}
     <StrongAttackUniqueAttackIds>k__BackingField: 0400000005000000
+    <ParryUniqueAttackIds>k__BackingField: 0000000006000000
   <EnemySpecs>k__BackingField:
   - <ActorStatusSpec>k__BackingField:
       <HitPoint>k__BackingField: 4680
@@ -38,6 +40,7 @@ MonoBehaviour:
       <OnStunAction>k__BackingField: {fileID: 11400000, guid: ee28863cea1432d499c4cf9c50376ba7, type: 2}
       <SpecialStockMax>k__BackingField: 0
       <OnSpecialStockReached>k__BackingField: {fileID: 0}
+      <AttackBuffRate>k__BackingField: 1
     <MoveSpeed>k__BackingField: 5
     <RotateSpeed>k__BackingField: 10
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 7c9e22536580646488f3726a605e35d6, type: 3}
@@ -52,3 +55,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61234bcad2284bc4ba1fe04295950a00, type: 2}
   - {fileID: 11400000, guid: 409d23d6b38629443ac87f5b8e2bebb9, type: 2}
   - {fileID: 11400000, guid: 957ef900a5580ae4aa9fbb24b29f0217, type: 2}
+  - {fileID: 11400000, guid: e1b644264889e074a93196310b08c043, type: 2}
+  - {fileID: 11400000, guid: cb67bf33952b3204da45d98e313ab604, type: 2}
