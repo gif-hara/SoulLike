@@ -28,6 +28,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private ActorAnimation actorAnimation;
 
+        private ActorWeaponHandler actorWeaponHandler;
+
         public Enemy(EnemySpec enemySpec, MessageBroker sceneBroker)
         {
             this.enemySpec = enemySpec;
@@ -45,7 +47,7 @@ namespace SoulLike.ActorControllers.Brains
             actorAnimation = actor.AddAbility<ActorAnimation>();
             actorTargetHandler = actor.AddAbility<ActorTargetHandler>();
             var actorWalk = actor.AddAbility<ActorWalk>();
-            var actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
+            actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actor.AddAbility<ActorDodge>();
             actorStatus = actor.AddAbility<ActorStatus>();
             actor.ActivateAbilities();
@@ -59,6 +61,8 @@ namespace SoulLike.ActorControllers.Brains
             sceneBroker.Receive<MainSceneEvent.RestartGame>()
                 .Subscribe(this, static (x, @this) =>
                 {
+                    @this.actorMovement.Reset();
+                    @this.actorWeaponHandler.Reset();
                     @this.actorAnimation.Reset();
                     @this.actorStatus.ApplySpec(@this.enemySpec.ActorStatusSpec, new AdditionalStatusEmpty());
                     @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
