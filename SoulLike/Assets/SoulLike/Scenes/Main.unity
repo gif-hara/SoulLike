@@ -265,6 +265,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3368148429970209737, guid: b46a45dfbef1eb3488a15073c31978f4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368148429970209737, guid: b46a45dfbef1eb3488a15073c31978f4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368148429970209737, guid: b46a45dfbef1eb3488a15073c31978f4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3563673338408341563, guid: b46a45dfbef1eb3488a15073c31978f4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1402,6 +1414,103 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1001 &419627969
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3251870453555543356, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_Name
+      value: UIView.DamageLabel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
 --- !u!1 &439635005
 GameObject:
   m_ObjectHideFlags: 0
@@ -2197,6 +2306,7 @@ MonoBehaviour:
   uiViewFade: {fileID: 1800728487}
   uiViewEnhance: {fileID: 136523183}
   uiViewDialog: {fileID: 1544657339}
+  uiViewDamageLabel: {fileID: 1495326936}
   fadeInColor: {r: 0, g: 0, b: 0, a: 0}
   fadeOutColor: {r: 0, g: 0, b: 0, a: 1}
   fadeDuration: 0.5
@@ -3411,6 +3521,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: d9d1fbfcf69364ffd8f9c6ade9ce90fe, type: 3}
   m_PrefabInstance: {fileID: 1455303134}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1495326936 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 195481060763277365, guid: 522884dfa60f8b0438f4b6dbbd050192, type: 3}
+  m_PrefabInstance: {fileID: 419627969}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78131c7068abd14eb9105324bd077c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewDamageLabel
 --- !u!1 &1508279752
 GameObject:
   m_ObjectHideFlags: 0
@@ -12915,5 +13036,6 @@ SceneRoots:
   - {fileID: 98453330}
   - {fileID: 782216936}
   - {fileID: 136523182}
+  - {fileID: 419627969}
   - {fileID: 1800728486}
   - {fileID: 1544657338}
