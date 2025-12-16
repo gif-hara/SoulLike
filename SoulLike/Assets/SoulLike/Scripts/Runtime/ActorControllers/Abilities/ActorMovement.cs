@@ -28,6 +28,14 @@ namespace SoulLike.ActorControllers.Abilities
 
         public readonly Blocker RotateBlocker = new();
 
+        public void Reset()
+        {
+            velocity = Vector3.zero;
+            velocityFromAnimator = Vector3.zero;
+            MoveBlocker.Reset();
+            RotateBlocker.Reset();
+        }
+
         public void Move(Vector3 velocity)
         {
             this.velocity = velocity;
