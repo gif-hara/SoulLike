@@ -17,5 +17,10 @@ namespace SoulLike
         }
 
         public bool IsBlocked => topics.Count > 0;
+
+        public void Reset()
+        {
+            topics.Clear();
+        }
     }
 }
