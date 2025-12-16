@@ -21,6 +21,11 @@ namespace SoulLike.ActorControllers.Abilities
 
         private const string DodgeStateName = "Dodge";
 
+        public void Reset()
+        {
+            DodgeBlocker.Reset();
+        }
+
         public void Activate(Actor actor)
         {
             this.actor = actor;
