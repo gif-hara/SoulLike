@@ -149,11 +149,11 @@ namespace SoulLike.ActorControllers.Abilities
             attackBuffRate = spec.AttackBuffRate;
         }
 
-        public void TakeDamage(Actor attacker, AttackData attackData)
+        public TakeDamageData TakeDamage(Actor attacker, AttackData attackData)
         {
             if (hitPoint.Value <= 0f)
             {
-                return;
+                return new TakeDamageData(0);
             }
             var attackerStatus = attacker.GetAbility<ActorStatus>();
             var damage = attackData.Power * attackerStatus.additionalStatus.AttackRate * (attackerStatus.attackBuffTimer > 0.0f ? attackerStatus.attackBuffRate : 1.0f) * (1f - additionalStatus.DamageCutRate);
@@ -193,6 +193,8 @@ namespace SoulLike.ActorControllers.Abilities
                 .WithDampingRatio(attackData.SceneViewShakeDampingRatio)
                 .BindToLocalPosition(actorSceneViewHandler.SceneView.transform)
                 .AddTo(actor);
+
+            return new TakeDamageData((int)damage);
         }
 
         public void RecoveryHitPoint(float rate)
