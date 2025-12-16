@@ -1,3 +1,6 @@
+
+using UnityEngine;
+
 namespace SoulLike.ActorControllers
 {
     public sealed class ActorEvent
@@ -40,10 +43,16 @@ namespace SoulLike.ActorControllers
 
             public readonly bool IsStunned;
 
-            public OnGiveDamage(AttackData attackData, bool isStunned)
+            public readonly int Damage;
+
+            public readonly Vector3 hitPoint;
+
+            public OnGiveDamage(AttackData attackData, bool isStunned, int damage, Vector3 hitPoint)
             {
                 AttackData = attackData;
                 IsStunned = isStunned;
+                Damage = damage;
+                this.hitPoint = hitPoint;
             }
         }
 
