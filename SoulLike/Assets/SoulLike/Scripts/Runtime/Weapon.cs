@@ -211,9 +211,10 @@ namespace SoulLike
                                 }
                                 else
                                 {
-                                    targetStatus.TakeDamage(actor, attackElement.AttackData);
+                                    var takeDamageData = targetStatus.TakeDamage(actor, attackElement.AttackData);
+                                    var hitPosition = x.ClosestPoint(attackElement.AttackData.Collider.transform.position);
                                     @this.actorStatus.AddSpecialPower(attackElement.AttackData.SpecialPowerRecovery);
-                                    actor.Event.Broker.Publish(new ActorEvent.OnGiveDamage(attackElement.AttackData, targetStatus.IsStunned));
+                                    actor.Event.Broker.Publish(new ActorEvent.OnGiveDamage(attackElement.AttackData, targetStatus.IsStunned, takeDamageData.Damage, hitPosition));
                                     if (!string.IsNullOrEmpty(attackElement.AttackData.SfxKey))
                                     {
                                         TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKey);
@@ -227,7 +228,7 @@ namespace SoulLike
                                     }
                                     foreach (var hitEffectPrefab in attackElement.HitEffectPrefabs)
                                     {
-                                        Instantiate(hitEffectPrefab, x.ClosestPoint(attackElement.AttackData.Collider.transform.position), Quaternion.identity);
+                                        Instantiate(hitEffectPrefab, hitPosition, Quaternion.identity);
                                     }
                                 }
                             })
