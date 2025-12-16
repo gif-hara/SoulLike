@@ -10,6 +10,11 @@ namespace SoulLike.ActorControllers.Abilities
 
         private Weapon currentWeapon;
 
+        public void Reset()
+        {
+            AttackBlocker.Reset();
+        }
+
         public void Activate(Actor actor)
         {
             this.actor = actor;
