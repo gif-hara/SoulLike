@@ -160,6 +160,9 @@ namespace SoulLike.ActorControllers.Brains
             sceneBroker.Receive<MainSceneEvent.RestartGame>()
                 .Subscribe(this, static (x, @this) =>
                 {
+                    @this.actorMovement.Reset();
+                    @this.actorWeaponHandler.Reset();
+                    @this.actorDodge.Reset();
                     @this.actorAnimation.Reset();
                     @this.actorStatus.ApplySpec(@this.playerSpec.ActorStatusSpec, @this.userData);
                     @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
