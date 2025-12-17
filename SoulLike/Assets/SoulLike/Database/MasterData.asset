@@ -24,6 +24,7 @@ MonoBehaviour:
       <SpecialStockMax>k__BackingField: 3
       <OnSpecialStockReached>k__BackingField: {fileID: 11400000, guid: 01aa158e595fa9d488c8477eaf8ee63b, type: 2}
       <AttackBuffRate>k__BackingField: 1.3
+      <DefenseDebuffRateOnStunned>k__BackingField: 1
     <MoveSpeed>k__BackingField: 4
     <MoveAcceleration>k__BackingField: 20
     <RotateSpeed>k__BackingField: 10
@@ -42,6 +43,7 @@ MonoBehaviour:
       <SpecialStockMax>k__BackingField: 0
       <OnSpecialStockReached>k__BackingField: {fileID: 0}
       <AttackBuffRate>k__BackingField: 1
+      <DefenseDebuffRateOnStunned>k__BackingField: 1.5
     <MoveSpeed>k__BackingField: 5
     <MoveAcceleration>k__BackingField: 10
     <RotateSpeed>k__BackingField: 10
