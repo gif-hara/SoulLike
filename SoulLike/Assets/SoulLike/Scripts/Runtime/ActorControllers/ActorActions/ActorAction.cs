@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using TNRD;
 using UnityEngine;
 
@@ -13,11 +15,11 @@ namespace SoulLike.ActorControllers.ActorActions
         [SerializeField]
         private List<SerializableInterface<IActorAction>> actions = new();
 
-        public void Invoke(Actor actor)
+        public async UniTask InvokeAsync(Actor actor, CancellationToken cancellationToken)
         {
             foreach (var action in actions)
             {
-                action.Value.Invoke(actor);
+                await action.Value.InvokeAsync(actor, cancellationToken);
             }
         }
     }

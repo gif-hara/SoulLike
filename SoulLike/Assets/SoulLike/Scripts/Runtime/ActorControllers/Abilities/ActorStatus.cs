@@ -239,7 +239,7 @@ namespace SoulLike.ActorControllers.Abilities
             {
                 specialStock.Value = Mathf.Min(specialStock.Value + addSpecialStock, specialStockMax.Value);
                 result -= addSpecialStock;
-                onSpecialStockReached?.Invoke(actor);
+                onSpecialStockReached?.InvokeAsync(actor, actor.destroyCancellationToken).Forget();
             }
             specialPower.Value = result;
         }
@@ -275,7 +275,7 @@ namespace SoulLike.ActorControllers.Abilities
             {
                 return;
             }
-            onStunAction?.Invoke(actor);
+            onStunAction?.InvokeAsync(actor, actor.destroyCancellationToken).Forget();
             IsStunned = true;
             await UniTask.Delay(TimeSpan.FromSeconds(StunDuration), cancellationToken: actor.destroyCancellationToken);
             IsStunned = false;

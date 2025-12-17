@@ -1,7 +1,10 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
+
 namespace SoulLike.ActorControllers.ActorActions
 {
     public interface IActorAction
     {
-        void Invoke(Actor actor);
+        UniTask InvokeAsync(Actor actor, CancellationToken cancellationToken);
     }
 }
