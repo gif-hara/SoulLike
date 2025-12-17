@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using SoulLike.ActorControllers.ActorActions;
 using SoulLike.ActorControllers.AISystems;
+using TNRD;
 using UnityEngine;
 
 namespace SoulLike.MasterDataSystem
@@ -23,5 +26,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public ActorAI ActorAI { get; private set; }
+
+        [field: SerializeField]
+        public List<ActorAction> OnDeadActions { get; private set; } = new();
     }
 }
