@@ -99,6 +99,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         private float attackBuffRate = 0.0f;
 
+        private float defenseDebuffRateOnStunned = 0.0f;
+
         private ReactiveProperty<bool> attackBuffAvailable = new(false);
 
         public ReadOnlyReactiveProperty<bool> AttackBuffAvailable => attackBuffAvailable;
@@ -147,6 +149,7 @@ namespace SoulLike.ActorControllers.Abilities
             onSpecialStockReached = spec.OnSpecialStockReached;
             attackBuffTimer = 0.0f;
             attackBuffRate = spec.AttackBuffRate;
+            defenseDebuffRateOnStunned = spec.DefenseDebuffRateOnStunned;
         }
 
         public TakeDamageData TakeDamage(Actor attacker, AttackData attackData)
@@ -156,7 +159,11 @@ namespace SoulLike.ActorControllers.Abilities
                 return new TakeDamageData(0);
             }
             var attackerStatus = attacker.GetAbility<ActorStatus>();
-            var damage = attackData.Power * attackerStatus.additionalStatus.AttackRate * (attackerStatus.attackBuffTimer > 0.0f ? attackerStatus.attackBuffRate : 1.0f) * (1f - additionalStatus.DamageCutRate);
+            var damage = attackData.Power
+                * attackerStatus.additionalStatus.AttackRate
+                * (attackerStatus.attackBuffTimer > 0.0f ? attackerStatus.attackBuffRate : 1.0f)
+                * (1f - additionalStatus.DamageCutRate)
+                * (IsStunned ? defenseDebuffRateOnStunned : 1.0f);
             hitPoint.Value = Mathf.Max(0f, hitPoint.Value - damage);
             stunResistance.Value = Mathf.Min(stunResistance.Value + attackData.StunDamage, stunResistanceMax.Value);
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);

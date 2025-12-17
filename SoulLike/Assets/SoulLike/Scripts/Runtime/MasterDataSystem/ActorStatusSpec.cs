@@ -36,5 +36,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public float AttackBuffRate { get; private set; }
+
+        [field: SerializeField]
+        public float DefenseDebuffRateOnStunned { get; private set; }
     }
 }
