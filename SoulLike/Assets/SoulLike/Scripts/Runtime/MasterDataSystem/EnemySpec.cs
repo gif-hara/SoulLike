@@ -13,6 +13,9 @@ namespace SoulLike.MasterDataSystem
         public float MoveSpeed { get; private set; }
 
         [field: SerializeField]
+        public float MoveAcceleration { get; private set; }
+
+        [field: SerializeField]
         public float RotateSpeed { get; private set; }
 
         [field: SerializeField]
