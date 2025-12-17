@@ -42,4 +42,14 @@ MonoBehaviour:
           <SpecialStockMax>k__BackingField: 0
           <OnSpecialStockReached>k__BackingField: {fileID: 0}
           <AttackBuffRate>k__BackingField: 0
+        additionalStatus:
+          hitPoint: 0
+          stamina: 0
+          staminaRecoveryPerSecond: 0
+          attackRate: 2
+          damageCutRate: 0
+          acquireExperienceRate: 0
+          dodgeUniqueAttackId: 0
+          strongAttackUniqueAttackId: 0
+          parryUniqueAttackId: 0
         newAI: {fileID: 11400000, guid: 322ce19b9365cc24bb9ac6a0f0e7fb6e, type: 2}
