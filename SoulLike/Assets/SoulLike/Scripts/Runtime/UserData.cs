@@ -42,6 +42,8 @@ namespace SoulLike
 
         private int parryUniqueAttackId = 0;
 
+        public int DeadCount { get; set; }
+
         int IAdditionalStatus.HitPoint => hitPoint.Value;
 
         int IAdditionalStatus.Stamina => stamina.Value;
