@@ -91,7 +91,7 @@ namespace SoulLike.ActorControllers.Brains
                 .SubscribeAwait((this, actor), async static (x, t, cts) =>
                 {
                     var (@this, actor) = t;
-                    @this.actorStatus.ApplySpec(x.ActorStatusSpec, new AdditionalStatusEmpty());
+                    @this.actorStatus.ApplySpec(x.ActorStatusSpec, x.AdditionalStatus);
                     @this.actorMovement.Reset();
                     @this.actorWeaponHandler.Reset();
                     await @this.actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.Idle).FirstAsync(cts).AsUniTask();

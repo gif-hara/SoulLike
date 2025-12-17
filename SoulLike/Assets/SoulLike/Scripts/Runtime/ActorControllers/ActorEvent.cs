@@ -74,11 +74,14 @@ namespace SoulLike.ActorControllers
         {
             public readonly ActorStatusSpec ActorStatusSpec;
 
+            public readonly IAdditionalStatus AdditionalStatus;
+
             public readonly ActorAI NewAI;
 
-            public ReviveEnemy(ActorStatusSpec actorStatusSpec, ActorAI newAI)
+            public ReviveEnemy(ActorStatusSpec actorStatusSpec, IAdditionalStatus additionalStatus, ActorAI newAI)
             {
                 ActorStatusSpec = actorStatusSpec;
+                AdditionalStatus = additionalStatus;
                 NewAI = newAI;
             }
         }

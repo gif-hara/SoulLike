@@ -14,11 +14,14 @@ namespace SoulLike.ActorControllers.ActorActions
         private ActorStatusSpec actorStatusSpec;
 
         [SerializeField]
+        private SerializableAdditionalStatus additionalStatus;
+
+        [SerializeField]
         private ActorAI newAI;
 
         public UniTask InvokeAsync(Actor actor, CancellationToken cancellationToken)
         {
-            actor.Event.Broker.Publish(new ActorEvent.ReviveEnemy(actorStatusSpec, newAI));
+            actor.Event.Broker.Publish(new ActorEvent.ReviveEnemy(actorStatusSpec, additionalStatus, newAI));
             return UniTask.CompletedTask;
         }
     }
