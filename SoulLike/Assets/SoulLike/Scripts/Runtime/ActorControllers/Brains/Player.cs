@@ -150,6 +150,7 @@ namespace SoulLike.ActorControllers.Brains
                 .SubscribeAwait((this, actor), async static (_, t, cts) =>
                 {
                     var (@this, actor) = t;
+                    @this.userData.DeadCount++;
                     @this.worldCameraController.PlayOnDeadImpulse1();
                     await HK.Time.Root.BeginHitStopAsync(1.0f, 0.0f, cts);
                     @this.worldCameraController.PlayLockOnCameraNoiseAnimationAsync(10.0f, 0.0f, 3.0f, cts).Forget();
