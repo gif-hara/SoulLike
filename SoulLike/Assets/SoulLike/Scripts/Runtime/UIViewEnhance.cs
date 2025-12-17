@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -35,7 +36,7 @@ namespace SoulLike
             gameObject.SetActive(false);
         }
 
-        public async UniTask BeginAsync(MasterData masterData, UserData userData, PlayerInput playerInput, UIViewFade uiViewFade, UIViewDialog uiViewDialog, CancellationToken cancellationToken)
+        public async UniTask BeginAsync(MasterData masterData, UserData userData, PlayerInput playerInput, UIViewFade uiViewFade, UIViewDialog uiViewDialog, bool isShowTutorial, CancellationToken cancellationToken)
         {
             using var scope = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             userData.Experience
@@ -47,7 +48,18 @@ namespace SoulLike
             uiViewFade.BeginAsync(0.0f, 0.25f, scope.Token).Forget();
             CreateList(masterData, userData, uiViewDialog);
             gameObject.SetActive(true);
+
             var cancelAction = playerInput.actions["UI/Cancel"];
+
+            if (isShowTutorial)
+            {
+                var message = string.Format(
+                    "諦めるな！<color=#DDAA00>経験値</color>と引き換えに能力を得よ！{0}無事、師を乗り越えよ！",
+                    Environment.NewLine
+                );
+                await uiViewDialog.ShowAsync(message, new string[] { "OK" }, cancelAction, 0, scope.Token);
+                elementLists[selectedIndex].Button.Select();
+            }
 
             while (!scope.Token.IsCancellationRequested)
             {
