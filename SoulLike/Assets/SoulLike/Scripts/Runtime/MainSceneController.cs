@@ -85,7 +85,7 @@ namespace SoulLike
             player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker));
 
             var enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, enemySpawnPoint.rotation);
-            enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker));
+            enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker, player));
 
             player.GetAbility<ActorTargetHandler>().BeginLockOn(enemy);
             enemy.GetAbility<ActorTargetHandler>().BeginLockOn(player);

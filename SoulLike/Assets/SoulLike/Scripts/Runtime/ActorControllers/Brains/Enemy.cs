@@ -1,4 +1,5 @@
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using HK;
 using R3;
 using SoulLike.ActorControllers.Abilities;
@@ -13,6 +14,8 @@ namespace SoulLike.ActorControllers.Brains
         private readonly EnemySpec enemySpec;
 
         private readonly MessageBroker sceneBroker;
+
+        private readonly Actor target;
 
         private Vector3 initialPosition;
 
@@ -30,10 +33,13 @@ namespace SoulLike.ActorControllers.Brains
 
         private ActorWeaponHandler actorWeaponHandler;
 
-        public Enemy(EnemySpec enemySpec, MessageBroker sceneBroker)
+        private int deadCount = 0;
+
+        public Enemy(EnemySpec enemySpec, MessageBroker sceneBroker, Actor target)
         {
             this.enemySpec = enemySpec;
             this.sceneBroker = sceneBroker;
+            this.target = target;
         }
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
@@ -67,8 +73,31 @@ namespace SoulLike.ActorControllers.Brains
                     @this.actorAnimation.Reset();
                     @this.actorStatus.ApplySpec(@this.enemySpec.ActorStatusSpec, new AdditionalStatusEmpty());
                     @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
-                    @this.actorTargetHandler.BeginLockOn(x.Player);
+                    @this.actorTargetHandler.BeginLockOn(@this.target);
                     @this.actorAIController.Change(@this.enemySpec.ActorAI);
+                })
+                .RegisterTo(cancellationToken);
+
+            actor.Event.Broker.Receive<ActorEvent.OnDead>()
+                .Subscribe((this, actor), static (x, t) =>
+                {
+                    var (@this, actor) = t;
+                    @this.enemySpec.OnDeadActions[@this.deadCount].InvokeAsync(actor, actor.destroyCancellationToken).Forget();
+                    @this.deadCount = Mathf.Min(@this.deadCount + 1, @this.enemySpec.OnDeadActions.Count - 1);
+                })
+                .RegisterTo(cancellationToken);
+
+            actor.Event.Broker.Receive<ActorEvent.ReviveEnemy>()
+                .SubscribeAwait((this, actor), async static (x, t, cts) =>
+                {
+                    var (@this, actor) = t;
+                    @this.actorStatus.ApplySpec(x.ActorStatusSpec, new AdditionalStatusEmpty());
+                    @this.actorMovement.Reset();
+                    @this.actorWeaponHandler.Reset();
+                    await @this.actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.Idle).FirstAsync(cts).AsUniTask();
+                    @this.actorTargetHandler.BeginLockOn(@this.target);
+                    @this.actorAnimation.Reset();
+                    @this.actorAIController.Change(x.NewAI);
                 })
                 .RegisterTo(cancellationToken);
         }
