@@ -68,6 +68,7 @@ namespace SoulLike.ActorControllers.Brains
             sceneBroker.Receive<MainSceneEvent.RestartGame>()
                 .Subscribe(this, static (x, @this) =>
                 {
+                    @this.deadCount = 0;
                     @this.actorMovement.Reset();
                     @this.actorWeaponHandler.Reset();
                     @this.actorAnimation.Reset();
