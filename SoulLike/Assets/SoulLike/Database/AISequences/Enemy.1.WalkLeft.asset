@@ -28,7 +28,7 @@ MonoBehaviour:
     - rid: 8736876788586905741
       type: {class: Walk, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
-        velocity: {x: -0.5, y: 0}
+        velocity: {x: -0.75, y: 0}
         completeCondition:
           mode: 1
           unityReference: {fileID: 0}
