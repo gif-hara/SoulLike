@@ -54,6 +54,7 @@ namespace SoulLike.ActorControllers.Brains
 
             actorWeaponHandler.CreateWeapon(enemySpec.WeaponPrefab, Layer.EnemyWeapon);
             actorWalk.MoveSpeed = enemySpec.MoveSpeed;
+            actorWalk.Acceleration = enemySpec.MoveAcceleration;
             actorStatus.ApplySpec(enemySpec.ActorStatusSpec, new AdditionalStatusEmpty());
             actorAIController = new ActorAIController(actor);
             actorAIController.Change(enemySpec.ActorAI);
