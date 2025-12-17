@@ -33,8 +33,8 @@ MonoBehaviour:
   <EnemySpecs>k__BackingField:
   - <ActorStatusSpec>k__BackingField:
       <HitPoint>k__BackingField: 4680
-      <Stamina>k__BackingField: 100
-      <StaminaRecoveryPerSecond>k__BackingField: 1000
+      <Stamina>k__BackingField: 9999
+      <StaminaRecoveryPerSecond>k__BackingField: 9999
       <DodgeStaminaCost>k__BackingField: 0
       <StunResistance>k__BackingField: 100
       <StunDuration>k__BackingField: 5
