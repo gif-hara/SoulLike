@@ -8,11 +8,15 @@ namespace SoulLike.ActorControllers.Abilities
     {
         public float MoveSpeed { get; set; }
 
+        public float Acceleration { get; set; } = 10f;
+
         private ActorAnimation actorAnimation;
 
         private ActorMovement actorMovement;
 
         private Vector3 normalizedVelocity;
+
+        private Vector3 currentVelocity;
 
         public void Activate(Actor actor)
         {
@@ -23,14 +27,17 @@ namespace SoulLike.ActorControllers.Abilities
                 {
                     var (@this, actor) = t;
 
-                    @this.actorMovement.Move(@this.normalizedVelocity * @this.MoveSpeed);
+                    @this.currentVelocity = Vector3.Lerp(@this.currentVelocity, @this.normalizedVelocity * @this.MoveSpeed, Time.deltaTime * @this.Acceleration);
+
+                    @this.actorMovement.Move(@this.currentVelocity);
 
                     // 移動量をアニメーションに渡す
-                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveSpeed, @this.normalizedVelocity.magnitude);
+                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveSpeed, @this.currentVelocity.magnitude);
 
-                    var localVelocity = actor.transform.InverseTransformDirection(@this.normalizedVelocity);
-                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveX, localVelocity.x);
-                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveY, localVelocity.z);
+                    var localVelocity = actor.transform.InverseTransformDirection(@this.currentVelocity.normalized);
+                    var speed = @this.currentVelocity.sqrMagnitude / (@this.MoveSpeed * @this.MoveSpeed);
+                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveX, localVelocity.x * speed);
+                    @this.actorAnimation.SetFloat(ActorAnimation.Parameter.MoveY, localVelocity.z * speed);
 
                     // 移動入力がある場合、移動方向に向く
                     if (@this.normalizedVelocity.sqrMagnitude > 0.0001f)
