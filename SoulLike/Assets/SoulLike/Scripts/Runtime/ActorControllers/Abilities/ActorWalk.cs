@@ -22,7 +22,9 @@ namespace SoulLike.ActorControllers.Abilities
         {
             actorAnimation = actor.GetAbility<ActorAnimation>();
             actorMovement = actor.GetAbility<ActorMovement>();
+            var actorStatus = actor.GetAbility<ActorStatus>();
             actor.UpdateAsObservable()
+                .Where(actorStatus, static (_, actorStatus) => !actorStatus.IsDead)
                 .Subscribe((this, actor), static (_, t) =>
                 {
                     var (@this, actor) = t;
