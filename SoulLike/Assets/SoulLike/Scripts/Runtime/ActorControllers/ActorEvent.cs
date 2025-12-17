@@ -1,4 +1,6 @@
 
+using SoulLike.ActorControllers.AISystems;
+using SoulLike.MasterDataSystem;
 using UnityEngine;
 
 namespace SoulLike.ActorControllers
@@ -66,6 +68,19 @@ namespace SoulLike.ActorControllers
 
         public readonly struct OnSetAttackBuffTimer
         {
+        }
+
+        public readonly struct ReviveEnemy
+        {
+            public readonly ActorStatusSpec ActorStatusSpec;
+
+            public readonly ActorAI NewAI;
+
+            public ReviveEnemy(ActorStatusSpec actorStatusSpec, ActorAI newAI)
+            {
+                ActorStatusSpec = actorStatusSpec;
+                NewAI = newAI;
+            }
         }
     }
 }
