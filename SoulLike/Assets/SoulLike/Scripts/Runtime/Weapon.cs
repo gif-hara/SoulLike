@@ -183,6 +183,7 @@ namespace SoulLike
                             @this.hitActors[attackElement.AttackId].Clear();
                         }
                         attackElement.AttackData.Collider.OnTriggerStayAsObservable()
+                            .TakeUntil(actor.Event.Broker.Receive<ActorEvent.EndAttack>().Where(attackElement.AttackId, static (x, attackId) => x.AttackId == attackId))
                             .Subscribe((@this, attackElement, actor, @this.hitActors[attackElement.AttackId]), static (x, t) =>
                             {
                                 var (@this, attackElement, actor, hitActors) = t;
@@ -204,7 +205,6 @@ namespace SoulLike
                                 {
                                     return;
                                 }
-                                hitActors.Add(target);
                                 if (targetStatus.IsParrying)
                                 {
                                     target.Event.Broker.Publish(new ActorEvent.OnBeginParry());
@@ -231,6 +231,7 @@ namespace SoulLike
                                         Instantiate(hitEffectPrefab, hitPosition, Quaternion.identity);
                                     }
                                 }
+                                hitActors.Add(target);
                             })
                             .RegisterTo(@this.endAttackAnimationCancellationTokenSource.Token);
                     })
