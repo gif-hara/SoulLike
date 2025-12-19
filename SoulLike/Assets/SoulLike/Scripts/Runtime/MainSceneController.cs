@@ -83,6 +83,8 @@ namespace SoulLike
                 .RegisterTo(destroyCancellationToken);
             var sceneBroker = new MessageBroker();
             var worldCameraController = Instantiate(worldCameraControllerPrefab);
+            TinyServiceLocator.Register(worldCameraController)
+                .RegisterTo(destroyCancellationToken);
             var userData = new UserData();
             var player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
             player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker));
