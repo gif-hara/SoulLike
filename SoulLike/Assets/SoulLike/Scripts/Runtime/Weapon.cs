@@ -184,7 +184,7 @@ namespace SoulLike
                         {
                             @this.hitActors[attackElement.AttackId].Clear();
                         }
-                        var projectileActivateProcess = attackElement.AttackData.Projectile.Activate(actor, attackElement.AttackData);
+                        var projectileActivateProcess = attackElement.Projectile.Activate(actor, attackElement.AttackData);
                         @this.projectileActivateProcesses[attackElement.AttackId] = projectileActivateProcess;
                     })
                     .RegisterTo(endAttackAnimationCancellationTokenSource.Token);
@@ -277,6 +277,9 @@ namespace SoulLike
 
             [field: SerializeField]
             public List<MeleeWeaponTrail> Trails { get; private set; }
+
+            [field: SerializeField]
+            public Projectile Projectile { get; private set; }
 
             [field: SerializeField]
             public AttackData AttackData { get; private set; }

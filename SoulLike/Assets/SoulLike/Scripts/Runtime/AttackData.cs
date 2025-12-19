@@ -7,8 +7,6 @@ namespace SoulLike
     [Serializable]
     public struct AttackData
     {
-        public Projectile Projectile;
-
         public float Power;
 
         public float StunDamage;
