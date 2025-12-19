@@ -26,7 +26,17 @@ namespace SoulLike
         private CinemachineImpulseSource onDeadImpulseSource1;
 
         [SerializeField]
+        private CinemachineImpulseSource onDeadImpulseSource2;
+
+        [SerializeField]
         private CinemachineBasicMultiChannelPerlin lockOnCameraNoise;
+
+        public enum ImpluseType
+        {
+            OnGiveDamage,
+            OnDead1,
+            OnDead2,
+        }
 
         public void BeginObserve(Actor actor)
         {
@@ -45,6 +55,24 @@ namespace SoulLike
         public void PlayOnDeadImpulse1()
         {
             onDeadImpulseSource1.GenerateImpulse();
+        }
+
+        public void PlayImpulse(ImpluseType impluseType)
+        {
+            switch (impluseType)
+            {
+                case ImpluseType.OnGiveDamage:
+                    onGiveDamageImpulseSource.GenerateImpulse();
+                    break;
+                case ImpluseType.OnDead1:
+                    onDeadImpulseSource1.GenerateImpulse();
+                    break;
+                case ImpluseType.OnDead2:
+                    onDeadImpulseSource2.GenerateImpulse();
+                    break;
+                default:
+                    break;
+            }
         }
 
         public UniTask PlayLockOnCameraNoiseAnimationAsync(float amplitudeGainFrom, float amplitudeGainTo, float duration, CancellationToken cancellationToken)
