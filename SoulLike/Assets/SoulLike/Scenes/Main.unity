@@ -13022,7 +13022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.size
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.data[0].key
@@ -13081,6 +13081,10 @@ PrefabInstance:
       value: AttackBuff.1
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[13].key
+      value: Defeat.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.data[1].clip
       value: 
       objectReference: {fileID: 8300000, guid: ae2df208a8c5da047aa9d2c25c95957a, type: 3}
@@ -13128,6 +13132,10 @@ PrefabInstance:
       propertyPath: sfx.list.Array.data[12].clip
       value: 
       objectReference: {fileID: 8300000, guid: 776c7970f2b1a3143991c1fecf764d3b, type: 3}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[13].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d6053fd4eec04a4da911bcca6b5f7a6, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
