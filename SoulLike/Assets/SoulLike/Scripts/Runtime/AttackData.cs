@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SoulLike
@@ -35,5 +36,7 @@ namespace SoulLike
         public string SfxKey;
 
         public string SfxKeyOnStun;
+
+        public List<GameObject> HitEffectPrefabs;
     }
 }

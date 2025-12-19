@@ -2439,6 +2439,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: basicAttackElements.Array.data[0].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: basicAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: basicAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.SceneViewShakeDampingRatio
       value: 1
       objectReference: {fileID: 0}
@@ -2458,6 +2470,34 @@ PrefabInstance:
       propertyPath: uniqueAttackElements.Array.data[5].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.SceneViewShakeDampingRatio
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: uniqueAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: 'basicAttackElements.Array.data[0].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7814966347070033172, guid: 75067c82b6d7e684faff78b61a4edc9e, type: 3}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: 'basicAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7814966347070033172, guid: 75067c82b6d7e684faff78b61a4edc9e, type: 3}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: 'basicAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7814966347070033172, guid: 75067c82b6d7e684faff78b61a4edc9e, type: 3}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: 'uniqueAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7814966347070033172, guid: 75067c82b6d7e684faff78b61a4edc9e, type: 3}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: 'uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitEffectPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7814966347070033172, guid: 75067c82b6d7e684faff78b61a4edc9e, type: 3}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[0].<AttackElements>k__BackingField.Array.data[0].<BeginAttackActions>k__BackingField.Array.data[0].rawReference
       value: 8736876884512997604
