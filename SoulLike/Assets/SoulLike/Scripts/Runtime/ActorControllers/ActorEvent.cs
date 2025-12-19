@@ -85,5 +85,25 @@ namespace SoulLike.ActorControllers
                 NewAI = newAI;
             }
         }
+
+        public readonly struct RequestEffectMessage
+        {
+            public readonly string Message;
+
+            public readonly Color BackgroundColor;
+
+            public readonly Color ForwardColor;
+
+            public RequestEffectMessage(string message, Color backgroundColor, Color forwardColor)
+            {
+                BackgroundColor = backgroundColor;
+                ForwardColor = forwardColor;
+                Message = message;
+            }
+        }
+
+        public readonly struct OnCompleteEffectMessage
+        {
+        }
     }
 }
