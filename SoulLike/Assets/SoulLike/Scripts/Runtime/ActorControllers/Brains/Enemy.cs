@@ -17,6 +17,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private readonly Actor target;
 
+        private readonly UIViewEffectMessage uiViewEffectMessage;
+
         private Vector3 initialPosition;
 
         private Quaternion initialRotation;
@@ -35,11 +37,12 @@ namespace SoulLike.ActorControllers.Brains
 
         private int deadCount = 0;
 
-        public Enemy(EnemySpec enemySpec, MessageBroker sceneBroker, Actor target)
+        public Enemy(EnemySpec enemySpec, MessageBroker sceneBroker, Actor target, UIViewEffectMessage uiViewEffectMessage)
         {
             this.enemySpec = enemySpec;
             this.sceneBroker = sceneBroker;
             this.target = target;
+            this.uiViewEffectMessage = uiViewEffectMessage;
         }
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
@@ -99,6 +102,14 @@ namespace SoulLike.ActorControllers.Brains
                     @this.actorTargetHandler.BeginLockOn(@this.target);
                     @this.actorAnimation.Reset();
                     @this.actorAIController.Change(x.NewAI);
+                })
+                .RegisterTo(cancellationToken);
+
+            actor.Event.Broker.Receive<ActorEvent.RequestEffectMessage>()
+                .Subscribe((this, actor), static (x, t) =>
+                {
+                    var (@this, actor) = t;
+                    @this.uiViewEffectMessage.BeginAsync(x.BackgroundColor, x.ForwardColor, x.Message, actor.Event.Broker, actor.destroyCancellationToken).Forget();
                 })
                 .RegisterTo(cancellationToken);
         }
