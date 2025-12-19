@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
+using SoulLike.ActorControllers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +31,7 @@ namespace SoulLike
             messageText.enabled = false;
         }
 
-        public async UniTask BeginAsync(Color backgroundColor, Color forwardColor, string message, CancellationToken cancellationToken)
+        public async UniTask BeginAsync(Color backgroundColor, Color forwardColor, string message, IMessagePublisher publisher, CancellationToken cancellationToken)
         {
             var backgroundColorFrom = backgroundImage.color;
             backgroundColorFrom.a = 0f;
@@ -43,7 +44,7 @@ namespace SoulLike
             forwardImage.color = forwardColorFrom;
             messageText.SetText(message);
             messageText.maxVisibleCharacters = 0;
-            await LMotion.Create(backgroundColorFrom, backgroundColor, 0.2f)
+            await LMotion.Create(backgroundColorFrom, backgroundColor, 1.0f)
                 .BindToColor(backgroundImage)
                 .ToUniTask(cancellationToken);
             while (!cancellationToken.IsCancellationRequested && messageText.maxVisibleCharacters < message.Length)
@@ -62,14 +63,15 @@ namespace SoulLike
                 await UniTask.Delay(TimeSpan.FromSeconds(delayTime), cancellationToken: cancellationToken);
             }
             await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: cancellationToken);
-            await LMotion.Create(forwardColorFrom, forwardColor, 0.2f)
+            await LMotion.Create(forwardColorFrom, forwardColor, 1.0f)
                 .BindToColor(forwardImage)
                 .ToUniTask(cancellationToken);
             backgroundImage.enabled = false;
             messageText.enabled = false;
-            await LMotion.Create(forwardColor, forwardColorFrom, 0.2f)
+            await LMotion.Create(forwardColor, forwardColorFrom, 1.0f)
                 .BindToColor(forwardImage)
                 .ToUniTask(cancellationToken);
+            publisher.Publish(new ActorEvent.OnCompleteEffectMessage());
         }
 
         [Serializable]
