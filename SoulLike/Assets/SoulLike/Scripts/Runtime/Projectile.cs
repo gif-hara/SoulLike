@@ -48,7 +48,7 @@ namespace SoulLike
                     else
                     {
                         var takeDamageData = targetStatus.TakeDamage(actor, attackData);
-                        var hitPosition = x.ClosestPoint(attackData.Projectile.transform.position);
+                        var hitPosition = x.ClosestPoint(@this.controlledCollider.transform.position);
                         actor.GetAbility<ActorStatus>().AddSpecialPower(attackData.SpecialPowerRecovery);
                         actor.Event.Broker.Publish(new ActorEvent.OnGiveDamage(attackData, targetStatus.IsStunned, takeDamageData.Damage, hitPosition));
                         if (!string.IsNullOrEmpty(attackData.SfxKey))
