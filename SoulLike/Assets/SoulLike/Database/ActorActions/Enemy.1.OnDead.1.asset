@@ -88,4 +88,4 @@ MonoBehaviour:
     - rid: 8736877068290097254
       type: {class: Delay, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
-        duration: 1
+        duration: 1.5
