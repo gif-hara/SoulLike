@@ -63,6 +63,9 @@ namespace SoulLike
         private UIViewDamageLabel uiViewDamageLabel;
 
         [SerializeField]
+        private UIViewEffectMessage uiViewEffectMessage;
+
+        [SerializeField]
         private Color fadeInColor;
 
         [SerializeField]
@@ -102,6 +105,7 @@ namespace SoulLike
             uiViewEnemyStatus.Bind(enemy);
             uiViewDialog.Initialize();
             uiViewDamageLabel.BeginObserve(player, worldCameraController.WorldCamera);
+            uiViewEffectMessage.Initialize();
 
 #if DEBUG
             this.UpdateAsObservable()
