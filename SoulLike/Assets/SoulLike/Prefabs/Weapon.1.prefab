@@ -130,6 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8500828924191884954}
   - component: {fileID: 4380147030535932759}
+  - component: {fileID: 6998772533833018759}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -174,6 +175,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6998772533833018759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989833698846204339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf15b500c089b9f47adb89aed605ddf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.Projectile
+  controlledCollider: {fileID: 4380147030535932759}
 --- !u!1 &5519294979639783551
 GameObject:
   m_ObjectHideFlags: 0
@@ -2015,13 +2029,25 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: basicAttackElements.Array.data[0].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Projectile
+      value: 
+      objectReference: {fileID: 6998772533833018759}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[0].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: basicAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Projectile
+      value: 
+      objectReference: {fileID: 6998772533833018759}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: basicAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Projectile
+      value: 
+      objectReference: {fileID: 6998772533833018759}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
       value: 8
@@ -2043,6 +2069,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8160333218681004478}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: uniqueAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Projectile
+      value: 
+      objectReference: {fileID: 6998772533833018759}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
       value: 100
       objectReference: {fileID: 0}
@@ -2050,6 +2080,10 @@ PrefabInstance:
       propertyPath: uniqueAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
+      propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Projectile
+      value: 
+      objectReference: {fileID: 6998772533833018759}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
       value: 25

@@ -16,13 +16,13 @@ namespace SoulLike
 
         private readonly HashSet<Actor> hitActors = new();
 
-        public IDisposable Activate(Actor actor, AttackData attackData, List<GameObject> hitEffectPrefabs)
+        public IDisposable Activate(Actor actor, AttackData attackData)
         {
             hitActors.Clear();
             return controlledCollider.OnTriggerStayAsObservable()
-                .Subscribe((this, actor, attackData, hitEffectPrefabs), static (x, t) =>
+                .Subscribe((this, actor, attackData), static (x, t) =>
                 {
-                    var (@this, actor, attackData, hitEffectPrefabs) = t;
+                    var (@this, actor, attackData) = t;
                     var target = x.attachedRigidbody?.GetComponent<Actor>();
                     if (target == null)
                     {
@@ -48,7 +48,7 @@ namespace SoulLike
                     else
                     {
                         var takeDamageData = targetStatus.TakeDamage(actor, attackData);
-                        var hitPosition = x.ClosestPoint(attackData.Collider.transform.position);
+                        var hitPosition = x.ClosestPoint(attackData.Projectile.transform.position);
                         actor.GetAbility<ActorStatus>().AddSpecialPower(attackData.SpecialPowerRecovery);
                         actor.Event.Broker.Publish(new ActorEvent.OnGiveDamage(attackData, targetStatus.IsStunned, takeDamageData.Damage, hitPosition));
                         if (!string.IsNullOrEmpty(attackData.SfxKey))
@@ -62,7 +62,7 @@ namespace SoulLike
                                 TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackData.SfxKeyOnStun);
                             }
                         }
-                        foreach (var hitEffectPrefab in hitEffectPrefabs)
+                        foreach (var hitEffectPrefab in attackData.HitEffectPrefabs)
                         {
                             Instantiate(hitEffectPrefab, hitPosition, Quaternion.identity);
                         }

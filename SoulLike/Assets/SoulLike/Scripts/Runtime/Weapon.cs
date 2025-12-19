@@ -40,7 +40,9 @@ namespace SoulLike
 
         public int BasicAttackComboId { get; set; } = 0;
 
-        private Dictionary<int, HashSet<Actor>> hitActors = new();
+        private readonly Dictionary<int, HashSet<Actor>> hitActors = new();
+
+        private readonly Dictionary<int, IDisposable> projectileActivateProcesses = new();
 
         private CancellationTokenSource endAttackAnimationCancellationTokenSource;
 
@@ -182,58 +184,8 @@ namespace SoulLike
                         {
                             @this.hitActors[attackElement.AttackId].Clear();
                         }
-                        attackElement.AttackData.Collider.OnTriggerStayAsObservable()
-                            .TakeUntil(actor.Event.Broker.Receive<ActorEvent.EndAttack>().Where(attackElement.AttackId, static (x, attackId) => x.AttackId == attackId))
-                            .Subscribe((@this, attackElement, actor, @this.hitActors[attackElement.AttackId]), static (x, t) =>
-                            {
-                                var (@this, attackElement, actor, hitActors) = t;
-                                var target = x.attachedRigidbody?.GetComponent<Actor>();
-                                if (target == null)
-                                {
-                                    return;
-                                }
-                                if (hitActors.Contains(target))
-                                {
-                                    return;
-                                }
-                                var targetStatus = target.GetAbility<ActorStatus>();
-                                if (targetStatus == null)
-                                {
-                                    return;
-                                }
-                                if (targetStatus.IsInvincible.CurrentValue)
-                                {
-                                    return;
-                                }
-                                if (targetStatus.IsParrying)
-                                {
-                                    target.Event.Broker.Publish(new ActorEvent.OnBeginParry());
-                                }
-                                else
-                                {
-                                    var takeDamageData = targetStatus.TakeDamage(actor, attackElement.AttackData);
-                                    var hitPosition = x.ClosestPoint(attackElement.AttackData.Collider.transform.position);
-                                    @this.actorStatus.AddSpecialPower(attackElement.AttackData.SpecialPowerRecovery);
-                                    actor.Event.Broker.Publish(new ActorEvent.OnGiveDamage(attackElement.AttackData, targetStatus.IsStunned, takeDamageData.Damage, hitPosition));
-                                    if (!string.IsNullOrEmpty(attackElement.AttackData.SfxKey))
-                                    {
-                                        TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKey);
-                                    }
-                                    if (targetStatus.IsStunned)
-                                    {
-                                        if (!string.IsNullOrEmpty(attackElement.AttackData.SfxKeyOnStun))
-                                        {
-                                            TinyServiceLocator.Resolve<AudioManager>().PlaySfx(attackElement.AttackData.SfxKeyOnStun);
-                                        }
-                                    }
-                                    foreach (var hitEffectPrefab in attackElement.AttackData.HitEffectPrefabs)
-                                    {
-                                        Instantiate(hitEffectPrefab, hitPosition, Quaternion.identity);
-                                    }
-                                }
-                                hitActors.Add(target);
-                            })
-                            .RegisterTo(@this.endAttackAnimationCancellationTokenSource.Token);
+                        var projectileActivateProcess = attackElement.AttackData.Projectile.Activate(actor, attackElement.AttackData);
+                        @this.projectileActivateProcesses[attackElement.AttackId] = projectileActivateProcess;
                     })
                     .RegisterTo(endAttackAnimationCancellationTokenSource.Token);
                 actor.Event.Broker.Receive<ActorEvent.EndAttack>()
@@ -252,6 +204,11 @@ namespace SoulLike
                         foreach (var actionInterface in attackElement.EndAttackActions)
                         {
                             actionInterface.Value.Invoke(@this, actor, @this.endAttackAnimationCancellationTokenSource.Token);
+                        }
+                        if (@this.projectileActivateProcesses.TryGetValue(attackElement.AttackId, out var process))
+                        {
+                            process.Dispose();
+                            @this.projectileActivateProcesses.Remove(attackElement.AttackId);
                         }
                     })
                     .RegisterTo(endAttackAnimationCancellationTokenSource.Token);
