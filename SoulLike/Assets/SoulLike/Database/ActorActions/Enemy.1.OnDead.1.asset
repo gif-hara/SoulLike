@@ -16,6 +16,22 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
+      rid: 8736877077020278878
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877077020278871
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877077020278865
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877077020278868
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
       rid: 8736877020932997424
   - mode: 1
     unityReference: {fileID: 0}
@@ -89,3 +105,23 @@ MonoBehaviour:
       type: {class: Delay, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
         duration: 1.5
+    - rid: 8736877077020278865
+      type: {class: BeginHitStop, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        duration: 0.5
+        timeScale: 0
+    - rid: 8736877077020278868
+      type: {class: BeginHitStop, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        duration: 3
+        timeScale: 0.1
+    - rid: 8736877077020278871
+      type: {class: PlaySfx, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        sfxKey: Defeat.2
+    - rid: 8736877077020278878
+      type: {class: PlayLockOnCameraNoiseAnimationAsync, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        amplitudeGainFrom: 5
+        amplitudeGainTo: 0
+        duration: 1
