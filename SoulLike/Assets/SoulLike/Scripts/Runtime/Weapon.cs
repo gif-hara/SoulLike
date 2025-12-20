@@ -155,6 +155,11 @@ namespace SoulLike
                             trail.Emit = false;
                         }
                     }
+                    foreach (var process in @this.projectileActivateProcesses.Values)
+                    {
+                        process.Dispose();
+                    }
+                    @this.projectileActivateProcesses.Clear();
                 })
                 .RegisterTo(endAttackAnimationCancellationTokenSource.Token);
             foreach (var attackElement in attackElements)
