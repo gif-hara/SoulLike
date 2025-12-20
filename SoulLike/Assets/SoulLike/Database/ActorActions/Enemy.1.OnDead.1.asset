@@ -16,6 +16,10 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
+      rid: 8736877088430096465
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
       rid: 8736877077020278878
   - mode: 1
     unityReference: {fileID: 0}
@@ -29,6 +33,10 @@ MonoBehaviour:
     unityReference: {fileID: 0}
     rawReference:
       rid: 8736877077020278868
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877088430096467
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
@@ -59,7 +67,7 @@ MonoBehaviour:
     - rid: 8736877020932997424
       type: {class: Delay, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
-        duration: 5
+        duration: 2
     - rid: 8736877068290097245
       type: {class: BeginEffectMessage, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
@@ -125,3 +133,15 @@ MonoBehaviour:
         amplitudeGainFrom: 5
         amplitudeGainTo: 0
         duration: 1
+    - rid: 8736877088430096465
+      type: {class: FadeOutBgm, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        duration: 0
+        targetVolume: 0.5
+        isForget: 1
+    - rid: 8736877088430096467
+      type: {class: FadeOutBgm, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        duration: 3
+        targetVolume: 0
+        isForget: 0
