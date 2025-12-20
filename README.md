@@ -17,3 +17,7 @@
         - https://assetstore.unity.com/packages/3d/animations/nodachi-animset-212073
     - Simple Stylized Slash Pack 2
         - https://assetstore.unity.com/packages/vfx/particles/simple-stylized-slash-pack-2-248665
+    - BGM
+        - https://dova-s.jp/bgm/play21051.html
+        - https://dova-s.jp/bgm/play19918.html
+        
