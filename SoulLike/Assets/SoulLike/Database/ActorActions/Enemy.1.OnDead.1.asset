@@ -84,7 +84,7 @@ MonoBehaviour:
           <SpecialStockMax>k__BackingField: 0
           <OnSpecialStockReached>k__BackingField: {fileID: 0}
           <AttackBuffRate>k__BackingField: 0
-          <DefenseDebuffRateOnStunned>k__BackingField: 0
+          <DefenseDebuffRateOnStunned>k__BackingField: 1.5
         additionalStatus:
           hitPoint: 0
           stamina: 0
