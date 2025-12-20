@@ -139,8 +139,8 @@ namespace SoulLike.ActorControllers.Abilities
             staminaMax.Value = spec.Stamina + additionalStatus.Stamina;
             stamina.Value = spec.Stamina + additionalStatus.Stamina;
             staminaRecoveryPerSecond = spec.StaminaRecoveryPerSecond + additionalStatus.StaminaRecoveryPerSecond;
-            stunResistanceMax.Value = spec.StunResistance;
             stunResistance.Value = 0;
+            stunResistanceMax.Value = spec.StunResistance;
             StunDuration = spec.StunDuration;
             onStunAction = spec.OnStunAction;
             specialPower.Value = 0.0f;
