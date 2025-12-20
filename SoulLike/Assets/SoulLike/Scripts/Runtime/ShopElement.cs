@@ -12,6 +12,9 @@ namespace SoulLike
         public Sprite Icon { get; private set; }
 
         [field: SerializeField]
+        public Color IconColor { get; private set; }
+
+        [field: SerializeField]
         public string ElementName { get; private set; }
 
         [field: SerializeField]
