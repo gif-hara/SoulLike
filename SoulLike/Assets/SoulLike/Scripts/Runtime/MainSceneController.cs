@@ -75,6 +75,9 @@ namespace SoulLike
         private float fadeDuration = 1f;
 
         [SerializeField]
+        private string battleBgmKey;
+
+        [SerializeField]
         private AttackData debugDamageAttackData;
 
         async UniTaskVoid Start()
@@ -132,11 +135,11 @@ namespace SoulLike
                 })
                 .RegisterTo(destroyCancellationToken);
 #endif
-
             uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
 
             while (!destroyCancellationToken.IsCancellationRequested)
             {
+                audioManager.PlayBgm(battleBgmKey);
                 var gameJudgement = await sceneBroker.Receive<MainSceneEvent.GameJudgement>()
                     .FirstAsync(destroyCancellationToken)
                     .AsUniTask();
