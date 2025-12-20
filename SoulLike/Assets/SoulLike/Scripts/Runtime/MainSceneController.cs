@@ -78,6 +78,9 @@ namespace SoulLike
         private string battleBgmKey;
 
         [SerializeField]
+        private string enhanceBgmKey;
+
+        [SerializeField]
         private AttackData debugDamageAttackData;
 
         async UniTaskVoid Start()
@@ -151,6 +154,7 @@ namespace SoulLike
                 {
                     await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: destroyCancellationToken);
                     await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, fadeDuration, destroyCancellationToken);
+                    audioManager.PlayBgm(enhanceBgmKey);
                     await uiViewEnhance.BeginAsync(masterData, userData, playerInput, uiViewFade, uiViewDialog, userData.DeadCount == 1, destroyCancellationToken);
                     sceneBroker.Publish(new MainSceneEvent.RestartGame(player, enemy));
                     await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
