@@ -52,6 +52,10 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
+      rid: 8736877088430096470
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
       rid: 8736877068290097252
   - mode: 1
     unityReference: {fileID: 0}
@@ -145,3 +149,7 @@ MonoBehaviour:
         duration: 3
         targetVolume: 0
         isForget: 0
+    - rid: 8736877088430096470
+      type: {class: PlayBgm, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        bgmKey: Battle.2
