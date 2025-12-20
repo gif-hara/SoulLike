@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca363fdba019a364fb2c3bd3e4e726a1, type: 3}
   m_Name: AttackRate
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ShopElement
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 10556302979c4cd429005b6e34fd0789, type: 3}
+  <IconColor>k__BackingField: {r: 1, g: 0.34635216, b: 0, a: 1}
   <ElementName>k__BackingField: "Lv.{0} \u653B\u6483\u529B\u4E0A\u6607"
   <Prices>k__BackingField: 78000000a1000000d800000022010000860100000c020000c0020000b2030000f8040000ae060000fb080000140c00003e100000d8150000611d0000832700002435000079470000216000004b810000
   <CanPurchaseInfinitely>k__BackingField: 0

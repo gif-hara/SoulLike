@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca363fdba019a364fb2c3bd3e4e726a1, type: 3}
   m_Name: StrongAttackChange.2
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ShopElement
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 9e5747d1d18a35e4a9d091b737acf710, type: 3}
+  <IconColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
   <ElementName>k__BackingField: "\"\u5F37\u653B\u6483\"\u3092\u5143\u306B\u623B\u3059"
   <Prices>k__BackingField: 00000000
   <CanPurchaseInfinitely>k__BackingField: 1

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca363fdba019a364fb2c3bd3e4e726a1, type: 3}
   m_Name: HitPoint
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ShopElement
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: cd18de2cfe58e50428fdf5784e71e4b1, type: 3}
+  <IconColor>k__BackingField: {r: 0.7019608, g: 0, b: 0, a: 1}
   <ElementName>k__BackingField: "Lv.{0} \u4F53\u529B\u4E0A\u6607"
   <Prices>k__BackingField: 78000000a1000000d800000022010000860100000c020000c0020000b2030000f8040000ae060000
   <CanPurchaseInfinitely>k__BackingField: 0
