@@ -39,6 +39,7 @@ namespace SoulLike
         public async UniTask BeginAsync(MasterData masterData, UserData userData, PlayerInput playerInput, UIViewFade uiViewFade, UIViewDialog uiViewDialog, bool isShowTutorial, CancellationToken cancellationToken)
         {
             using var scope = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            var audioManager = TinyServiceLocator.Resolve<AudioManager>();
             userData.Experience
                 .Subscribe(this, static (x, @this) =>
                 {
@@ -46,7 +47,7 @@ namespace SoulLike
                 })
                 .RegisterTo(scope.Token);
             uiViewFade.BeginAsync(0.0f, 0.25f, scope.Token).Forget();
-            CreateList(masterData, userData, uiViewDialog);
+            CreateList(masterData, userData, audioManager);
             gameObject.SetActive(true);
 
             var cancelAction = playerInput.actions["UI/Cancel"];
@@ -58,6 +59,7 @@ namespace SoulLike
                     Environment.NewLine
                 );
                 await uiViewDialog.ShowAsync(message, new string[] { "OK" }, cancelAction, 0, scope.Token);
+                audioManager.PlaySfx("Decide.1");
                 elementLists[selectedIndex].Button.Select();
             }
 
@@ -77,10 +79,13 @@ namespace SoulLike
                     var price = shopElement.GetPrice(purchasedCount);
                     if (userData.Experience.CurrentValue < price)
                     {
+                        audioManager.PlaySfx("Abort.1");
                         await uiViewDialog.ShowAsync("経験値が足りません。", new string[] { "OK" }, cancelAction, 0, scope.Token);
+                        audioManager.PlaySfx("Cancel.1");
                         elementLists[selectedIndex].Button.Select();
                         continue;
                     }
+                    audioManager.PlaySfx("Select.1");
                     var purchaseResult = await uiViewDialog.ShowAsync("会得しますか？", new string[] { "はい", "いいえ" }, cancelAction, 1, scope.Token);
                     if (purchaseResult == 0)
                     {
@@ -88,24 +93,29 @@ namespace SoulLike
                         {
                             action.Value.Invoke(userData);
                         }
+                        audioManager.PlaySfx("Decide.1");
                         userData.AddExperience(-price);
                         userData.AddPurchasedShopElementCount(shopElement.name, purchasedCount + 1);
-                        CreateList(masterData, userData, uiViewDialog);
+                        CreateList(masterData, userData, audioManager);
                     }
                     else
                     {
+                        audioManager.PlaySfx("Cancel.1");
                         elementLists[selectedIndex].Button.Select();
                     }
                 }
                 else
                 {
+                    audioManager.PlaySfx("Select.1");
                     var cancelResult = await uiViewDialog.ShowAsync("再戦します。よろしいですか？", new string[] { "はい", "いいえ" }, cancelAction, 1, scope.Token);
                     if (cancelResult == 0)
                     {
+                        audioManager.PlaySfx("Decide.2");
                         break;
                     }
                     else
                     {
+                        audioManager.PlaySfx("Cancel.1");
                         if (elementLists.Count > 0)
                         {
                             elementLists[selectedIndex].Button.Select();
@@ -120,7 +130,7 @@ namespace SoulLike
             scope.Cancel();
         }
 
-        public void CreateList(MasterData masterData, UserData userData, UIViewDialog uiViewDialog)
+        private void CreateList(MasterData masterData, UserData userData, AudioManager audioManager)
         {
             foreach (var elementList in elementLists)
             {
@@ -137,10 +147,11 @@ namespace SoulLike
                 elementList.Setup(shopElement.Icon, string.Format(shopElement.ElementName, purchasedCount + 1), shopElement.GetPrice(purchasedCount).ToString());
                 elementLists.Add(elementList);
                 elementList.Button.OnSelectAsObservable()
-                    .Subscribe((this, i), static (_, t) =>
+                    .Subscribe((this, i, audioManager), static (_, t) =>
                     {
-                        var (@this, i) = t;
+                        var (@this, i, audioManager) = t;
                         @this.selectedIndex = i;
+                        audioManager.PlaySfx("Select.1");
                     })
                     .AddTo(elementList);
             }
