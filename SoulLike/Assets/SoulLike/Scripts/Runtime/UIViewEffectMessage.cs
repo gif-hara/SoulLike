@@ -37,16 +37,36 @@ namespace SoulLike
             backgroundColorFrom.a = 0f;
             var forwardColorFrom = forwardImage.color;
             forwardColorFrom.a = 0f;
-            backgroundImage.enabled = true;
-            forwardImage.enabled = true;
-            messageText.enabled = true;
-            backgroundImage.color = backgroundColorFrom;
-            forwardImage.color = forwardColorFrom;
-            messageText.SetText(message);
-            messageText.maxVisibleCharacters = 0;
+            Setup(backgroundColorFrom, forwardColorFrom, message);
             await LMotion.Create(backgroundColorFrom, backgroundColor, 1.0f)
                 .BindToColor(backgroundImage)
                 .ToUniTask(cancellationToken);
+            await PlayMessageAnimationAsync(message, cancellationToken);
+            await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: cancellationToken);
+            await LMotion.Create(forwardColorFrom, forwardColor, 1.0f)
+                .BindToColor(forwardImage)
+                .ToUniTask(cancellationToken);
+            backgroundImage.enabled = false;
+            messageText.enabled = false;
+            await LMotion.Create(forwardColor, forwardColorFrom, 1.0f)
+                .BindToColor(forwardImage)
+                .ToUniTask(cancellationToken);
+            publisher.Publish(new ActorEvent.OnCompleteEffectMessage());
+        }
+
+        private void Setup(Color backgroundColor, Color forwardColor, string message)
+        {
+            backgroundImage.enabled = true;
+            forwardImage.enabled = true;
+            messageText.enabled = true;
+            backgroundImage.color = backgroundColor;
+            forwardImage.color = forwardColor;
+            messageText.SetText(message);
+            messageText.maxVisibleCharacters = 0;
+        }
+
+        private async UniTask PlayMessageAnimationAsync(string message, CancellationToken cancellationToken)
+        {
             while (!cancellationToken.IsCancellationRequested && messageText.maxVisibleCharacters < message.Length)
             {
                 messageText.maxVisibleCharacters++;
@@ -62,16 +82,6 @@ namespace SoulLike
                 }
                 await UniTask.Delay(TimeSpan.FromSeconds(delayTime), cancellationToken: cancellationToken);
             }
-            await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: cancellationToken);
-            await LMotion.Create(forwardColorFrom, forwardColor, 1.0f)
-                .BindToColor(forwardImage)
-                .ToUniTask(cancellationToken);
-            backgroundImage.enabled = false;
-            messageText.enabled = false;
-            await LMotion.Create(forwardColor, forwardColorFrom, 1.0f)
-                .BindToColor(forwardImage)
-                .ToUniTask(cancellationToken);
-            publisher.Publish(new ActorEvent.OnCompleteEffectMessage());
         }
 
         [Serializable]
