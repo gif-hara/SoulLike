@@ -42,15 +42,15 @@ namespace HK
         {
             bgmSource.Stop();
         }
-        
+
         public void PlaySfx(string key)
         {
             sfxSource.PlayOneShot(sfx.Get(key).Clip);
         }
-        
-        public UniTask FadeOutBgmAsync(float duration, CancellationToken cancellationToken)
+
+        public UniTask FadeOutBgmAsync(float duration, float targetVolume, CancellationToken cancellationToken)
         {
-            return LMotion.Create(bgmSource.volume, 0, duration)
+            return LMotion.Create(bgmSource.volume, targetVolume, duration)
                 .BindToVolume(bgmSource)
                 .ToUniTask(cancellationToken);
         }
@@ -129,7 +129,7 @@ namespace HK
                 }
             }
         }
-        
+
 #if UNITY_EDITOR
         [MenuItem("Assets/Create/HK/AudioManager")]
         private static void CreateAudioManager()

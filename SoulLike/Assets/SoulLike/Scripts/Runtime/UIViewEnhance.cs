@@ -123,7 +123,7 @@ namespace SoulLike
                     }
                 }
             }
-            TinyServiceLocator.Resolve<AudioManager>().FadeOutBgmAsync(0.25f, scope.Token).Forget();
+            TinyServiceLocator.Resolve<AudioManager>().FadeOutBgmAsync(0.25f, 0.0f, scope.Token).Forget();
             await uiViewFade.BeginAsync(1.0f, 0.25f, scope.Token);
 
             gameObject.SetActive(false);

@@ -154,10 +154,11 @@ namespace SoulLike.ActorControllers.Brains
                     @this.worldCameraController.PlayOnDeadImpulse1();
                     var audioManager = TinyServiceLocator.Resolve<AudioManager>();
                     audioManager.PlaySfx("BeginStun.1");
+                    audioManager.FadeOutBgmAsync(0.0f, 0.5f, cts).Forget();
                     await HK.Time.Root.BeginHitStopAsync(1.0f, 0.0f, cts);
                     @this.worldCameraController.PlayLockOnCameraNoiseAnimationAsync(10.0f, 0.0f, 3.0f, cts).Forget();
                     audioManager.PlaySfx("Defeat.1");
-                    audioManager.FadeOutBgmAsync(2.0f, cts).Forget();
+                    audioManager.FadeOutBgmAsync(2.0f, 0.0f, cts).Forget();
                     await HK.Time.Root.BeginHitStopAsync(1.0f, 0.3f, cts);
                     @this.sceneBroker.Publish(new MainSceneEvent.GameJudgement(MainSceneEvent.JudgementType.PlayerLose));
                 })
