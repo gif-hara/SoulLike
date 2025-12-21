@@ -60,11 +60,27 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8736877068290097254
+      rid: 8736877108709031938
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877108709031940
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877108709031942
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877108709031944
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
       rid: 8736877105410474067
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877068290097254
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
@@ -120,7 +136,7 @@ MonoBehaviour:
     - rid: 8736877068290097254
       type: {class: Delay, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
-        duration: 1.5
+        duration: 0.5
     - rid: 8736877077020278865
       type: {class: BeginHitStop, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
@@ -162,3 +178,19 @@ MonoBehaviour:
       data:
         effectName: Effect.Eyes
         active: 1
+    - rid: 8736877108709031938
+      type: {class: PlaySfx, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        sfxKey: Effect.1
+    - rid: 8736877108709031940
+      type: {class: Delay, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        duration: 1
+    - rid: 8736877108709031942
+      type: {class: PlaySfx, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        sfxKey: Effect.2
+    - rid: 8736877108709031944
+      type: {class: PlayCameraImpulse, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        impluseType: 0
