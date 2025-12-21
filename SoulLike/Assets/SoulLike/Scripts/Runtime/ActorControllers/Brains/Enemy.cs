@@ -35,6 +35,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private ActorWeaponHandler actorWeaponHandler;
 
+        private ActorEffect actorEffect;
+
         private int deadCount = 0;
 
         public Enemy(EnemySpec enemySpec, MessageBroker sceneBroker, Actor target, UIViewEffectMessage uiViewEffectMessage)
@@ -59,6 +61,7 @@ namespace SoulLike.ActorControllers.Brains
             actorWeaponHandler = actor.AddAbility<ActorWeaponHandler>();
             actor.AddAbility<ActorDodge>();
             actorStatus = actor.AddAbility<ActorStatus>();
+            actorEffect = actor.AddAbility<ActorEffect>();
             actor.ActivateAbilities();
 
             actorWeaponHandler.CreateWeapon(enemySpec.WeaponPrefab, Layer.EnemyWeapon);
@@ -72,6 +75,7 @@ namespace SoulLike.ActorControllers.Brains
                 .Subscribe(this, static (x, @this) =>
                 {
                     @this.deadCount = 0;
+                    @this.actorEffect.Reset();
                     @this.actorMovement.Reset();
                     @this.actorWeaponHandler.Reset();
                     @this.actorAnimation.Reset();
