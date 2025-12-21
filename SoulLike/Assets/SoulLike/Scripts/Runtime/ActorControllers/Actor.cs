@@ -8,6 +8,9 @@ namespace SoulLike.ActorControllers
 {
     public class Actor : MonoBehaviour
     {
+        [field: SerializeField]
+        public List<GameObject> EffectObjects { get; private set; } = new();
+
         public ActorEvent Event { get; } = new ActorEvent();
 
         public ActorBrain Brain { get; } = new ActorBrain();
