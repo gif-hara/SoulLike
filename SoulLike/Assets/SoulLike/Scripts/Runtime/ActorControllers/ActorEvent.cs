@@ -94,10 +94,13 @@ namespace SoulLike.ActorControllers
 
             public readonly Color ForwardColor;
 
-            public RequestEffectMessage(string message, Color backgroundColor, Color forwardColor)
+            public readonly Color MessageColor;
+
+            public RequestEffectMessage(string message, Color backgroundColor, Color forwardColor, Color messageColor)
             {
                 BackgroundColor = backgroundColor;
                 ForwardColor = forwardColor;
+                MessageColor = messageColor;
                 Message = message;
             }
         }

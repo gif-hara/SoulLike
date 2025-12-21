@@ -18,9 +18,12 @@ namespace SoulLike.ActorControllers.ActorActions
         [SerializeField]
         private Color forwardColor;
 
+        [SerializeField]
+        private Color messageColor;
+
         public async UniTask InvokeAsync(Actor actor, CancellationToken cancellationToken)
         {
-            actor.Event.Broker.Publish(new ActorEvent.RequestEffectMessage(message, backgroundColor, forwardColor));
+            actor.Event.Broker.Publish(new ActorEvent.RequestEffectMessage(message, backgroundColor, forwardColor, messageColor));
             await actor.Event.Broker.Receive<ActorEvent.OnCompleteEffectMessage>().FirstAsync(cancellationToken).AsUniTask();
         }
     }

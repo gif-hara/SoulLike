@@ -31,13 +31,13 @@ namespace SoulLike
             messageText.enabled = false;
         }
 
-        public async UniTask BeginAsync(Color backgroundColor, Color forwardColor, string message, IMessagePublisher publisher, CancellationToken cancellationToken)
+        public async UniTask BeginAsync(Color backgroundColor, Color forwardColor, Color messageColor, string message, IMessagePublisher publisher, CancellationToken cancellationToken)
         {
             var backgroundColorFrom = backgroundImage.color;
             backgroundColorFrom.a = 0f;
             var forwardColorFrom = forwardImage.color;
             forwardColorFrom.a = 0f;
-            Setup(backgroundColorFrom, forwardColorFrom, message);
+            Setup(backgroundColorFrom, forwardColorFrom, messageColor, message);
             await LMotion.Create(backgroundColorFrom, backgroundColor, 1.0f)
                 .BindToColor(backgroundImage)
                 .ToUniTask(cancellationToken);
@@ -54,7 +54,7 @@ namespace SoulLike
             publisher.Publish(new ActorEvent.OnCompleteEffectMessage());
         }
 
-        private void Setup(Color backgroundColor, Color forwardColor, string message)
+        private void Setup(Color backgroundColor, Color forwardColor, Color messageColor, string message)
         {
             backgroundImage.enabled = true;
             forwardImage.enabled = true;
@@ -63,6 +63,7 @@ namespace SoulLike
             forwardImage.color = forwardColor;
             messageText.SetText(message);
             messageText.maxVisibleCharacters = 0;
+            messageText.color = messageColor;
         }
 
         private async UniTask PlayMessageAnimationAsync(string message, CancellationToken cancellationToken)
