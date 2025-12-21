@@ -64,6 +64,10 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
+      rid: 8736877105410474067
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
       rid: 8736877068290097250
   references:
     version: 2
@@ -153,3 +157,8 @@ MonoBehaviour:
       type: {class: PlayBgm, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
         bgmKey: Battle.2
+    - rid: 8736877105410474067
+      type: {class: SetActiveActorEffect, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        effectName: Effect.Eyes
+        active: 1
