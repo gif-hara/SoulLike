@@ -66,6 +66,9 @@ namespace SoulLike
         private UIViewEffectMessage uiViewEffectMessage;
 
         [SerializeField]
+        private UIViewInputGuide uiViewInputGuide;
+
+        [SerializeField]
         private Color fadeInColor;
 
         [SerializeField]
@@ -114,6 +117,7 @@ namespace SoulLike
             uiViewDialog.Initialize();
             uiViewDamageLabel.BeginObserve(player, worldCameraController.WorldCamera);
             uiViewEffectMessage.Initialize();
+            uiViewInputGuide.Activate(playerInput);
 
 #if DEBUG
             this.UpdateAsObservable()
