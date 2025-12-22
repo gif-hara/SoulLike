@@ -13,15 +13,9 @@ namespace HK
     /// </summary>
     public sealed class InputSprite
     {
-        public static string GetTag(InputAction action, InputScheme inputScheme)
+        public static string GetTag(PlayerInput playerInput, InputAction action)
         {
-            var schemeName = inputScheme.CurrentInputSchemeType switch
-            {
-                InputScheme.InputSchemeType.KeyboardAndMouse => "Keyboard&Mouse",
-                InputScheme.InputSchemeType.GamePad => "Gamepad",
-                _ => "Unknown"
-            };
-
+            var schemeName = playerInput.currentControlScheme;
             var bindingMask = InputBinding.MaskByGroup(schemeName);
             var sb = new System.Text.StringBuilder();
 
@@ -32,21 +26,34 @@ namespace HK
                     continue;
                 }
                 var path = binding.effectivePath;
-                var matchedControls = action.controls.Where(x => InputControlPath.Matches(path, x));
+                var matchedControls = action.controls.Where(x => InputControlPath.Matches(path, x)).ToList();
                 foreach (var control in matchedControls)
                 {
                     if (control is InputDevice)
                     {
                         continue;
                     }
-                    if (control.device is Gamepad && inputScheme.CurrentGamepad != null)
+                    if (control.device is Gamepad && playerInput.currentControlScheme == "Gamepad")
                     {
-                        if (control.device != inputScheme.CurrentGamepad)
+                        if (!playerInput.devices.Any(x => x is Gamepad && x == control.device))
                         {
                             continue;
                         }
                     }
-                    sb.Append($"<sprite name={GetSpriteName(control)}>");
+                    var deviceIconGroup = control.device switch
+                    {
+                        Keyboard => "Keyboard",
+                        Mouse => "Mouse",
+                        XInputController => "XInputController",
+                        DualShockGamepad => "DualShockGamepad",
+#if !UNITY_WEBGL
+                        SwitchProControllerHID => "SwitchProController",
+#endif
+                        _ => "DualShockGamepad",
+                    };
+                    var controlPathContent = control.path.Substring(control.device.name.Length + 2).Replace('/', '-');
+
+                    sb.Append($"<sprite name={deviceIconGroup}-{controlPathContent}>");
                 }
             }
 
@@ -58,28 +65,6 @@ namespace HK
             {
                 return $"<sprite=UnknownTag schemeName:{schemeName} action:{action.name}>";
             }
-        }
-
-        public static string GetTag(InputAction action)
-        {
-            return GetTag(action, TinyServiceLocator.Resolve<InputScheme>());
-        }
-
-        public static string GetSpriteName(InputControl control)
-        {
-            var deviceIconGroup = control.device switch
-            {
-                Keyboard => "Keyboard",
-                Mouse => "Mouse",
-                XInputController => "XInputController",
-                DualShockGamepad => "DualShockGamepad",
-#if !UNITY_WEBGL
-                SwitchProControllerHID => "SwitchProController",
-#endif
-                _ => "DualShockGamepad"
-            };
-            var controlPathContent = control.path.Substring(control.device.name.Length + 2).Replace('/', '-');
-            return $"{deviceIconGroup}-{controlPathContent}";
         }
     }
 }
