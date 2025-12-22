@@ -117,7 +117,7 @@ namespace SoulLike
             uiViewDialog.Initialize();
             uiViewDamageLabel.BeginObserve(player, worldCameraController.WorldCamera);
             uiViewEffectMessage.Initialize();
-            uiViewInputGuide.Activate(playerInput);
+            uiViewInputGuide.Activate(playerInput, userData, sceneBroker);
 
 #if DEBUG
             this.UpdateAsObservable()
