@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using HK;
 using R3;
 using TMPro;
@@ -9,29 +11,77 @@ namespace SoulLike
     public class UIViewInputGuide : MonoBehaviour
     {
         [SerializeField]
-        private TMP_Text inputGuideText;
+        private TMP_Text promptText;
+
+        [SerializeField]
+        private TMP_Text guideText;
 
         [SerializeField]
         private string[] replaceActionNames;
 
-        private string format;
+        [SerializeField]
+        private string attackTag;
 
-        public void Activate(PlayerInput playerInput)
+        [SerializeField]
+        private string attackGuideText;
+
+        [SerializeField]
+        private string dodgeTag;
+
+        [SerializeField]
+        private List<ActionElement> dodgeActionElements;
+
+        [SerializeField]
+        private string parryTag;
+
+        [SerializeField]
+        private List<ActionElement> parryActionElements;
+
+        [SerializeField]
+        private string strongAttackTag;
+
+        [SerializeField]
+        private List<ActionElement> strongAttackActionElements;
+
+        private string promptFormat;
+
+        private string guideFormat;
+
+        public void Activate(PlayerInput playerInput, UserData userData, IMessageReceiver sceneBroker)
         {
-            format = inputGuideText.text;
-            playerInput.OnControlsChangedAsObservable()
-                .Prepend(playerInput)
-                .Subscribe((this, playerInput), static (_, t) =>
+            promptFormat = promptText.text;
+            guideFormat = guideText.text;
+            Observable.Merge(
+                playerInput.OnControlsChangedAsObservable().Prepend(playerInput).AsUnitObservable(),
+                sceneBroker.Receive<MainSceneEvent.RestartGame>().AsUnitObservable()
+            )
+                .Subscribe((this, playerInput, userData), static (_, t) =>
                 {
-                    var (@this, playerInput) = t;
-                    var message = @this.format;
+                    var (@this, playerInput, userData) = t;
+                    var promptMessage = @this.promptFormat;
                     foreach (var actionName in @this.replaceActionNames)
                     {
-                        message = message.Replace("{" + actionName + "}", InputSprite.GetTag(playerInput, playerInput.actions[actionName]));
+                        promptMessage = promptMessage.Replace("{" + actionName + "}", InputSprite.GetTag(playerInput, playerInput.actions[actionName]));
                     }
-                    @this.inputGuideText.SetText(message);
+                    @this.promptText.SetText(promptMessage);
+
+                    var guideMessage = @this.guideFormat;
+                    guideMessage = guideMessage
+                        .Replace(@this.attackTag, @this.attackGuideText)
+                        .Replace(@this.dodgeTag, @this.dodgeActionElements.Find(x => x.id == userData.DodgeUniqueAttackId).actionName)
+                        .Replace(@this.parryTag, @this.parryActionElements.Find(x => x.id == userData.ParryUniqueAttackId).actionName)
+                        .Replace(@this.strongAttackTag, @this.strongAttackActionElements.Find(x => x.id == userData.StrongAttackUniqueAttackId).actionName);
+                    @this.guideText.SetText(guideMessage);
                 })
                 .RegisterTo(destroyCancellationToken);
+        }
+
+        [Serializable]
+        public struct ActionElement
+        {
+            public int id;
+
+            public string actionName;
         }
     }
 }
