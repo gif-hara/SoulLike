@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFF1A\u653B\u6483\n\uFF1A\u5F37\u653B\u6483\n\uFF1A\u56DE\u907F\n\uFF1A\u30D1\u30EA\u30A3"
+  m_text: "{Attack}\uFF1A\u653B\u6483\n{StrongAttack}\uFF1A\u5F37\u653B\u6483\n{Dodge}\uFF1A\u56DE\u907F\n{Parry}\uFF1A\u30D1\u30EA\u30A3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f92e53aeb762d2e478856d6e0352b53d, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: d3da7c20af119474793ef9025a4ab296, type: 2}
@@ -388,10 +388,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3485495036201397986, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4841410820377977476}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1597061838853429428, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 941919964779449253}
   m_SourcePrefab: {fileID: 100100000, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
 --- !u!224 &817375782734072682 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3485495036201397986, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
   m_PrefabInstance: {fileID: 4253950792701371784}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3251870453555543356 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1597061838853429428, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
+  m_PrefabInstance: {fileID: 4253950792701371784}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &941919964779449253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3251870453555543356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db755164fb3384f4c9677e312f476f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewInputGuide
+  inputGuideText: {fileID: 3108616443354365504}
+  replaceActionNames:
+  - Attack
+  - StrongAttack
+  - Dodge
+  - Parry
