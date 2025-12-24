@@ -2,15 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using HK;
+using LitMotion;
+using LitMotion.Extensions;
 using R3;
 using R3.Triggers;
 using SoulLike.MasterDataSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace SoulLike
 {
@@ -25,11 +27,22 @@ namespace SoulLike
         [SerializeField]
         private TMP_Text experienceText;
 
+        [SerializeField]
+        private TMP_Text hintMessageText;
+
+        [SerializeField]
+        private CanvasGroup hintMessageCanvasGroup;
+
+        [SerializeField, Multiline]
+        private string[] hintMessages;
+
         private readonly List<UIElementList> elementLists = new();
 
         private List<ShopElement> availableShopElements = new();
 
         private int selectedIndex;
+
+        private int hintMessageIndex;
 
         public void Initialize()
         {
@@ -62,6 +75,8 @@ namespace SoulLike
                 audioManager.PlaySfx("Decide.1");
                 elementLists[selectedIndex].Button.Select();
             }
+
+            BeginHintMessageAsync(scope.Token).Forget();
 
             while (!scope.Token.IsCancellationRequested)
             {
@@ -161,6 +176,22 @@ namespace SoulLike
                 var firstElement = elementLists[Mathf.Clamp(selectedIndex, 0, elementLists.Count - 1)];
                 firstElement.Button.Select();
                 elementLists.Select(x => x.Button).ToList().SetNavigationVertical();
+            }
+        }
+
+        private async UniTask BeginHintMessageAsync(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                hintMessageText.SetText(hintMessages[hintMessageIndex]);
+                await LMotion.Create(0.0f, 1.0f, 0.5f)
+                    .BindToAlpha(hintMessageCanvasGroup)
+                    .ToUniTask(cancellationToken: cancellationToken);
+                await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: cancellationToken);
+                await LMotion.Create(1.0f, 0.0f, 0.5f)
+                    .BindToAlpha(hintMessageCanvasGroup)
+                    .ToUniTask(cancellationToken: cancellationToken);
+                hintMessageIndex = (hintMessageIndex + 1) % hintMessages.Length;
             }
         }
     }
