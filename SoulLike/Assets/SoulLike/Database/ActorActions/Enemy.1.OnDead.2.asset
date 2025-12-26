@@ -84,6 +84,10 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
+      rid: 8736877227374280786
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
       rid: 8736877068290097254
   - mode: 1
     unityReference: {fileID: 0}
@@ -204,3 +208,8 @@ MonoBehaviour:
       data:
         stateName: Dead
         animationClip: {fileID: 7400000, guid: 0e381aa13172f8b4295e3f2b4e6977d9, type: 2}
+    - rid: 8736877227374280786
+      type: {class: SetMaterial, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        materials:
+        - {fileID: 2100000, guid: b77a0fd26d477e84e98046516570c694, type: 2}
