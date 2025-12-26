@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using R3;
 using R3.Triggers;
 using UnityEngine;
@@ -99,6 +101,16 @@ namespace SoulLike.ActorControllers.Abilities
                 .RegisterTo(actor.destroyCancellationToken);
         }
 
+        public void PlayAnimation(string stateName)
+        {
+            animator.Play(stateName);
+        }
+
+        public void ChangeAnimationClip(string stateName, AnimationClip animationClip)
+        {
+            overrideController[stateName] = animationClip;
+        }
+
         public void PlayAttackAnimation(AnimationClip animationClip)
         {
             currentAttackId = currentAttackId == 1 ? 2 : 1;
@@ -183,5 +195,14 @@ namespace SoulLike.ActorControllers.Abilities
         public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateExitAsObservable() => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateExitAsObservable();
 
         public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateExitAsObservable(string targetStateName) => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateExitAsObservable().Where(targetStateName, static (x, stateName) => x.StateInfo.IsName(stateName));
+
+        public async UniTask WaitUntilAnimationEndAsync(CancellationToken cancellationToken)
+        {
+            while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await UniTask.Yield(cancellationToken);
+            }
+        }
     }
 }
