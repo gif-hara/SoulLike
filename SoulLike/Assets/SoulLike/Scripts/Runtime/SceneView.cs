@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SoulLike.ActorControllers;
 using UnityEngine;
 
@@ -16,5 +17,8 @@ namespace SoulLike
 
         [field: SerializeField]
         public ActorAnimatorMove ActorAnimatorMove { get; private set; }
+
+        [field: SerializeField]
+        public List<Renderer> Renderers { get; private set; } = new();
     }
 }
