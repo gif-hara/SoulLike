@@ -41,6 +41,7 @@ namespace SoulLike
             await LMotion.Create(backgroundColorFrom, backgroundColor, 1.0f)
                 .BindToColor(backgroundImage)
                 .ToUniTask(cancellationToken);
+            await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: cancellationToken);
             await PlayMessageAnimationAsync(message, cancellationToken);
             await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: cancellationToken);
             await LMotion.Create(forwardColorFrom, forwardColor, 1.0f)
