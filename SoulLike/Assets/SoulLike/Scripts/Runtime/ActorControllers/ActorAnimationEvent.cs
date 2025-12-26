@@ -92,5 +92,16 @@ namespace SoulLike.ActorControllers
         {
             actor.GetAbility<ActorStatus>().SetAttackBuffTimer(duration);
         }
+
+        public void PlayEffect(string key)
+        {
+            actor.GetAbility<ActorEffect>().SetActive(key, true);
+        }
+
+        public void PlayCameraImpulse(int type)
+        {
+            var worldCameraController = TinyServiceLocator.Resolve<WorldCameraController>();
+            worldCameraController.PlayImpulse((WorldCameraController.ImpluseType)type);
+        }
     }
 }
