@@ -50,6 +50,7 @@ MonoBehaviour:
     <WeaponPrefab>k__BackingField: {fileID: 6199076634914997999, guid: 7c9e22536580646488f3726a605e35d6, type: 3}
     <ActorAI>k__BackingField: {fileID: 11400000, guid: 322ce19b9365cc24bb9ac6a0f0e7fb6e, type: 2}
     <OnDeadActions>k__BackingField:
+    - {fileID: 11400000, guid: 802788fb549831c468dcca9bdb8a0d5e, type: 2}
     - {fileID: 11400000, guid: 0c472f11c8dfb7c4090653604d4add89, type: 2}
   <ShopElements>k__BackingField:
   - {fileID: 11400000, guid: e19b36f4ddbac0f4fa556e620c1f7c79, type: 2}
