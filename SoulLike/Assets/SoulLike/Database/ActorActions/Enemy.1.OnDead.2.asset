@@ -16,7 +16,7 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8736877220997890133
+      rid: 8736877220997890151
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
@@ -44,18 +44,104 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8736877220997890145
+      rid: 8736877020932997424
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8736877220997890148
+      rid: 8736877068290097245
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8736877220997890135
+      rid: 8736877068290097249
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877088430096470
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877068290097252
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877108709031938
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877108709031940
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877108709031942
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877108709031944
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877105410474067
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877068290097254
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877068290097250
   references:
     version: 2
     RefIds:
+    - rid: 8736877020932997424
+      type: {class: Delay, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        duration: 2
+    - rid: 8736877068290097245
+      type: {class: BeginEffectMessage, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        message: "\u5F37\u304F\u306A\u3063\u305F\u306A\u3001\u6211\u304C\u5F1F\u5B50\u3088\u30FB\u30FB\u30FB\u3002\n\u3060\u304C\u3001\u307E\u3060\u307E\u3060\u3053\u308C\u304B\u3089\u3088\uFF01"
+        backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+        forwardColor: {r: 1, g: 1, b: 1, a: 1}
+        messageColor: {r: 1, g: 1, b: 1, a: 1}
+    - rid: 8736877068290097249
+      type: {class: Delay, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        duration: 1
+    - rid: 8736877068290097250
+      type: {class: ReviveEnemy, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        actorStatusSpec:
+          <HitPoint>k__BackingField: 4400
+          <Stamina>k__BackingField: 9999
+          <StaminaRecoveryPerSecond>k__BackingField: 9999
+          <DodgeStaminaCost>k__BackingField: 0
+          <StunResistance>k__BackingField: 230
+          <StunDuration>k__BackingField: 5
+          <OnStunAction>k__BackingField: {fileID: 11400000, guid: ee28863cea1432d499c4cf9c50376ba7, type: 2}
+          <SpecialStockMax>k__BackingField: 0
+          <OnSpecialStockReached>k__BackingField: {fileID: 0}
+          <AttackBuffRate>k__BackingField: 0
+          <DefenseDebuffRateOnStunned>k__BackingField: 1.5
+        additionalStatus:
+          hitPoint: 0
+          stamina: 0
+          staminaRecoveryPerSecond: 0
+          attackRate: 2
+          damageCutRate: 0
+          acquireExperienceRate: 0
+          dodgeUniqueAttackId: 0
+          strongAttackUniqueAttackId: 0
+          parryUniqueAttackId: 0
+        newAI: {fileID: 11400000, guid: 322ce19b9365cc24bb9ac6a0f0e7fb6e, type: 2}
+    - rid: 8736877068290097252
+      type: {class: Instantiate, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        prefab: {fileID: 7814966347070033172, guid: ae512af12b292764eae644bc898c7c9a, type: 3}
+        locatorName: Root
+    - rid: 8736877068290097254
+      type: {class: Delay, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        duration: 0.5
     - rid: 8736877077020278865
       type: {class: BeginHitStop, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
@@ -88,42 +174,33 @@ MonoBehaviour:
         duration: 3
         targetVolume: 0
         isForget: 0
-    - rid: 8736877220997890133
+    - rid: 8736877088430096470
+      type: {class: PlayBgm, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        bgmKey: Battle.2
+    - rid: 8736877105410474067
+      type: {class: SetActiveActorEffect, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        effectName: Effect.Eyes
+        active: 1
+    - rid: 8736877108709031938
+      type: {class: PlaySfx, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        sfxKey: Effect.1
+    - rid: 8736877108709031940
+      type: {class: Delay, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        duration: 1
+    - rid: 8736877108709031942
+      type: {class: PlaySfx, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        sfxKey: Effect.2
+    - rid: 8736877108709031944
+      type: {class: PlayCameraImpulse, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        impluseType: 0
+    - rid: 8736877220997890151
       type: {class: ChangeAnimationClip, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
         stateName: Dead
-        animationClip: {fileID: 7400000, guid: 4d1edec910e12ca45a6c565aa9479ba8, type: 2}
-    - rid: 8736877220997890135
-      type: {class: ReviveEnemy, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
-      data:
-        actorStatusSpec:
-          <HitPoint>k__BackingField: 4400
-          <Stamina>k__BackingField: 9999
-          <StaminaRecoveryPerSecond>k__BackingField: 9999
-          <DodgeStaminaCost>k__BackingField: 0
-          <StunResistance>k__BackingField: 230
-          <StunDuration>k__BackingField: 5
-          <OnStunAction>k__BackingField: {fileID: 11400000, guid: ee28863cea1432d499c4cf9c50376ba7, type: 2}
-          <SpecialStockMax>k__BackingField: 0
-          <OnSpecialStockReached>k__BackingField: {fileID: 0}
-          <AttackBuffRate>k__BackingField: 0
-          <DefenseDebuffRateOnStunned>k__BackingField: 1.5
-        additionalStatus:
-          hitPoint: 0
-          stamina: 0
-          staminaRecoveryPerSecond: 0
-          attackRate: 2
-          damageCutRate: 0
-          acquireExperienceRate: 0
-          dodgeUniqueAttackId: 0
-          strongAttackUniqueAttackId: 0
-          parryUniqueAttackId: 0
-        newAI: {fileID: 11400000, guid: 322ce19b9365cc24bb9ac6a0f0e7fb6e, type: 2}
-    - rid: 8736877220997890145
-      type: {class: WaitUntilAnimationEndAsync, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
-      data:
-        stateName: 
-    - rid: 8736877220997890148
-      type: {class: PlayAnimation, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
-      data:
-        stateName: Idle
+        animationClip: {fileID: 7400000, guid: 0e381aa13172f8b4295e3f2b4e6977d9, type: 2}
