@@ -40,10 +40,6 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8736877088430096467
-  - mode: 1
-    unityReference: {fileID: 0}
-    rawReference:
       rid: 8736877220997890145
   - mode: 1
     unityReference: {fileID: 0}
@@ -53,6 +49,10 @@ MonoBehaviour:
     unityReference: {fileID: 0}
     rawReference:
       rid: 8736877220997890135
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877088430096467
   references:
     version: 2
     RefIds:
@@ -86,7 +86,7 @@ MonoBehaviour:
       type: {class: FadeOutBgm, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
         duration: 3
-        targetVolume: 0
+        targetVolume: 1
         isForget: 0
     - rid: 8736877220997890133
       type: {class: ChangeAnimationClip, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
