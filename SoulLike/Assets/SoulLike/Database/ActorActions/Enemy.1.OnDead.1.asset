@@ -119,7 +119,7 @@ MonoBehaviour:
           dodgeUniqueAttackId: 0
           strongAttackUniqueAttackId: 0
           parryUniqueAttackId: 0
-        newAI: {fileID: 11400000, guid: 322ce19b9365cc24bb9ac6a0f0e7fb6e, type: 2}
+        newAI: {fileID: 11400000, guid: 0a12c4800018d7b4f9fc389d00ad70ad, type: 2}
     - rid: 8736877220997890145
       type: {class: WaitUntilAnimationEndAsync, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
