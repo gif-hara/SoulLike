@@ -47,14 +47,17 @@ namespace SoulLike.ActorControllers
 
             public readonly int Damage;
 
-            public readonly Vector3 hitPoint;
+            public readonly Vector3 HitPoint;
 
-            public OnGiveDamage(AttackData attackData, bool isStunned, int damage, Vector3 hitPoint)
+            public readonly Actor Target;
+
+            public OnGiveDamage(AttackData attackData, bool isStunned, int damage, Vector3 hitPoint, Actor target)
             {
                 AttackData = attackData;
                 IsStunned = isStunned;
                 Damage = damage;
-                this.hitPoint = hitPoint;
+                HitPoint = hitPoint;
+                Target = target;
             }
         }
 

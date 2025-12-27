@@ -105,6 +105,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         public ReadOnlyReactiveProperty<bool> AttackBuffAvailable => attackBuffAvailable;
 
+        public float ExperienceRate { get; private set; }
+
         public void Activate(Actor actor)
         {
             this.actor = actor;
@@ -150,6 +152,7 @@ namespace SoulLike.ActorControllers.Abilities
             attackBuffTimer = 0.0f;
             attackBuffRate = spec.AttackBuffRate;
             defenseDebuffRateOnStunned = spec.DefenseDebuffRateOnStunned;
+            ExperienceRate = spec.ExperienceRate;
         }
 
         public TakeDamageData TakeDamage(Actor attacker, AttackData attackData)

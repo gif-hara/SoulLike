@@ -39,5 +39,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public float DefenseDebuffRateOnStunned { get; private set; }
+
+        [field: SerializeField]
+        public float ExperienceRate { get; private set; } = 1.0f;
     }
 }
