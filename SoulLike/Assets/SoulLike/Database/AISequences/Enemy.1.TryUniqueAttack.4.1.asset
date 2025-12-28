@@ -10,14 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 887c46d5ac497cc479c1fa0fee0f9fc3, type: 3}
-  m_Name: Enemy.1.TryUniqueAttack.4.0
+  m_Name: Enemy.1.TryUniqueAttack.4.1
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ActorControllers.AISystems.AIElement
-  <SequenceName>k__BackingField: TryUniqueAttack.4.0
+  <SequenceName>k__BackingField: TryUniqueAttack.4.1
   <Actions>k__BackingField:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
       rid: 8736876788586905789
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877259557699864
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
@@ -40,7 +44,7 @@ MonoBehaviour:
     - rid: 8736876788586905757
       type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
-        uniqueAttackId: 13
+        uniqueAttackId: 14
     - rid: 8736876788586905789
       type: {class: Walk, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
@@ -58,3 +62,7 @@ MonoBehaviour:
       type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
         uniqueAttackId: 8
+    - rid: 8736877259557699864
+      type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
+      data:
+        uniqueAttackId: 13
