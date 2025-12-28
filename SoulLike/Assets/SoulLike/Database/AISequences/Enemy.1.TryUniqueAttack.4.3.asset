@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887c46d5ac497cc479c1fa0fee0f9fc3, type: 3}
   m_Name: Enemy.1.TryUniqueAttack.4.3
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ActorControllers.AISystems.AIElement
-  <SequenceName>k__BackingField: TryUniqueAttack.4.1
+  <SequenceName>k__BackingField: TryUniqueAttack.4.3
   <Actions>k__BackingField:
   - mode: 1
     unityReference: {fileID: 0}
@@ -65,4 +65,4 @@ MonoBehaviour:
     - rid: 8736877259557699864
       type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
-        uniqueAttackId: 13
+        uniqueAttackId: 15

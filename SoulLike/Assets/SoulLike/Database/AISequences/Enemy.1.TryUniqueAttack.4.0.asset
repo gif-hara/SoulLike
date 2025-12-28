@@ -40,7 +40,7 @@ MonoBehaviour:
     - rid: 8736876788586905757
       type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
-        uniqueAttackId: 13
+        uniqueAttackId: 15
     - rid: 8736876788586905789
       type: {class: Walk, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
