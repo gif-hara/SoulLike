@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d6cd0564f4d714183228fb2facf417, type: 3}
+  m_Name: Enemy.1.3
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ActorControllers.AISystems.ActorAI
+  <InitialSequenceName>k__BackingField: Think
+  <OnStunSequenceName>k__BackingField: Think
+  <Sequences>k__BackingField:
+  - {fileID: 11400000, guid: f2ff38d3006672b46a66a0bf8dea4191, type: 2}
+  - {fileID: 11400000, guid: 4c2c29231403eaf41b008ecf823d6d57, type: 2}
+  - {fileID: 11400000, guid: 9f838aab663afc24b80ecb771f3b82ef, type: 2}
+  - {fileID: 11400000, guid: 27e7e87a260344342925feac67afdaeb, type: 2}
+  - {fileID: 11400000, guid: fe0802d7acb954b4fb2b76d40806f717, type: 2}
