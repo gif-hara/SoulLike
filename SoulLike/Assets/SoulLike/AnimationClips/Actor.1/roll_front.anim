@@ -408,15 +408,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 19.02708
-        outSlope: 19.02708
+        inSlope: 9.761381
+        outSlope: 9.761381
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.04872758
+        outWeight: 0.033188686
       - serializedVersion: 3
         time: 0.6666667
-        value: 3
+        value: 2
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -21048,15 +21048,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 19.02708
-        outSlope: 19.02708
+        inSlope: 9.761381
+        outSlope: 9.761381
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.04872758
+        outWeight: 0.033188686
       - serializedVersion: 3
         time: 0.6666667
-        value: 3
+        value: 2
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -40070,7 +40070,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.53333336
+  - time: 0.46666667
     functionName: EndInvincible
     data: Dodge
     objectReferenceParameter: {fileID: 0}
