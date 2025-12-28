@@ -13221,7 +13221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.size
-      value: 23
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: bgm.list.Array.data[0].key
@@ -13348,6 +13348,10 @@ PrefabInstance:
       value: Effect.3
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[23].key
+      value: Effect.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.data[2].clip
       value: 
       objectReference: {fileID: 8300000, guid: 47a1cf8d42933d744985f0d9d0a05f40, type: 3}
@@ -13431,6 +13435,10 @@ PrefabInstance:
       propertyPath: sfx.list.Array.data[22].clip
       value: 
       objectReference: {fileID: 8300000, guid: 955b3a608d47c5e40baaf757a340f2db, type: 3}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: sfx.list.Array.data[23].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 64887a35d34f4274586a67482c3e74aa, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

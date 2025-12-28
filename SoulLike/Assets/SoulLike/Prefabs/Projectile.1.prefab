@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9c1c4b8fe86f14bbd881fb896c86a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.AutoDestroy
-  delay: 1
+  delay: 3
 --- !u!1001 &7636273487850741650
 PrefabInstance:
   m_ObjectHideFlags: 0
