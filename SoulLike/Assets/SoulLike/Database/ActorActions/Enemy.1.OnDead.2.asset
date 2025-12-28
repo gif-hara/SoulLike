@@ -137,7 +137,7 @@ MonoBehaviour:
           dodgeUniqueAttackId: 0
           strongAttackUniqueAttackId: 0
           parryUniqueAttackId: 0
-        newAI: {fileID: 11400000, guid: 322ce19b9365cc24bb9ac6a0f0e7fb6e, type: 2}
+        newAI: {fileID: 11400000, guid: 5fe07299ca9227943bad94686ca54182, type: 2}
     - rid: 8736877068290097252
       type: {class: Instantiate, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
