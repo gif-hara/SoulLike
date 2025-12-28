@@ -25,14 +25,10 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
-      rid: 8736876788586905743
+      rid: 8736877274371719256
   references:
     version: 2
     RefIds:
-    - rid: 8736876788586905743
-      type: {class: ChangeSequence, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
-      data:
-        sequenceName: Think
     - rid: 8736876788586905757
       type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
@@ -41,3 +37,7 @@ MonoBehaviour:
       type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
         uniqueAttackId: 12
+    - rid: 8736877274371719256
+      type: {class: ChangeAI, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
+      data:
+        newAI: {fileID: 11400000, guid: 1e0a676ee87d9874aaeb9c54ef871c39, type: 2}

@@ -36,6 +36,10 @@ MonoBehaviour:
         - mode: 1
           unityReference: {fileID: 0}
           rawReference:
+            rid: 8736877274371719267
+        - mode: 1
+          unityReference: {fileID: 0}
+          rawReference:
             rid: 8736876923342028921
     - rid: 8736876923342028902
       type: {class: WaitOnStateEnter, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
@@ -55,8 +59,6 @@ MonoBehaviour:
           <Weight>k__BackingField: 100
         - <SequenceName>k__BackingField: TryUniqueAttack.3.2
           <Weight>k__BackingField: 100
-        - <SequenceName>k__BackingField: TryUniqueAttack.3.3
-          <Weight>k__BackingField: 1000000
     - rid: 8736876923342028923
       type: {class: Condition, ns: SoulLike.ActorControllers.AISystems.SelectSequences, asm: SoulLike.Runtime}
       data:
@@ -69,3 +71,17 @@ MonoBehaviour:
     - rid: 8736876923342028924
       type: {class: TargetIsDead, ns: SoulLike.ActorControllers.AISystems.Conditions, asm: SoulLike.Runtime}
       data: 
+    - rid: 8736877274371719267
+      type: {class: Condition, ns: SoulLike.ActorControllers.AISystems.SelectSequences, asm: SoulLike.Runtime}
+      data:
+        condition:
+          mode: 1
+          unityReference: {fileID: 0}
+          rawReference:
+            rid: 8736877274371719268
+        sequenceName: TryUniqueAttack.3.3
+    - rid: 8736877274371719268
+      type: {class: HitPointRate, ns: SoulLike.ActorControllers.AISystems.Conditions, asm: SoulLike.Runtime}
+      data:
+        comparisonType: 2
+        threshold: 0.7
