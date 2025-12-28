@@ -29,5 +29,8 @@ namespace SoulLike.MasterDataSystem
 
         [field: SerializeField]
         public List<ActorAction> OnDeadActions { get; private set; } = new();
+
+        [field: SerializeField]
+        public List<ActorAction> OnRestartActions { get; private set; } = new();
     }
 }

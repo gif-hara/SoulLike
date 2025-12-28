@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4983bae1e80ec24baab013e9ee365d8, type: 3}
+  m_Name: Enemy.1.OnRestart
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.ActorControllers.ActorActions.ActorAction
+  actions:
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877259557699664
+  references:
+    version: 2
+    RefIds:
+    - rid: 8736877259557699664
+      type: {class: SetMaterial, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        materials:
+        - {fileID: 2100000, guid: 9a59ce4fe73c15d40a4999b2023af069, type: 2}

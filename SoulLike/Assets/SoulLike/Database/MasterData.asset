@@ -54,6 +54,8 @@ MonoBehaviour:
     <OnDeadActions>k__BackingField:
     - {fileID: 11400000, guid: 802788fb549831c468dcca9bdb8a0d5e, type: 2}
     - {fileID: 11400000, guid: 0c472f11c8dfb7c4090653604d4add89, type: 2}
+    <OnRestartActions>k__BackingField:
+    - {fileID: 11400000, guid: 232e1f14717509842bc9c4bcbee5c012, type: 2}
   <ShopElements>k__BackingField:
   - {fileID: 11400000, guid: e19b36f4ddbac0f4fa556e620c1f7c79, type: 2}
   - {fileID: 11400000, guid: 874585f9495d75c4bb3e3b98702d0df7, type: 2}

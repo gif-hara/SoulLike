@@ -72,8 +72,13 @@ namespace SoulLike.ActorControllers.Brains
             actorAIController.Change(enemySpec.ActorAI);
 
             sceneBroker.Receive<MainSceneEvent.RestartGame>()
-                .Subscribe(this, static (x, @this) =>
+                .Subscribe((this, actor), static (x, t) =>
                 {
+                    var (@this, actor) = t;
+                    foreach (var action in @this.enemySpec.OnRestartActions)
+                    {
+                        action.InvokeAsync(actor, actor.destroyCancellationToken).Forget();
+                    }
                     @this.deadCount = 0;
                     @this.actorEffect.Reset();
                     @this.actorMovement.Reset();
