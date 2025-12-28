@@ -34,7 +34,7 @@ MonoBehaviour:
     <ParryUniqueAttackIds>k__BackingField: 0000000006000000
   <EnemySpecs>k__BackingField:
   - <ActorStatusSpec>k__BackingField:
-      <HitPoint>k__BackingField: 3860
+      <HitPoint>k__BackingField: 4120
       <Stamina>k__BackingField: 9999
       <StaminaRecoveryPerSecond>k__BackingField: 9999
       <DodgeStaminaCost>k__BackingField: 0

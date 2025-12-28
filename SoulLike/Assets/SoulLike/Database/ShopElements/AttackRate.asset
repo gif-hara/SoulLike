@@ -15,7 +15,7 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 21300000, guid: 10556302979c4cd429005b6e34fd0789, type: 3}
   <IconColor>k__BackingField: {r: 1, g: 0.34635216, b: 0, a: 1}
   <ElementName>k__BackingField: "Lv.{0} \u653B\u6483\u529B\u4E0A\u6607"
-  <Prices>k__BackingField: 78000000a1000000d800000022010000860100000c020000c0020000b2030000f8040000ae060000fb080000140c00003e100000d8150000611d0000832700002435000079470000216000004b810000
+  <Prices>k__BackingField: 78000000f4000000f1010000f50300001208000076100000942100007f440000bb8b00000c1d0100
   <CanPurchaseInfinitely>k__BackingField: 0
   <Actions>k__BackingField:
   - mode: 1
@@ -29,4 +29,4 @@ MonoBehaviour:
       type: {class: AddParameter, ns: SoulLike.ShopActions, asm: SoulLike.Runtime}
       data:
         parameterType: 3
-        amount: 0.25
+        amount: 0.1

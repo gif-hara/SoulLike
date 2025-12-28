@@ -15,7 +15,7 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 21300000, guid: 34e3300637bbba34eac57103793de0e4, type: 3}
   <IconColor>k__BackingField: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   <ElementName>k__BackingField: "Lv.{0} \u7372\u5F97\u7D4C\u9A13\u5024\u4E0A\u6607"
-  <Prices>k__BackingField: 78000000a1000000d800000022010000860100000c020000c0020000b2030000f8040000ae060000fb080000
+  <Prices>k__BackingField: 82000000fd000000ed010000c103000051070000440e0000d11b00003d360000c36900003cce0000
   <CanPurchaseInfinitely>k__BackingField: 0
   <Actions>k__BackingField:
   - mode: 1
