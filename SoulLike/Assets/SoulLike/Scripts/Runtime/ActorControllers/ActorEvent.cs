@@ -111,5 +111,15 @@ namespace SoulLike.ActorControllers
         public readonly struct OnCompleteEffectMessage
         {
         }
+
+        public readonly struct ChangeAI
+        {
+            public readonly ActorAI NewAI;
+
+            public ChangeAI(ActorAI newAI)
+            {
+                NewAI = newAI;
+            }
+        }
     }
 }

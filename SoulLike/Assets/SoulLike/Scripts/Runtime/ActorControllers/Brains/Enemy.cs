@@ -121,6 +121,14 @@ namespace SoulLike.ActorControllers.Brains
                     @this.uiViewEffectMessage.BeginAsync(x.BackgroundColor, x.ForwardColor, x.MessageColor, x.Message, actor.Event.Broker, actor.destroyCancellationToken).Forget();
                 })
                 .RegisterTo(cancellationToken);
+
+            actor.Event.Broker.Receive<ActorEvent.ChangeAI>()
+                .Subscribe((this, actor), static (x, t) =>
+                {
+                    var (@this, actor) = t;
+                    @this.actorAIController.Change(x.NewAI);
+                })
+                .RegisterTo(cancellationToken);
         }
     }
 }
