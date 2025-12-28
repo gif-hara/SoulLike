@@ -73,6 +73,8 @@ MonoBehaviour:
           <Weight>k__BackingField: 100
         - <SequenceName>k__BackingField: TryUniqueAttack.4.11
           <Weight>k__BackingField: 100
+        - <SequenceName>k__BackingField: TryUniqueAttack.4.12
+          <Weight>k__BackingField: 10000000
     - rid: 8736876923342028923
       type: {class: Condition, ns: SoulLike.ActorControllers.AISystems.SelectSequences, asm: SoulLike.Runtime}
       data:
