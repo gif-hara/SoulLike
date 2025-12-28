@@ -16,8 +16,9 @@ namespace SoulLike
 
         private readonly HashSet<Actor> hitActors = new();
 
-        public IDisposable Activate(Actor actor, AttackData attackData)
+        public IDisposable Activate(Actor actor, AttackData attackData, int layer)
         {
+            controlledCollider.gameObject.layer = layer;
             hitActors.Clear();
             return controlledCollider.OnTriggerStayAsObservable()
                 .Subscribe((this, actor, attackData), static (x, t) =>

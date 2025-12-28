@@ -189,7 +189,7 @@ namespace SoulLike
                         {
                             @this.hitActors[attackElement.AttackId].Clear();
                         }
-                        var projectileActivateProcess = attackElement.Projectile.Activate(actor, attackElement.AttackData);
+                        var projectileActivateProcess = attackElement.Projectile.Activate(actor, attackElement.AttackData, @this.gameObject.layer);
                         @this.projectileActivateProcesses[attackElement.AttackId] = projectileActivateProcess;
                     })
                     .RegisterTo(endAttackAnimationCancellationTokenSource.Token);

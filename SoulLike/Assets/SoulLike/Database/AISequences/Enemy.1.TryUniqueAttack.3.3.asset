@@ -21,6 +21,10 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
+      rid: 8736877259557699855
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
       rid: 8736876788586905743
   references:
     version: 2
@@ -33,3 +37,7 @@ MonoBehaviour:
       type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
       data:
         uniqueAttackId: 11
+    - rid: 8736877259557699855
+      type: {class: TryUniqueAttack, ns: SoulLike.ActorControllers.AISystems.Actions, asm: SoulLike.Runtime}
+      data:
+        uniqueAttackId: 12
