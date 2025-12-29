@@ -44,6 +44,10 @@ namespace SoulLike
 
         public int DeadCount { get; set; }
 
+        public readonly ReactiveProperty<float> bgmVolume = new(1.0f);
+
+        public readonly ReactiveProperty<float> sfxVolume = new(1.0f);
+
         int IAdditionalStatus.HitPoint => hitPoint.Value;
 
         int IAdditionalStatus.Stamina => stamina.Value;
