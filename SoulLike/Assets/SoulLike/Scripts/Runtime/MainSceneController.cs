@@ -69,6 +69,9 @@ namespace SoulLike
         private UIViewInputGuide uiViewInputGuide;
 
         [SerializeField]
+        private UIViewTitle uiViewTitle;
+
+        [SerializeField]
         private Color fadeInColor;
 
         [SerializeField]
@@ -96,13 +99,7 @@ namespace SoulLike
                 .RegisterTo(destroyCancellationToken);
             var userData = new UserData();
             var player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
-            player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker));
-
             var enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, enemySpawnPoint.rotation);
-            enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker, player, uiViewEffectMessage));
-
-            player.GetAbility<ActorTargetHandler>().BeginLockOn(enemy);
-            enemy.GetAbility<ActorTargetHandler>().BeginLockOn(player);
 
             worldCameraController.BeginObserve(player);
             worldCameraController.SetDefaultCameraTarget(player.transform);
@@ -110,14 +107,6 @@ namespace SoulLike
             worldCameraController.SetActiveLockOnCamera(true);
 
             mainGlobalVolumeController.BeginObserve(player);
-
-            uiViewEnhance.Initialize();
-            uiViewPlayerStatus.Bind(player, userData);
-            uiViewEnemyStatus.Bind(enemy);
-            uiViewDialog.Initialize();
-            uiViewDamageLabel.BeginObserve(player, worldCameraController.WorldCamera);
-            uiViewEffectMessage.Initialize();
-            uiViewInputGuide.Activate(playerInput, userData, sceneBroker);
 
 #if DEBUG
             this.UpdateAsObservable()
@@ -142,6 +131,19 @@ namespace SoulLike
                 })
                 .RegisterTo(destroyCancellationToken);
 #endif
+            player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker));
+            enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker, player, uiViewEffectMessage));
+            player.GetAbility<ActorTargetHandler>().BeginLockOn(enemy);
+            enemy.GetAbility<ActorTargetHandler>().BeginLockOn(player);
+
+            uiViewEnhance.Initialize();
+            uiViewPlayerStatus.Bind(player, userData);
+            uiViewEnemyStatus.Bind(enemy);
+            uiViewDialog.Initialize();
+            uiViewDamageLabel.BeginObserve(player, worldCameraController.WorldCamera);
+            uiViewEffectMessage.Initialize();
+            uiViewInputGuide.Activate(playerInput, userData, sceneBroker);
+
             uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
 
             while (!destroyCancellationToken.IsCancellationRequested)
