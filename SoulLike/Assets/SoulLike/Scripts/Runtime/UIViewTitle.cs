@@ -1,6 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace SoulLike
@@ -18,6 +19,7 @@ namespace SoulLike
 
         public UniTask BeginAsync(CancellationToken cancellationToken)
         {
+            EventSystem.current.SetSelectedGameObject(startButton.gameObject);
             return startButton.OnClickAsync(cancellationToken);
         }
 
