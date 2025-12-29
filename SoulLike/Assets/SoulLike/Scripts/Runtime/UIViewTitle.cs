@@ -19,7 +19,7 @@ namespace SoulLike
         [SerializeField]
         private Slider sfxSlider;
 
-        public UniTask BeginAsync(UserData userData, AudioManager audioManager, CancellationToken cancellationToken)
+        public async UniTask BeginAsync(UserData userData, AudioManager audioManager, CancellationToken cancellationToken)
         {
             EventSystem.current.SetSelectedGameObject(startButton.gameObject);
             bgmSlider.value = userData.bgmVolume.Value;
@@ -43,7 +43,9 @@ namespace SoulLike
                     audioManager.PlaySfx("Parry.Success.1");
                 })
                 .RegisterTo(cancellationToken);
-            return startButton.OnClickAsync(cancellationToken);
+            await startButton.OnClickAsync(cancellationToken);
+            audioManager.PlaySfx("Decide.2");
+            audioManager.FadeOutBgmAsync(2.0f, 0.0f, cancellationToken).Forget();
         }
 
         public void SetActive(bool isActive)
