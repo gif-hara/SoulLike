@@ -638,7 +638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876964868259977].amount
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: managedReferences[8736876964868260209].amount
