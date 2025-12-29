@@ -2555,6 +2555,7 @@ MonoBehaviour:
   fadeDuration: 0.5
   battleBgmKey: Battle.1
   enhanceBgmKey: Enhance.1
+  titleBgmKey: Title.1
   gameStartBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   gameStartForwardColor: {r: 1, g: 1, b: 1, a: 1}
   gameStartMessageColor: {r: 1, g: 1, b: 1, a: 1}
@@ -13350,7 +13351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: bgm.list.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.size
@@ -13367,6 +13368,10 @@ PrefabInstance:
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: bgm.list.Array.data[2].key
       value: Battle.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: bgm.list.Array.data[3].key
+      value: Title.1
       objectReference: {fileID: 0}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.data[0].key
@@ -13420,6 +13425,10 @@ PrefabInstance:
       propertyPath: bgm.list.Array.data[2].clip
       value: 
       objectReference: {fileID: 8300000, guid: 3326f1b88cc026d4aaab5e45a9560dc4, type: 3}
+    - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
+      propertyPath: bgm.list.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: bb35e268befab7147b93824acb848021, type: 3}
     - target: {fileID: 8354981622523962065, guid: 2f6c20e4540d3f345a9365e48cb6d87a, type: 3}
       propertyPath: sfx.list.Array.data[0].clip
       value: 

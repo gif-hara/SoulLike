@@ -8,6 +8,7 @@ using SoulLike.ActorControllers.Abilities;
 using SoulLike.ActorControllers.Brains;
 using SoulLike.MasterDataSystem;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 namespace SoulLike
@@ -87,6 +88,9 @@ namespace SoulLike
         private string enhanceBgmKey;
 
         [SerializeField]
+        private string titleBgmKey;
+
+        [SerializeField]
         private Color gameStartBackgroundColor;
 
         [SerializeField]
@@ -148,7 +152,12 @@ namespace SoulLike
             uiViewDialog.Initialize();
             uiViewEffectMessage.Initialize();
 
-            await uiViewTitle.BeginAsync(destroyCancellationToken);
+            audioManager.SetVolumeBgm(userData.bgmVolume.Value);
+            audioManager.SetVolumeSfx(userData.sfxVolume.Value);
+
+            audioManager.PlayBgm(titleBgmKey);
+
+            await uiViewTitle.BeginAsync(userData, audioManager, destroyCancellationToken);
             await uiViewEffectMessage.BeginAsync(gameStartBackgroundColor, gameStartForwardColor, gameStartMessageColor, gameStartMessage, sceneBroker, destroyCancellationToken, () => uiViewTitle.SetActive(false));
 
             player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker, enemy));
