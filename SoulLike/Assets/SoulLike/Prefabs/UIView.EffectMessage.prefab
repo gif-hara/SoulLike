@@ -457,7 +457,7 @@ MonoBehaviour:
   forwardImage: {fileID: 7433226525690397079}
   messageText: {fileID: 3022146759926162317}
   delayCharElements:
-  - targetCharacter: "\u3001."
+  - targetCharacter: "\u3001.\uFF01"
     delayTime: 1
   - targetCharacter: "\u3002"
     delayTime: 3

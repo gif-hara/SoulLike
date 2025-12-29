@@ -87,6 +87,18 @@ namespace SoulLike
         private string enhanceBgmKey;
 
         [SerializeField]
+        private Color gameStartBackgroundColor;
+
+        [SerializeField]
+        private Color gameStartForwardColor;
+
+        [SerializeField]
+        private Color gameStartMessageColor;
+
+        [SerializeField, Multiline]
+        private string gameStartMessage;
+
+        [SerializeField]
         private AttackData debugDamageAttackData;
 
         async UniTaskVoid Start()
@@ -131,15 +143,20 @@ namespace SoulLike
                 })
                 .RegisterTo(destroyCancellationToken);
 #endif
+
+            uiViewEnhance.Initialize();
+            uiViewDialog.Initialize();
+            uiViewEffectMessage.Initialize();
+
+            await uiViewTitle.BeginAsync(destroyCancellationToken);
+            await uiViewEffectMessage.BeginAsync(gameStartBackgroundColor, gameStartForwardColor, gameStartMessageColor, gameStartMessage, sceneBroker, destroyCancellationToken, () => uiViewTitle.SetActive(false));
+
             player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker, enemy));
             enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker, player, uiViewEffectMessage));
 
-            uiViewEnhance.Initialize();
             uiViewPlayerStatus.Bind(player, userData);
             uiViewEnemyStatus.Bind(enemy);
-            uiViewDialog.Initialize();
             uiViewDamageLabel.BeginObserve(player, worldCameraController.WorldCamera);
-            uiViewEffectMessage.Initialize();
             uiViewInputGuide.Activate(playerInput, userData, sceneBroker);
 
             uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();

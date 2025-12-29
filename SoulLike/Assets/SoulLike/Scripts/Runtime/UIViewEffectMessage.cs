@@ -31,7 +31,7 @@ namespace SoulLike
             messageText.enabled = false;
         }
 
-        public async UniTask BeginAsync(Color backgroundColor, Color forwardColor, Color messageColor, string message, IMessagePublisher publisher, CancellationToken cancellationToken)
+        public async UniTask BeginAsync(Color backgroundColor, Color forwardColor, Color messageColor, string message, IMessagePublisher publisher, CancellationToken cancellationToken, Action onFadeOutAction = null)
         {
             var backgroundColorFrom = backgroundImage.color;
             backgroundColorFrom.a = 0f;
@@ -41,6 +41,7 @@ namespace SoulLike
             await LMotion.Create(backgroundColorFrom, backgroundColor, 1.0f)
                 .BindToColor(backgroundImage)
                 .ToUniTask(cancellationToken);
+            onFadeOutAction?.Invoke();
             await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: cancellationToken);
             await PlayMessageAnimationAsync(message, cancellationToken);
             await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: cancellationToken);

@@ -20,5 +20,10 @@ namespace SoulLike
         {
             return startButton.OnClickAsync(cancellationToken);
         }
+
+        public void SetActive(bool isActive)
+        {
+            gameObject.SetActive(isActive);
+        }
     }
 }
