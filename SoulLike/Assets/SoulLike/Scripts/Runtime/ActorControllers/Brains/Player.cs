@@ -25,6 +25,8 @@ namespace SoulLike.ActorControllers.Brains
 
         private readonly MessageBroker sceneBroker;
 
+        private readonly Actor target;
+
         private Vector3 initialPosition;
 
         private Quaternion initialRotation;
@@ -47,7 +49,7 @@ namespace SoulLike.ActorControllers.Brains
 
         private Vector3 lastMoveInput;
 
-        public Player(PlayerInput playerInput, WorldCameraController worldCameraController, PlayerSpec playerSpec, UserData userData, MessageBroker sceneBroker)
+        public Player(PlayerInput playerInput, WorldCameraController worldCameraController, PlayerSpec playerSpec, UserData userData, MessageBroker sceneBroker, Actor target)
         {
             this.playerInput = playerInput;
             this.worldCameraController = worldCameraController;
@@ -55,6 +57,7 @@ namespace SoulLike.ActorControllers.Brains
             this.playerSpec = playerSpec;
             this.userData = userData;
             this.sceneBroker = sceneBroker;
+            this.target = target;
         }
 
         public void Attach(Actor actor, CancellationToken cancellationToken)
@@ -78,6 +81,7 @@ namespace SoulLike.ActorControllers.Brains
             actorWalk.MoveSpeed = playerSpec.MoveSpeed;
             actorWalk.Acceleration = playerSpec.MoveAcceleration;
             actorDodge.DodgeStaminaCost = playerSpec.ActorStatusSpec.DodgeStaminaCost;
+            actorTargetHandler.BeginLockOn(target);
 
             actorMovement.SetRotationSpeed(playerSpec.RotateSpeed);
             actor.UpdateAsObservable()
@@ -172,7 +176,7 @@ namespace SoulLike.ActorControllers.Brains
                     @this.actorAnimation.Reset();
                     @this.actorStatus.ApplySpec(@this.playerSpec.ActorStatusSpec, @this.userData);
                     @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
-                    @this.actorTargetHandler.BeginLockOn(x.Enemy);
+                    @this.actorTargetHandler.BeginLockOn(@this.target);
                 })
                 .RegisterTo(cancellationToken);
         }

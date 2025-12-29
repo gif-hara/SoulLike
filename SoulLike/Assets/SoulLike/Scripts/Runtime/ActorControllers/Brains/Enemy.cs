@@ -70,6 +70,7 @@ namespace SoulLike.ActorControllers.Brains
             actorStatus.ApplySpec(enemySpec.ActorStatusSpec, new AdditionalStatusEmpty());
             actorAIController = new ActorAIController(actor);
             actorAIController.Change(enemySpec.ActorAI);
+            actorTargetHandler.BeginLockOn(target);
 
             sceneBroker.Receive<MainSceneEvent.RestartGame>()
                 .Subscribe((this, actor), static (x, t) =>

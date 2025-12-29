@@ -131,10 +131,8 @@ namespace SoulLike
                 })
                 .RegisterTo(destroyCancellationToken);
 #endif
-            player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker));
+            player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker, enemy));
             enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker, player, uiViewEffectMessage));
-            player.GetAbility<ActorTargetHandler>().BeginLockOn(enemy);
-            enemy.GetAbility<ActorTargetHandler>().BeginLockOn(player);
 
             uiViewEnhance.Initialize();
             uiViewPlayerStatus.Bind(player, userData);
