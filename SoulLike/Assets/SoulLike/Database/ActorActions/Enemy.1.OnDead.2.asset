@@ -40,6 +40,10 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
+      rid: 8736877312444727406
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
       rid: 8736877088430096467
   - mode: 1
     unityReference: {fileID: 0}
@@ -53,6 +57,10 @@ MonoBehaviour:
     unityReference: {fileID: 0}
     rawReference:
       rid: 8736877068290097249
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
+      rid: 8736877312444727408
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
@@ -214,3 +222,11 @@ MonoBehaviour:
       data:
         materials:
         - {fileID: 2100000, guid: b77a0fd26d477e84e98046516570c694, type: 2}
+    - rid: 8736877312444727406
+      type: {class: RequestBeginEvent, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        tag: Event
+    - rid: 8736877312444727408
+      type: {class: RequestEndEvent, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        tag: Event
