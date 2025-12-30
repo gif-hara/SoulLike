@@ -153,6 +153,15 @@ namespace SoulLike.ActorControllers.Brains
                     broker.Publish(new MainSceneEvent.OnEndEvent(x.Tag));
                 })
                 .RegisterTo(cancellationToken);
+
+            cancellationToken.RegisterWithoutCaptureExecutionContext(() =>
+            {
+                actorEffect.Reset();
+                foreach (var action in enemySpec.OnRestartActions)
+                {
+                    action.InvokeAsync(actor, CancellationToken.None).Forget();
+                }
+            });
         }
     }
 }
