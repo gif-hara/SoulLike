@@ -43,6 +43,12 @@ namespace SoulLike
         [SerializeField]
         private List<SerializableInterface<IAction>> actions;
 
+        public enum ResultType
+        {
+            EndActions,
+            Skip
+        }
+
         public enum MessagePositionType
         {
             Center,
@@ -54,15 +60,19 @@ namespace SoulLike
             gameObject.SetActive(false);
         }
 
-        public async UniTask BeginAsync(PlayerInput playerInput, CancellationToken cancellationToken)
+        public async UniTask<ResultType> BeginAsync(PlayerInput playerInput, CancellationToken cancellationToken)
         {
+            using var scope = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             gameObject.SetActive(true);
             areaSkip.SetActive(false);
             imageCanvasGroup.alpha = 0.0f;
-            await UniTask.WhenAny(
-                ProcessSkipAsync(playerInput, cancellationToken),
-                BeginActionsAsync(cancellationToken)
+            var result = await UniTask.WhenAny(
+                ProcessSkipAsync(playerInput, scope.Token),
+                BeginActionsAsync(scope.Token)
             );
+
+            scope.Cancel();
+            return result == 0 ? ResultType.Skip : ResultType.EndActions;
         }
 
         private async UniTask BeginActionsAsync(CancellationToken cancellationToken)
@@ -81,6 +91,7 @@ namespace SoulLike
             skipMessage.SetText(string.Format(skipMessageFormat, InputSprite.GetTag(playerInput, action)));
             areaSkip.SetActive(true);
             await action.OnPerformedAsObservable().FirstAsync(cancellationToken);
+            areaSkip.SetActive(false);
         }
 
         public async UniTask PlayMessageAnimationAsync(string message, MessagePositionType positionType, float visibleDuration, float delayTime, CancellationToken cancellationToken)

@@ -209,9 +209,17 @@ namespace SoulLike
                         await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: destroyCancellationToken);
                         audioManager.PlayBgm(epilogueBgmKey);
                         uiViewFade.BeginAsync(fadeOutColor, fadeInColor, 0.25f, destroyCancellationToken).Forget();
-                        await uiViewEpilogue.BeginAsync(playerInput, destroyCancellationToken);
-                        await audioManager.FadeOutBgmAsync(1.0f, 0.0f, destroyCancellationToken);
-                        await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 1.0f, destroyCancellationToken);
+                        var epilogueResult = await uiViewEpilogue.BeginAsync(playerInput, destroyCancellationToken);
+                        if (epilogueResult == UIViewEpilogue.ResultType.Skip)
+                        {
+                            audioManager.FadeOutBgmAsync(0.5f, 0.0f, destroyCancellationToken).Forget();
+                            await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 1.0f, destroyCancellationToken);
+                        }
+                        else
+                        {
+                            await audioManager.FadeOutBgmAsync(1.0f, 0.0f, destroyCancellationToken);
+                            await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 1.0f, destroyCancellationToken);
+                        }
                         audioManager.PlayBgm(resultBgmKey);
                         await uiViewResult.BeginAsync(userData, audioManager, uiViewFade, destroyCancellationToken);
                         break;
