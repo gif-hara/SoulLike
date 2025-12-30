@@ -30,7 +30,7 @@ namespace SoulLike.ActorControllers.Abilities
                 {
                     var (@this, actor) = t;
 
-                    @this.currentVelocity = Vector3.Lerp(@this.currentVelocity, @this.normalizedVelocity * @this.MoveSpeed, Time.deltaTime * @this.Acceleration);
+                    @this.currentVelocity = @this.actorMovement.MoveBlocker.IsBlocked ? Vector3.zero : Vector3.Lerp(@this.currentVelocity, @this.normalizedVelocity * @this.MoveSpeed, Time.deltaTime * @this.Acceleration);
 
                     @this.actorMovement.Move(@this.currentVelocity);
 
