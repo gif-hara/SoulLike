@@ -45,6 +45,7 @@ namespace SoulLike
         public async UniTask BeginAsync(CancellationToken cancellationToken)
         {
             gameObject.SetActive(true);
+            imageCanvasGroup.alpha = 0.0f;
             foreach (var action in actions)
             {
                 await action.Value.InvokeAsync(this, cancellationToken);
