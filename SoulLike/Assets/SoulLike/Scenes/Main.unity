@@ -2574,6 +2574,7 @@ MonoBehaviour:
   uiViewEffectMessage: {fileID: 572522746}
   uiViewInputGuide: {fileID: 1952323657}
   uiViewTitle: {fileID: 554123327}
+  uiViewEpilogue: {fileID: 1547102144}
   fadeInColor: {r: 0, g: 0, b: 0, a: 0}
   fadeOutColor: {r: 0, g: 0, b: 0, a: 1}
   fadeDuration: 0.5
@@ -2581,7 +2582,7 @@ MonoBehaviour:
   enhanceBgmKey: Enhance.1
   titleBgmKey: Title.1
   gameStartBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  gameStartForwardColor: {r: 1, g: 1, b: 1, a: 1}
+  gameStartForwardColor: {r: 0, g: 0, b: 0, a: 1}
   gameStartMessageColor: {r: 1, g: 1, b: 1, a: 1}
   gameStartMessage: "\u884C\u304F\u305E\u6211\u304C\u5F1F\u5B50\u3088\uFF01\n\u5E2B\u3067\u3042\u308B\u79C1\u3092\u8D8A\u3048\u3066\u307F\u305B\u3088\uFF01"
   debugDamageAttackData:
@@ -4153,6 +4154,118 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 378e41d17fc0b2946b83749d61dcdea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewDialog
+--- !u!1001 &1547102143
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3251870453555543356, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_Name
+      value: UIView.Epilogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 5707840505239123396, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973933438196088761, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+--- !u!114 &1547102144 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3809995683217171502, guid: 1abb249d2051b5242b085b3907bee192, type: 3}
+  m_PrefabInstance: {fileID: 1547102143}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a950bfb3948e33468d803a83b28b5c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewEpilogue
 --- !u!1001 &1593195869
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4999,7 +5112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5707840505239123396, guid: 114f1fa8d64b45742a96262cbab0a016, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5973933438196088761, guid: 114f1fa8d64b45742a96262cbab0a016, type: 3}
       propertyPath: m_Pivot.x
@@ -13640,7 +13753,8 @@ SceneRoots:
   - {fileID: 1628793211}
   - {fileID: 419627969}
   - {fileID: 136523182}
-  - {fileID: 1800728486}
   - {fileID: 1544657338}
   - {fileID: 554123326}
   - {fileID: 572522745}
+  - {fileID: 1547102143}
+  - {fileID: 1800728486}

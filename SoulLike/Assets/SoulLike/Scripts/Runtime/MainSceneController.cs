@@ -73,6 +73,9 @@ namespace SoulLike
         private UIViewTitle uiViewTitle;
 
         [SerializeField]
+        private UIViewEpilogue uiViewEpilogue;
+
+        [SerializeField]
         private Color fadeInColor;
 
         [SerializeField]
@@ -151,14 +154,16 @@ namespace SoulLike
             uiViewEnhance.Initialize();
             uiViewDialog.Initialize();
             uiViewEffectMessage.Initialize();
+            uiViewEpilogue.Initialize();
 
             audioManager.SetVolumeBgm(userData.bgmVolume.Value);
             audioManager.SetVolumeSfx(userData.sfxVolume.Value);
 
             audioManager.PlayBgm(titleBgmKey);
 
+            uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
             await uiViewTitle.BeginAsync(userData, audioManager, destroyCancellationToken);
-            await uiViewEffectMessage.BeginAsync(gameStartBackgroundColor, gameStartForwardColor, gameStartMessageColor, gameStartMessage, sceneBroker, destroyCancellationToken, () => uiViewTitle.SetActive(false));
+            await uiViewEffectMessage.BeginAsync(gameStartBackgroundColor, gameStartForwardColor, gameStartMessageColor, gameStartMessage, sceneBroker, destroyCancellationToken, () => uiViewTitle.SetActive(false), () => uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 0.0f, destroyCancellationToken).Forget());
 
             player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker, enemy));
             enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker, player, uiViewEffectMessage));
