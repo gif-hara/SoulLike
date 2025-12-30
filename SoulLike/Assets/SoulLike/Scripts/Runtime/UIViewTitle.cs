@@ -21,6 +21,7 @@ namespace SoulLike
 
         public async UniTask BeginAsync(UserData userData, AudioManager audioManager, CancellationToken cancellationToken)
         {
+            gameObject.SetActive(true);
             EventSystem.current.SetSelectedGameObject(startButton.gameObject);
             bgmSlider.value = userData.bgmVolume.Value;
             sfxSlider.value = userData.sfxVolume.Value;
