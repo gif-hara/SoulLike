@@ -77,6 +77,9 @@ namespace SoulLike
         private UIViewEpilogue uiViewEpilogue;
 
         [SerializeField]
+        private UIViewResult uiViewResult;
+
+        [SerializeField]
         private Color fadeInColor;
 
         [SerializeField]
@@ -161,6 +164,7 @@ namespace SoulLike
                 uiViewDialog.Initialize();
                 uiViewEffectMessage.Initialize();
                 uiViewEpilogue.Initialize();
+                uiViewResult.SetActive(false);
 
                 audioManager.SetVolumeBgm(userData.bgmVolume.Value);
                 audioManager.SetVolumeSfx(userData.sfxVolume.Value);
@@ -203,6 +207,8 @@ namespace SoulLike
                         audioManager.PlayBgm(epilogueBgmKey);
                         uiViewFade.BeginAsync(fadeOutColor, fadeInColor, 0.25f, destroyCancellationToken).Forget();
                         await uiViewEpilogue.BeginAsync(destroyCancellationToken);
+                        await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 1.0f, destroyCancellationToken);
+                        await uiViewResult.BeginAsync(userData, audioManager, uiViewFade, destroyCancellationToken);
                         break;
                     }
                     else if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerLose)
