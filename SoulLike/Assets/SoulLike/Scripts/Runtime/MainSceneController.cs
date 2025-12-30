@@ -222,6 +222,7 @@ namespace SoulLike
                 player.transform.rotation = playerSpawnPoint.rotation;
                 enemy.transform.position = enemySpawnPoint.position;
                 enemy.transform.rotation = enemySpawnPoint.rotation;
+                userData.Reset();
             }
         }
     }

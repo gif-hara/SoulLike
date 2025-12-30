@@ -131,5 +131,22 @@ namespace SoulLike
             }
             return purchasedShopElementCounts[shopElementId];
         }
+
+        public void Reset()
+        {
+            experience.Value = 0;
+            hitPoint.Value = 0;
+            stamina.Value = 0;
+            staminaRecoveryPerSecond.Value = 0.0f;
+            attackRate.Value = 1.0f;
+            damageCutRate.Value = 0.0f;
+            aqcuireExperienceRate.Value = 1.0f;
+            purchasedShopElementCounts.Clear();
+            dodgeUniqueAttackId = 0;
+            strongAttackUniqueAttackId = 0;
+            parryUniqueAttackId = 0;
+            DeadCount = 0;
+            PlayTime = 0.0f;
+        }
     }
 }
