@@ -179,6 +179,22 @@ namespace SoulLike.ActorControllers.Brains
                     @this.actorTargetHandler.BeginLockOn(@this.target);
                 })
                 .RegisterTo(cancellationToken);
+            sceneBroker.Receive<MainSceneEvent.OnBeginEvent>()
+                .Subscribe(this, static (x, @this) =>
+                {
+                    @this.actorMovement.MoveBlocker.Block(x.Tag);
+                    @this.actorWeaponHandler.AttackBlocker.Block(x.Tag);
+                    @this.actorDodge.DodgeBlocker.Block(x.Tag);
+                })
+                .RegisterTo(cancellationToken);
+            sceneBroker.Receive<MainSceneEvent.OnEndEvent>()
+                .Subscribe(this, static (x, @this) =>
+                {
+                    @this.actorMovement.MoveBlocker.Unblock(x.Tag);
+                    @this.actorWeaponHandler.AttackBlocker.Unblock(x.Tag);
+                    @this.actorDodge.DodgeBlocker.Unblock(x.Tag);
+                })
+                .RegisterTo(cancellationToken);
         }
 
         private void PreInputProcess(Actor actor, Func<bool> process)
