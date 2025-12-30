@@ -183,7 +183,8 @@ namespace SoulLike
                     .AsUniTask();
                 if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerWin)
                 {
-                    Debug.Log("Player Win!");
+                    await uiViewEpilogue.BeginAsync(destroyCancellationToken);
+                    break;
                 }
                 else if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerLose)
                 {
