@@ -37,13 +37,18 @@ namespace SoulLike
             Bottom
         }
 
-        public async UniTask BeginAsync()
-        {
-        }
-
         public void Initialize()
         {
             gameObject.SetActive(false);
+        }
+
+        public async UniTask BeginAsync(CancellationToken cancellationToken)
+        {
+            gameObject.SetActive(true);
+            foreach (var action in actions)
+            {
+                await action.Value.InvokeAsync(this, cancellationToken);
+            }
         }
 
         public async UniTask PlayMessageAnimationAsync(string message, MessagePositionType positionType, float visibleDuration, CancellationToken cancellationToken)
