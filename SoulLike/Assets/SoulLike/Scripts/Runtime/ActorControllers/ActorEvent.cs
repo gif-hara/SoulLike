@@ -121,5 +121,15 @@ namespace SoulLike.ActorControllers
                 NewAI = newAI;
             }
         }
+
+        public readonly struct RequestGameJudgement
+        {
+            public readonly MainSceneEvent.JudgementType JudgementType;
+
+            public RequestGameJudgement(MainSceneEvent.JudgementType judgementType)
+            {
+                JudgementType = judgementType;
+            }
+        }
     }
 }
