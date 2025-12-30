@@ -130,6 +130,14 @@ namespace SoulLike.ActorControllers.Brains
                     @this.actorAIController.Change(x.NewAI);
                 })
                 .RegisterTo(cancellationToken);
+
+            actor.Event.Broker.Receive<ActorEvent.RequestGameJudgement>()
+                .Subscribe((this, actor), static (x, t) =>
+                {
+                    var (@this, actor) = t;
+                    @this.sceneBroker.Publish(new MainSceneEvent.GameJudgement(x.JudgementType));
+                })
+                .RegisterTo(cancellationToken);
         }
     }
 }
