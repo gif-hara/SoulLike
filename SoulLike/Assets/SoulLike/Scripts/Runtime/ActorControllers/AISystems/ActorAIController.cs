@@ -15,16 +15,19 @@ namespace SoulLike.ActorControllers.AISystems
 
         private ActorAI currentAI;
 
+        private CancellationToken rootScopeToken;
+
         private CancellationTokenSource scope;
 
         public float SequenceDuration { get; private set; }
 
         private IDisposable sequenceDurationDisposable;
 
-        public ActorAIController(Actor actor)
+        public ActorAIController(Actor actor, CancellationToken rootScopeToken)
         {
             this.actor = actor;
             actorTime = actor.GetAbility<ActorTime>();
+            this.rootScopeToken = rootScopeToken;
         }
 
         public void Change(ActorAI actorAI)
@@ -50,7 +53,7 @@ namespace SoulLike.ActorControllers.AISystems
         {
             scope?.Cancel();
             scope?.Dispose();
-            scope = CancellationTokenSource.CreateLinkedTokenSource(actor.destroyCancellationToken);
+            scope = CancellationTokenSource.CreateLinkedTokenSource(rootScopeToken);
             var sequence = currentAI.GetSequence(sequenceName);
             BeginSequenceDurationTimer();
             foreach (var action in sequence.Actions)

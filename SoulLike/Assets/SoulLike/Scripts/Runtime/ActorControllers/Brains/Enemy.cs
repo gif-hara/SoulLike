@@ -68,7 +68,7 @@ namespace SoulLike.ActorControllers.Brains
             actorWalk.MoveSpeed = enemySpec.MoveSpeed;
             actorWalk.Acceleration = enemySpec.MoveAcceleration;
             actorStatus.ApplySpec(enemySpec.ActorStatusSpec, new AdditionalStatusEmpty());
-            actorAIController = new ActorAIController(actor);
+            actorAIController = new ActorAIController(actor, cancellationToken);
             actorAIController.Change(enemySpec.ActorAI);
             actorTargetHandler.BeginLockOn(target);
             actorAnimation.PlayAnimation(ActorAnimation.Parameter.Idle);
