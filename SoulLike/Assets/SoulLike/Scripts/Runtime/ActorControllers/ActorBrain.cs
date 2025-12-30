@@ -19,6 +19,11 @@ namespace SoulLike.ActorControllers
         {
             scope?.Cancel();
             scope?.Dispose();
+            if (brain == null)
+            {
+                scope = null;
+                return;
+            }
             scope = CancellationTokenSource.CreateLinkedTokenSource(actor.destroyCancellationToken, Application.exitCancellationToken);
             brain.Attach(actor, scope.Token);
         }
