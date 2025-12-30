@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using SoulLike.ActorControllers.Abilities;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -22,11 +23,11 @@ namespace SoulLike.ActorControllers
             Brain.Activate(this);
         }
 
-        public void ActivateAbilities()
+        public void ActivateAbilities(CancellationToken cancellationToken)
         {
             foreach (var ability in abilities.Values)
             {
-                ability.Activate(this);
+                ability.Activate(this, cancellationToken);
             }
         }
 

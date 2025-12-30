@@ -63,7 +63,7 @@ namespace SoulLike.ActorControllers.Abilities
             }
         }
 
-        public void Activate(Actor actor)
+        public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             var sceneView = actor.GetAbility<ActorSceneViewHandler>().SceneView;
             animator = sceneView.Animator;
@@ -98,7 +98,7 @@ namespace SoulLike.ActorControllers.Abilities
                     var (@this, actorTime) = t;
                     @this.animator.speed = actorTime.Time.totalTimeScale;
                 })
-                .RegisterTo(actor.destroyCancellationToken);
+                .RegisterTo(cancellationToken);
         }
 
         public void PlayAnimation(string stateName)

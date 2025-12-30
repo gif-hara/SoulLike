@@ -62,7 +62,7 @@ namespace SoulLike.ActorControllers.Brains
             actor.AddAbility<ActorDodge>();
             actorStatus = actor.AddAbility<ActorStatus>();
             actorEffect = actor.AddAbility<ActorEffect>();
-            actor.ActivateAbilities();
+            actor.ActivateAbilities(cancellationToken);
 
             actorWeaponHandler.CreateWeapon(enemySpec.WeaponPrefab, Layer.EnemyWeapon);
             actorWalk.MoveSpeed = enemySpec.MoveSpeed;
@@ -71,6 +71,7 @@ namespace SoulLike.ActorControllers.Brains
             actorAIController = new ActorAIController(actor);
             actorAIController.Change(enemySpec.ActorAI);
             actorTargetHandler.BeginLockOn(target);
+            actorAnimation.PlayAnimation(ActorAnimation.Parameter.Idle);
 
             sceneBroker.Receive<MainSceneEvent.RestartGame>()
                 .Subscribe((this, actor), static (x, t) =>

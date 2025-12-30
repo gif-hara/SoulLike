@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using R3;
 using R3.Triggers;
 using StandardAssets.Characters.Physics;
@@ -69,7 +70,7 @@ namespace SoulLike.ActorControllers.Abilities
             actor.transform.rotation = rotation;
         }
 
-        public void Activate(Actor actor)
+        public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             this.actor = actor;
             actor.TryGetComponent(out OpenCharacterController openCharacterController);
@@ -101,7 +102,7 @@ namespace SoulLike.ActorControllers.Abilities
                         @this.actor.transform.rotation = Quaternion.Slerp(@this.actor.transform.rotation, @this.TargetRotation, @this.rotationSpeed * deltaTime);
                     }
                 })
-                .RegisterTo(actor.destroyCancellationToken);
+                .RegisterTo(cancellationToken);
         }
     }
 }

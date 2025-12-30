@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
@@ -107,7 +108,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         public float ExperienceRate { get; private set; }
 
-        public void Activate(Actor actor)
+        public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             this.actor = actor;
             actorMovement = actor.GetAbility<ActorMovement>();
@@ -129,7 +130,7 @@ namespace SoulLike.ActorControllers.Abilities
                     @this.attackBuffTimer -= @this.actorTime.Time.deltaTime;
                     @this.attackBuffAvailable.Value = @this.attackBuffTimer > 0.0f;
                 })
-                .RegisterTo(actor.destroyCancellationToken);
+                .RegisterTo(cancellationToken);
         }
 
         public void ApplySpec(MasterDataSystem.ActorStatusSpec spec, IAdditionalStatus additionalStatus)

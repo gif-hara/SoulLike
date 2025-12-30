@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine.Assertions;
 
 namespace SoulLike.ActorControllers.Abilities
@@ -6,7 +7,7 @@ namespace SoulLike.ActorControllers.Abilities
     {
         public SceneView SceneView { get; private set; }
 
-        public void Activate(Actor actor)
+        public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             SceneView = actor.GetComponentInChildren<SceneView>();
             Assert.IsNotNull(SceneView, $"SceneView component not found on actor {actor.name} or its children.");

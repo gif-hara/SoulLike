@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace SoulLike.ActorControllers.Abilities
@@ -9,7 +10,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         private readonly Dictionary<string, Element> elements = new();
 
-        public void Activate(Actor actor)
+        public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             this.actor = actor;
             foreach (var effectObject in actor.EffectObjects)

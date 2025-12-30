@@ -1,3 +1,4 @@
+using System.Threading;
 using R3;
 using R3.Triggers;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         private Vector3 currentVelocity;
 
-        public void Activate(Actor actor)
+        public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             actorAnimation = actor.GetAbility<ActorAnimation>();
             actorMovement = actor.GetAbility<ActorMovement>();
@@ -50,7 +51,7 @@ namespace SoulLike.ActorControllers.Abilities
 
                     @this.normalizedVelocity = Vector3.zero;
                 })
-                .RegisterTo(actor.destroyCancellationToken);
+                .RegisterTo(cancellationToken);
         }
 
         public void SetNormalizedVelocity(Vector3 normalizedVelocity)

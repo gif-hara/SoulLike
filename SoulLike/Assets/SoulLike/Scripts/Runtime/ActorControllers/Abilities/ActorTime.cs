@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using HK;
 using R3;
@@ -13,7 +14,7 @@ namespace SoulLike.ActorControllers.Abilities
 
         public Observable<Unit> UpdatedTimeScale => Observable.FromEvent(h => Time.UpdatedTimeScale += h, h => Time.UpdatedTimeScale -= h);
 
-        public void Activate(Actor actor)
+        public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             this.actor = actor;
         }

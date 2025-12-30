@@ -17,14 +17,14 @@ namespace SoulLike.ActorControllers.Abilities
 
         private CancellationTokenSource endLockOnTokenSource;
 
-        public void Activate(Actor actor)
+        public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             this.actor = actor;
             actorMovement = actor.GetAbility<ActorMovement>();
             actorAnimation = actor.GetAbility<ActorAnimation>();
             actor.Event.Broker.Receive<ActorEvent.OnDead>()
                 .Subscribe(this, static (_, @this) => @this.EndLockOn())
-                .RegisterTo(actor.destroyCancellationToken);
+                .RegisterTo(cancellationToken);
         }
 
         public void BeginLockOn(Actor target)

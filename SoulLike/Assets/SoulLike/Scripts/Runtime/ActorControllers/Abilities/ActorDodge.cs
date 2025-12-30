@@ -1,3 +1,4 @@
+using System.Threading;
 using R3;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace SoulLike.ActorControllers.Abilities
             DodgeBlocker.Reset();
         }
 
-        public void Activate(Actor actor)
+        public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             this.actor = actor;
             actorMovement = actor.GetAbility<ActorMovement>();
