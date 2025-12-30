@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 4061263619257227563}
   - component: {fileID: 1042991922094892591}
   - component: {fileID: 5808613700227145307}
+  - component: {fileID: 1842279251687046302}
   m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
@@ -134,7 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -150,6 +151,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1842279251687046302
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955137737499287086}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4079882435313545468
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,10 +603,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a950bfb3948e33468d803a83b28b5c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewEpilogue
-  image: {fileID: 0}
-  imageCanvasGroup: {fileID: 0}
-  messageCenter: {fileID: 0}
-  messageBottom: {fileID: 0}
+  image: {fileID: 5808613700227145307}
+  imageCanvasGroup: {fileID: 1842279251687046302}
+  messageCenter: {fileID: 8760756459320888962}
+  messageBottom: {fileID: 3022146759926162317}
   actions:
   - mode: 1
     unityReference: {fileID: 0}
