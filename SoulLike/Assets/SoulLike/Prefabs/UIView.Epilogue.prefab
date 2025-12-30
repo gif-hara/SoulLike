@@ -766,4 +766,4 @@ MonoBehaviour:
         message: "\u7236\u304C\u8FBF\u3063\u305F\u9053\u306E\u3001\u305D\u306E\u5148\u3078\u30FB\u30FB\u30FB\u3002"
         positionType: 1
         visibleDuration: 3
-        delayTime: 0.1
+        delayTime: 0.2
