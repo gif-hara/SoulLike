@@ -139,6 +139,20 @@ namespace SoulLike.ActorControllers.Brains
                     @this.sceneBroker.Publish(new MainSceneEvent.GameJudgement(x.JudgementType));
                 })
                 .RegisterTo(cancellationToken);
+
+            actor.Event.Broker.Receive<ActorEvent.RequestBeginEvent>()
+                .Subscribe(sceneBroker, static (x, broker) =>
+                {
+                    broker.Publish(new MainSceneEvent.OnBeginEvent(x.Tag));
+                })
+                .RegisterTo(cancellationToken);
+
+            actor.Event.Broker.Receive<ActorEvent.RequestEndEvent>()
+                .Subscribe(sceneBroker, static (x, broker) =>
+                {
+                    broker.Publish(new MainSceneEvent.OnEndEvent(x.Tag));
+                })
+                .RegisterTo(cancellationToken);
         }
     }
 }
