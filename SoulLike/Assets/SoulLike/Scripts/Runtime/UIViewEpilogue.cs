@@ -58,6 +58,8 @@ namespace SoulLike
             messageBottom.enabled = positionType == MessagePositionType.Bottom;
             var messageText = positionType == MessagePositionType.Center ? messageCenter : messageBottom;
             messageText.text = message;
+            messageText.maxVisibleCharacters = 0;
+            messageText.enabled = true;
             while (!cancellationToken.IsCancellationRequested && messageText.maxVisibleCharacters < message.Length)
             {
                 messageText.maxVisibleCharacters++;
