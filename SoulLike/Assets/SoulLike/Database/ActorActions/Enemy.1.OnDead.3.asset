@@ -36,6 +36,10 @@ MonoBehaviour:
   - mode: 1
     unityReference: {fileID: 0}
     rawReference:
+      rid: 8736877312444727416
+  - mode: 1
+    unityReference: {fileID: 0}
+    rawReference:
       rid: 8736877220997890145
   - mode: 1
     unityReference: {fileID: 0}
@@ -95,3 +99,7 @@ MonoBehaviour:
       type: {class: RequestGameJudgement, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
         judgementType: 1
+    - rid: 8736877312444727416
+      type: {class: RequestBeginEvent, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
+      data:
+        tag: Event
