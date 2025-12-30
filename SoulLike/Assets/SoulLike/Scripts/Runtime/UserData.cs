@@ -50,6 +50,8 @@ namespace SoulLike
 
         public float PlayTime { get; set; }
 
+        public float TotalExperience { get; private set; }
+
         int IAdditionalStatus.HitPoint => hitPoint.Value;
 
         int IAdditionalStatus.Stamina => stamina.Value;
@@ -71,6 +73,7 @@ namespace SoulLike
         public void AddExperience(int amount)
         {
             experience.Value += amount;
+            TotalExperience += amount;
         }
 
         public void AddHitPoint(int amount)
@@ -147,6 +150,7 @@ namespace SoulLike
             parryUniqueAttackId = 0;
             DeadCount = 0;
             PlayTime = 0.0f;
+            TotalExperience = 0.0f;
         }
     }
 }
