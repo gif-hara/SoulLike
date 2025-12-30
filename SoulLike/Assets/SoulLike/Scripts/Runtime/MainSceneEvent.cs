@@ -32,5 +32,25 @@ namespace SoulLike
                 Enemy = enemy;
             }
         }
+
+        public readonly struct OnBeginEvent
+        {
+            public readonly string Tag;
+
+            public OnBeginEvent(string tag)
+            {
+                Tag = tag;
+            }
+        }
+
+        public readonly struct OnEndEvent
+        {
+            public readonly string Tag;
+
+            public OnEndEvent(string tag)
+            {
+                Tag = tag;
+            }
+        }
     }
 }
