@@ -151,50 +151,63 @@ namespace SoulLike
                 .RegisterTo(destroyCancellationToken);
 #endif
 
-            uiViewEnhance.Initialize();
-            uiViewDialog.Initialize();
-            uiViewEffectMessage.Initialize();
-            uiViewEpilogue.Initialize();
-
-            audioManager.SetVolumeBgm(userData.bgmVolume.Value);
-            audioManager.SetVolumeSfx(userData.sfxVolume.Value);
-
-            audioManager.PlayBgm(titleBgmKey);
-
-            uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
-            await uiViewTitle.BeginAsync(userData, audioManager, destroyCancellationToken);
-            await uiViewEffectMessage.BeginAsync(gameStartBackgroundColor, gameStartForwardColor, gameStartMessageColor, gameStartMessage, sceneBroker, destroyCancellationToken, () => uiViewTitle.SetActive(false), () => uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 0.0f, destroyCancellationToken).Forget());
-
-            player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker, enemy));
-            enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker, player, uiViewEffectMessage));
-
-            uiViewPlayerStatus.Bind(player, userData);
-            uiViewEnemyStatus.Bind(enemy);
-            uiViewDamageLabel.BeginObserve(player, worldCameraController.WorldCamera);
-            uiViewInputGuide.Activate(playerInput, userData, sceneBroker);
-
-            uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
-
             while (!destroyCancellationToken.IsCancellationRequested)
             {
-                audioManager.PlayBgm(battleBgmKey);
-                var gameJudgement = await sceneBroker.Receive<MainSceneEvent.GameJudgement>()
-                    .FirstAsync(destroyCancellationToken)
-                    .AsUniTask();
-                if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerWin)
+                uiViewEnhance.Initialize();
+                uiViewDialog.Initialize();
+                uiViewEffectMessage.Initialize();
+                uiViewEpilogue.Initialize();
+
+                audioManager.SetVolumeBgm(userData.bgmVolume.Value);
+                audioManager.SetVolumeSfx(userData.sfxVolume.Value);
+
+                audioManager.PlayBgm(titleBgmKey);
+
+                uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
+                await uiViewTitle.BeginAsync(userData, audioManager, destroyCancellationToken);
+                await uiViewEffectMessage.BeginAsync(gameStartBackgroundColor, gameStartForwardColor, gameStartMessageColor, gameStartMessage, sceneBroker, destroyCancellationToken, () => uiViewTitle.SetActive(false), () => uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 0.0f, destroyCancellationToken).Forget());
+
+                player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker, enemy));
+                enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker, player, uiViewEffectMessage));
+
+                uiViewPlayerStatus.Bind(player, userData);
+                uiViewEnemyStatus.Bind(enemy);
+                uiViewDamageLabel.BeginObserve(player, worldCameraController.WorldCamera);
+                uiViewInputGuide.Activate(playerInput, userData, sceneBroker);
+
+                uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
+
+                while (!destroyCancellationToken.IsCancellationRequested)
                 {
-                    await uiViewEpilogue.BeginAsync(destroyCancellationToken);
-                    break;
+                    audioManager.PlayBgm(battleBgmKey);
+                    var gameJudgement = await sceneBroker.Receive<MainSceneEvent.GameJudgement>()
+                        .FirstAsync(destroyCancellationToken)
+                        .AsUniTask();
+                    if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerWin)
+                    {
+                        await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 3.0f, destroyCancellationToken);
+                        await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: destroyCancellationToken);
+                        uiViewFade.BeginAsync(fadeOutColor, fadeInColor, 0.25f, destroyCancellationToken).Forget();
+                        await uiViewEpilogue.BeginAsync(destroyCancellationToken);
+                        break;
+                    }
+                    else if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerLose)
+                    {
+                        await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: destroyCancellationToken);
+                        await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, fadeDuration, destroyCancellationToken);
+                        audioManager.PlayBgm(enhanceBgmKey);
+                        await uiViewEnhance.BeginAsync(masterData, userData, playerInput, uiViewFade, uiViewDialog, userData.DeadCount == 1, destroyCancellationToken);
+                        sceneBroker.Publish(new MainSceneEvent.RestartGame(player, enemy));
+                        await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
+                    }
                 }
-                else if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerLose)
-                {
-                    await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: destroyCancellationToken);
-                    await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, fadeDuration, destroyCancellationToken);
-                    audioManager.PlayBgm(enhanceBgmKey);
-                    await uiViewEnhance.BeginAsync(masterData, userData, playerInput, uiViewFade, uiViewDialog, userData.DeadCount == 1, destroyCancellationToken);
-                    sceneBroker.Publish(new MainSceneEvent.RestartGame(player, enemy));
-                    await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
-                }
+
+                player.Brain.Attach(null);
+                enemy.Brain.Attach(null);
+                player.transform.position = playerSpawnPoint.position;
+                player.transform.rotation = playerSpawnPoint.rotation;
+                enemy.transform.position = enemySpawnPoint.position;
+                enemy.transform.rotation = enemySpawnPoint.rotation;
             }
         }
     }
