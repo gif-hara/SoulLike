@@ -2581,6 +2581,7 @@ MonoBehaviour:
   battleBgmKey: Battle.1
   enhanceBgmKey: Enhance.1
   titleBgmKey: Title.1
+  epilogueBgmKey: Epilogue.1
   gameStartBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   gameStartForwardColor: {r: 0, g: 0, b: 0, a: 1}
   gameStartMessageColor: {r: 1, g: 1, b: 1, a: 1}

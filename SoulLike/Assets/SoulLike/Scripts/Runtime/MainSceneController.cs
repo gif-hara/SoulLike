@@ -94,6 +94,9 @@ namespace SoulLike
         private string titleBgmKey;
 
         [SerializeField]
+        private string epilogueBgmKey;
+
+        [SerializeField]
         private Color gameStartBackgroundColor;
 
         [SerializeField]
@@ -187,6 +190,7 @@ namespace SoulLike
                     {
                         await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 3.0f, destroyCancellationToken);
                         await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: destroyCancellationToken);
+                        audioManager.PlayBgm(epilogueBgmKey);
                         uiViewFade.BeginAsync(fadeOutColor, fadeInColor, 0.25f, destroyCancellationToken).Forget();
                         await uiViewEpilogue.BeginAsync(destroyCancellationToken);
                         break;
