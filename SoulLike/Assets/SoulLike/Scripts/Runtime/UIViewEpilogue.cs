@@ -52,7 +52,7 @@ namespace SoulLike
             }
         }
 
-        public async UniTask PlayMessageAnimationAsync(string message, MessagePositionType positionType, float visibleDuration, CancellationToken cancellationToken)
+        public async UniTask PlayMessageAnimationAsync(string message, MessagePositionType positionType, float visibleDuration, float delayTime, CancellationToken cancellationToken)
         {
             messageCenter.enabled = positionType == MessagePositionType.Center;
             messageBottom.enabled = positionType == MessagePositionType.Bottom;
@@ -63,7 +63,6 @@ namespace SoulLike
             while (!cancellationToken.IsCancellationRequested && messageText.maxVisibleCharacters < message.Length)
             {
                 messageText.maxVisibleCharacters++;
-                var delayTime = 0.05f;
                 await UniTask.Delay(TimeSpan.FromSeconds(delayTime), cancellationToken: cancellationToken);
             }
             await UniTask.Delay(TimeSpan.FromSeconds(visibleDuration), cancellationToken: cancellationToken);
@@ -102,9 +101,12 @@ namespace SoulLike
             [SerializeField]
             private float visibleDuration;
 
+            [SerializeField]
+            private float delayTime;
+
             public UniTask InvokeAsync(UIViewEpilogue view, CancellationToken cancellationToken)
             {
-                return view.PlayMessageAnimationAsync(message, positionType, visibleDuration, cancellationToken);
+                return view.PlayMessageAnimationAsync(message, positionType, visibleDuration, delayTime, cancellationToken);
             }
         }
 
