@@ -131,5 +131,25 @@ namespace SoulLike.ActorControllers
                 JudgementType = judgementType;
             }
         }
+
+        public readonly struct RequestBeginEvent
+        {
+            public readonly string Tag;
+
+            public RequestBeginEvent(string tag)
+            {
+                Tag = tag;
+            }
+        }
+
+        public readonly struct RequestEndEvent
+        {
+            public readonly string Tag;
+
+            public RequestEndEvent(string tag)
+            {
+                Tag = tag;
+            }
+        }
     }
 }
