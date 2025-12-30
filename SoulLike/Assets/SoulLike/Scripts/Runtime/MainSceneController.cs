@@ -207,6 +207,7 @@ namespace SoulLike
                         audioManager.PlayBgm(epilogueBgmKey);
                         uiViewFade.BeginAsync(fadeOutColor, fadeInColor, 0.25f, destroyCancellationToken).Forget();
                         await uiViewEpilogue.BeginAsync(destroyCancellationToken);
+                        await audioManager.FadeOutBgmAsync(1.0f, 0.0f, destroyCancellationToken);
                         await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 1.0f, destroyCancellationToken);
                         await uiViewResult.BeginAsync(userData, audioManager, uiViewFade, destroyCancellationToken);
                         break;
