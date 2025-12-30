@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using HK;
 using LitMotion;
 using LitMotion.Extensions;
+using R3;
 using TMPro;
 using TNRD;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace SoulLike
@@ -25,6 +28,15 @@ namespace SoulLike
         [SerializeField]
         private TMP_Text messageBottom;
 
+        [SerializeField]
+        private GameObject areaSkip;
+
+        [SerializeField]
+        private TMP_Text skipMessage;
+
+        [SerializeField]
+        private string skipMessageFormat;
+
 #if UNITY_EDITOR
         [ClassesOnly]
 #endif
@@ -42,14 +54,33 @@ namespace SoulLike
             gameObject.SetActive(false);
         }
 
-        public async UniTask BeginAsync(CancellationToken cancellationToken)
+        public async UniTask BeginAsync(PlayerInput playerInput, CancellationToken cancellationToken)
         {
             gameObject.SetActive(true);
+            areaSkip.SetActive(false);
             imageCanvasGroup.alpha = 0.0f;
+            await UniTask.WhenAny(
+                ProcessSkipAsync(playerInput, cancellationToken),
+                BeginActionsAsync(cancellationToken)
+            );
+        }
+
+        private async UniTask BeginActionsAsync(CancellationToken cancellationToken)
+        {
             foreach (var action in actions)
             {
                 await action.Value.InvokeAsync(this, cancellationToken);
             }
+        }
+
+        private async UniTask ProcessSkipAsync(PlayerInput playerInput, CancellationToken cancellationToken)
+        {
+            await InputSystem.onAnyButtonPress.ToObservable().FirstAsync(cancellationToken);
+            await UniTask.NextFrame(cancellationToken);
+            var action = playerInput.actions["Submit"];
+            skipMessage.SetText(string.Format(skipMessageFormat, InputSprite.GetTag(playerInput, action)));
+            areaSkip.SetActive(true);
+            await action.OnPerformedAsObservable().FirstAsync(cancellationToken);
         }
 
         public async UniTask PlayMessageAnimationAsync(string message, MessagePositionType positionType, float visibleDuration, float delayTime, CancellationToken cancellationToken)
