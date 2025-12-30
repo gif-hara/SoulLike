@@ -48,6 +48,8 @@ namespace SoulLike
 
         public readonly ReactiveProperty<float> sfxVolume = new(0.5f);
 
+        public float PlayTime { get; set; }
+
         int IAdditionalStatus.HitPoint => hitPoint.Value;
 
         int IAdditionalStatus.Stamina => stamina.Value;

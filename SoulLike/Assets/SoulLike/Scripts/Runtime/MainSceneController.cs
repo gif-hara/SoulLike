@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using HK;
 using R3;
@@ -170,6 +171,13 @@ namespace SoulLike
                 await uiViewTitle.BeginAsync(userData, audioManager, destroyCancellationToken);
                 await uiViewEffectMessage.BeginAsync(gameStartBackgroundColor, gameStartForwardColor, gameStartMessageColor, gameStartMessage, sceneBroker, destroyCancellationToken, () => uiViewTitle.SetActive(false), () => uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 0.0f, destroyCancellationToken).Forget());
 
+                using var gamePlayScope = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);
+                this.UpdateAsObservable()
+                    .Subscribe(userData, static (_, userData) =>
+                    {
+                        userData.PlayTime += UnityEngine.Time.deltaTime;
+                    })
+                    .RegisterTo(gamePlayScope.Token);
                 player.Brain.Attach(new Player(playerInput, worldCameraController, masterData.PlayerSpec, userData, sceneBroker, enemy));
                 enemy.Brain.Attach(new Enemy(masterData.EnemySpecs[enemySpecId], sceneBroker, player, uiViewEffectMessage));
 
@@ -188,6 +196,8 @@ namespace SoulLike
                         .AsUniTask();
                     if (gameJudgement.Judgement == MainSceneEvent.JudgementType.PlayerWin)
                     {
+                        gamePlayScope.Cancel();
+                        gamePlayScope.Dispose();
                         await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 3.0f, destroyCancellationToken);
                         await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: destroyCancellationToken);
                         audioManager.PlayBgm(epilogueBgmKey);
