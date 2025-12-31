@@ -1934,7 +1934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Power
-      value: 310
+      value: 330
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[5].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Power
@@ -2106,7 +2106,7 @@ PrefabInstance:
       objectReference: {fileID: 6998772533833018759}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[5].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
