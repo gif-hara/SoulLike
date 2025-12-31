@@ -11,6 +11,7 @@ using SoulLike.MasterDataSystem;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using unityroom.Api;
 
 namespace SoulLike
 {
@@ -221,6 +222,8 @@ namespace SoulLike
                             await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 1.0f, destroyCancellationToken);
                         }
                         audioManager.PlayBgm(resultBgmKey);
+                        UnityroomApiClient.Instance.SendScore(1, userData.PlayTime, ScoreboardWriteMode.HighScoreAsc);
+                        UnityroomApiClient.Instance.SendScore(2, userData.DeadCount, ScoreboardWriteMode.HighScoreAsc);
                         await uiViewResult.BeginAsync(userData, audioManager, uiViewFade, destroyCancellationToken);
                         break;
                     }
