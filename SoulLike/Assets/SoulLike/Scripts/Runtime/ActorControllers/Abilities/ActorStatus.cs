@@ -280,6 +280,12 @@ namespace SoulLike.ActorControllers.Abilities
             }
         }
 
+        public void ResetInvincible()
+        {
+            invincibleBlocker.Reset();
+            isInvincible.Value = false;
+        }
+
         private async UniTask BeginStunAsync()
         {
             if (IsStunned)

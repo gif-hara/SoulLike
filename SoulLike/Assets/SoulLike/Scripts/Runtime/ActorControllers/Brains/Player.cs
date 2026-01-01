@@ -177,6 +177,7 @@ namespace SoulLike.ActorControllers.Brains
                     @this.actorStatus.ApplySpec(@this.playerSpec.ActorStatusSpec, @this.userData);
                     @this.actorMovement.Teleport(@this.initialPosition, @this.initialRotation);
                     @this.actorTargetHandler.BeginLockOn(@this.target);
+                    @this.actorStatus.ResetInvincible();
                 })
                 .RegisterTo(cancellationToken);
             sceneBroker.Receive<MainSceneEvent.OnBeginEvent>()
