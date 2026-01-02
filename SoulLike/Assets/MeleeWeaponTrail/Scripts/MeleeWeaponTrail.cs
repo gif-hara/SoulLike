@@ -7,9 +7,7 @@
 //
 
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 
 public class MeleeWeaponTrail : MonoBehaviour
@@ -67,6 +65,18 @@ public class MeleeWeaponTrail : MonoBehaviour
 	GameObject _trailObject;
 	Mesh _trailMesh;
 	Vector3 _lastPosition;
+	Vector3[] _vertices;
+	Vector2[] _uvs;
+	Color[] _vertexColors;
+	int[] _triangles;
+	int[] _doubleSidedTriangles;
+
+#if USE_INTERPOLATION
+	readonly Vector3[] _tipPoints = new Vector3[4];
+	readonly Vector3[] _basePoints = new Vector3[4];
+	readonly List<Vector3> _smoothTipBuffer = new List<Vector3>();
+	readonly List<Vector3> _smoothBaseBuffer = new List<Vector3>();
+#endif
 
 	[System.Serializable]
 	public class Point
@@ -91,6 +101,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 
 		_trailMesh = new Mesh();
 		_trailMesh.name = name + "TrailMesh";
+		_trailMesh.MarkDynamic();
 		_trailObject.GetComponent<MeshFilter>().mesh = _trailMesh;
 
 		_minVertexDistanceSqr = _minVertexDistance * _minVertexDistance;
@@ -170,44 +181,50 @@ public class MeleeWeaponTrail : MonoBehaviour
 					// we use 4 control points for the smoothing
 					if (_points.Count >= 4)
 					{
-						Vector3[] tipPoints = new Vector3[4];
-						tipPoints[0] = _points[_points.Count - 4].tipPosition;
-						tipPoints[1] = _points[_points.Count - 3].tipPosition;
-						tipPoints[2] = _points[_points.Count - 2].tipPosition;
-						tipPoints[3] = _points[_points.Count - 1].tipPosition;
+						_tipPoints[0] = _points[_points.Count - 4].tipPosition;
+						_tipPoints[1] = _points[_points.Count - 3].tipPosition;
+						_tipPoints[2] = _points[_points.Count - 2].tipPosition;
+						_tipPoints[3] = _points[_points.Count - 1].tipPosition;
 
 						//IEnumerable<Vector3> smoothTip = Interpolate.NewBezier(Interpolate.Ease(Interpolate.EaseType.Linear), tipPoints, subdivisions);
-						IEnumerable<Vector3> smoothTip = Interpolate.NewCatmullRom(tipPoints, subdivisions, false);
+						IEnumerable<Vector3> smoothTip = Interpolate.NewCatmullRom(_tipPoints, subdivisions, false);
 
-						Vector3[] basePoints = new Vector3[4];
-						basePoints[0] = _points[_points.Count - 4].basePosition;
-						basePoints[1] = _points[_points.Count - 3].basePosition;
-						basePoints[2] = _points[_points.Count - 2].basePosition;
-						basePoints[3] = _points[_points.Count - 1].basePosition;
+						_basePoints[0] = _points[_points.Count - 4].basePosition;
+						_basePoints[1] = _points[_points.Count - 3].basePosition;
+						_basePoints[2] = _points[_points.Count - 2].basePosition;
+						_basePoints[3] = _points[_points.Count - 1].basePosition;
 
 						//IEnumerable<Vector3> smoothBase = Interpolate.NewBezier(Interpolate.Ease(Interpolate.EaseType.Linear), basePoints, subdivisions);
-						IEnumerable<Vector3> smoothBase = Interpolate.NewCatmullRom(basePoints, subdivisions, false);
+						IEnumerable<Vector3> smoothBase = Interpolate.NewCatmullRom(_basePoints, subdivisions, false);
 
-						List<Vector3> smoothTipList = new List<Vector3>(smoothTip);
-						List<Vector3> smoothBaseList = new List<Vector3>(smoothBase);
+						_smoothTipBuffer.Clear();
+						foreach (var point in smoothTip)
+						{
+							_smoothTipBuffer.Add(point);
+						}
+						_smoothBaseBuffer.Clear();
+						foreach (var point in smoothBase)
+						{
+							_smoothBaseBuffer.Add(point);
+						}
 
 						float firstTime = _points[_points.Count - 4].timeCreated;
 						float secondTime = _points[_points.Count - 1].timeCreated;
 
 						//Debug.Log(" smoothTipList.Count: " + smoothTipList.Count);
 
-						for (int n = 0; n < smoothTipList.Count; ++n)
+						for (int n = 0; n < _smoothTipBuffer.Count; ++n)
 						{
 
-							int idx = _smoothedPoints.Count - (smoothTipList.Count - n);
+							int idx = _smoothedPoints.Count - (_smoothTipBuffer.Count - n);
 							// there are moments when the _smoothedPoints are lesser
 							// than what is required, when elements from it are removed
 							if (idx > -1 && idx < _smoothedPoints.Count)
 							{
 								Point sp = new Point();
-								sp.basePosition = smoothBaseList[n];
-								sp.tipPosition = smoothTipList[n];
-								sp.timeCreated = Mathf.Lerp(firstTime, secondTime, (float)n / smoothTipList.Count);
+								sp.basePosition = _smoothBaseBuffer[n];
+								sp.tipPosition = _smoothTipBuffer[n];
+								sp.timeCreated = Mathf.Lerp(firstTime, secondTime, (float)n / _smoothTipBuffer.Count);
 								_smoothedPoints[idx] = sp;
 							}
 							//else
@@ -274,10 +291,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 
 		if (pointsToUse.Count > 1)
 		{
-			Vector3[] newVertices = new Vector3[pointsToUse.Count * 2];
-			Vector2[] newUV = new Vector2[pointsToUse.Count * 2];
-			int[] newTriangles = new int[(pointsToUse.Count - 1) * 6];
-			Color[] newColors = new Color[pointsToUse.Count * 2];
+			EnsureMeshDataCapacity(pointsToUse.Count);
 
 			for (int n = 0; n < pointsToUse.Count; ++n)
 			{
@@ -310,49 +324,77 @@ public class MeleeWeaponTrail : MonoBehaviour
 
 				Vector3 lineDirection = p.tipPosition - p.basePosition;
 
-				newVertices[n * 2] = p.basePosition - (lineDirection * (size * 0.5f));
-				newVertices[(n * 2) + 1] = p.tipPosition + (lineDirection * (size * 0.5f));
+				_vertices[n * 2] = p.basePosition - (lineDirection * (size * 0.5f));
+				_vertices[(n * 2) + 1] = p.tipPosition + (lineDirection * (size * 0.5f));
 
-				newColors[n * 2] = newColors[(n * 2) + 1] = color;
+				_vertexColors[n * 2] = _vertexColors[(n * 2) + 1] = color;
 
 				float uvRatio = (float)n / pointsToUse.Count;
-				newUV[n * 2] = new Vector2(uvRatio, 0);
-				newUV[(n * 2) + 1] = new Vector2(uvRatio, 1);
+				_uvs[n * 2] = new Vector2(uvRatio, 0);
+				_uvs[(n * 2) + 1] = new Vector2(uvRatio, 1);
 
 				if (n > 0)
 				{
-					newTriangles[(n - 1) * 6] = (n * 2) - 2;
-					newTriangles[((n - 1) * 6) + 1] = (n * 2) - 1;
-					newTriangles[((n - 1) * 6) + 2] = n * 2;
+					int triIndex = (n - 1) * 6;
+					_triangles[triIndex] = (n * 2) - 2;
+					_triangles[triIndex + 1] = (n * 2) - 1;
+					_triangles[triIndex + 2] = n * 2;
 
-					newTriangles[((n - 1) * 6) + 3] = (n * 2) + 1;
-					newTriangles[((n - 1) * 6) + 4] = n * 2;
-					newTriangles[((n - 1) * 6) + 5] = (n * 2) - 1;
+					_triangles[triIndex + 3] = (n * 2) + 1;
+					_triangles[triIndex + 4] = n * 2;
+					_triangles[triIndex + 5] = (n * 2) - 1;
 				}
 			}
 
 			_trailMesh.Clear();
-			_trailMesh.vertices = newVertices;
-			_trailMesh.colors = newColors;
-			_trailMesh.uv = newUV;
-			_trailMesh.triangles = newTriangles.Concat(newTriangles.Reverse()).ToArray();
+			_trailMesh.vertices = _vertices;
+			_trailMesh.colors = _vertexColors;
+			_trailMesh.uv = _uvs;
+			int triangleCount = (pointsToUse.Count - 1) * 6;
+			for (int i = 0; i < triangleCount; i++)
+			{
+				_doubleSidedTriangles[i] = _triangles[i];
+			}
+			for (int i = 0; i < triangleCount; i++)
+			{
+				_doubleSidedTriangles[triangleCount + i] = _triangles[triangleCount - 1 - i];
+			}
+			_trailMesh.triangles = _doubleSidedTriangles;
 		}
 	}
 
 	void RemoveOldPoints(List<Point> pointList)
 	{
-		List<Point> remove = new List<Point>();
-		foreach (Point p in pointList)
+		for (int i = pointList.Count - 1; i >= 0; i--)
 		{
-			// cull old points first
-			if (Time.time - p.timeCreated > _lifeTime)
+			if (Time.time - pointList[i].timeCreated > _lifeTime)
 			{
-				remove.Add(p);
+				pointList.RemoveAt(i);
 			}
 		}
-		foreach (Point p in remove)
+	}
+
+	void EnsureMeshDataCapacity(int pointCount)
+	{
+		int vertexCount = pointCount * 2;
+		int triangleCount = (pointCount - 1) * 6;
+		int doubleSidedTriangleCount = triangleCount * 2;
+
+		if (_vertices == null || _vertices.Length != vertexCount)
 		{
-			pointList.Remove(p);
+			_vertices = new Vector3[vertexCount];
+			_uvs = new Vector2[vertexCount];
+			_vertexColors = new Color[vertexCount];
+		}
+
+		if (_triangles == null || _triangles.Length != triangleCount)
+		{
+			_triangles = new int[triangleCount];
+		}
+
+		if (_doubleSidedTriangles == null || _doubleSidedTriangles.Length != doubleSidedTriangleCount)
+		{
+			_doubleSidedTriangles = new int[doubleSidedTriangleCount];
 		}
 	}
 }
