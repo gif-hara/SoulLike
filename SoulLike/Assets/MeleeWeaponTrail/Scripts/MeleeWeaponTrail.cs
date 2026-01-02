@@ -62,6 +62,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 #if USE_INTERPOLATION
 	List<Point> _smoothedPoints = new List<Point>();
 #endif
+	readonly Stack<Point> _pointPool = new Stack<Point>();
 	GameObject _trailObject;
 	Mesh _trailMesh;
 	Vector3 _lastPosition;
@@ -84,6 +85,16 @@ public class MeleeWeaponTrail : MonoBehaviour
 		public float timeCreated = 0.0f;
 		public Vector3 basePosition;
 		public Vector3 tipPosition;
+	}
+
+	Point GetPoint()
+	{
+		return _pointPool.Count > 0 ? _pointPool.Pop() : new Point();
+	}
+
+	void ReleasePoint(Point point)
+	{
+		_pointPool.Push(point);
 	}
 
 	void Start()
@@ -158,7 +169,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 
 				if (make)
 				{
-					Point p = new Point();
+					Point p = GetPoint();
 					p.basePosition = _base.position;
 					p.tipPosition = _tip.position;
 					p.timeCreated = Time.time;
@@ -169,15 +180,24 @@ public class MeleeWeaponTrail : MonoBehaviour
 #if USE_INTERPOLATION
 					if (_points.Count == 1)
 					{
-						_smoothedPoints.Add(p);
+						Point sp = GetPoint();
+						sp.basePosition = p.basePosition;
+						sp.tipPosition = p.tipPosition;
+						sp.timeCreated = p.timeCreated;
+						_smoothedPoints.Add(sp);
 					}
 					else if (_points.Count > 1)
 					{
 						// add 1+subdivisions for every possible pair in the _points
 						for (int n = 0; n < 1 + subdivisions; ++n)
-							_smoothedPoints.Add(p);
+						{
+							Point sp = GetPoint();
+							sp.basePosition = p.basePosition;
+							sp.tipPosition = p.tipPosition;
+							sp.timeCreated = p.timeCreated;
+							_smoothedPoints.Add(sp);
+						}
 					}
-
 					// we use 4 control points for the smoothing
 					if (_points.Count >= 4)
 					{
@@ -211,11 +231,10 @@ public class MeleeWeaponTrail : MonoBehaviour
 							// than what is required, when elements from it are removed
 							if (idx > -1 && idx < _smoothedPoints.Count)
 							{
-								Point sp = new Point();
+								Point sp = _smoothedPoints[idx];
 								sp.basePosition = _smoothBaseBuffer[n];
 								sp.tipPosition = _smoothTipBuffer[n];
 								sp.timeCreated = Mathf.Lerp(firstTime, secondTime, (float)n / _smoothTipBuffer.Count);
-								_smoothedPoints[idx] = sp;
 							}
 							//else
 							//{
@@ -360,6 +379,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 		{
 			if (Time.time - pointList[i].timeCreated > _lifeTime)
 			{
+				ReleasePoint(pointList[i]);
 				pointList.RemoveAt(i);
 			}
 		}
