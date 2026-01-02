@@ -347,16 +347,10 @@ public class MeleeWeaponTrail : MonoBehaviour
 			}
 
 			_trailMesh.Clear();
-<<<<<<< HEAD
 			int vertexCount = pointsToUse.Count * 2;
 			_trailMesh.SetVertices(_vertices, 0, vertexCount);
 			_trailMesh.SetColors(_vertexColors, 0, vertexCount);
 			_trailMesh.SetUVs(0, _uvs, 0, vertexCount);
-=======
-			_trailMesh.vertices = _vertices;
-			_trailMesh.colors = _vertexColors;
-			_trailMesh.uv = _uvs;
->>>>>>> main
 			int triangleCount = (pointsToUse.Count - 1) * 6;
 			for (int i = 0; i < triangleCount; i++)
 			{
@@ -366,11 +360,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 			{
 				_doubleSidedTriangles[triangleCount + i] = _triangles[triangleCount - 1 - i];
 			}
-<<<<<<< HEAD
 			_trailMesh.SetTriangles(_doubleSidedTriangles, 0, triangleCount * 2, 0);
-=======
-			_trailMesh.triangles = _doubleSidedTriangles;
->>>>>>> main
 		}
 	}
 
@@ -391,7 +381,6 @@ public class MeleeWeaponTrail : MonoBehaviour
 		int triangleCount = (pointCount - 1) * 6;
 		int doubleSidedTriangleCount = triangleCount * 2;
 
-<<<<<<< HEAD
 		if (_vertices == null || _vertices.Length < vertexCount)
 		{
 			int size = NextPowerOfTwo(vertexCount);
@@ -408,23 +397,6 @@ public class MeleeWeaponTrail : MonoBehaviour
 		if (_doubleSidedTriangles == null || _doubleSidedTriangles.Length < doubleSidedTriangleCount)
 		{
 			_doubleSidedTriangles = new int[NextPowerOfTwo(doubleSidedTriangleCount)];
-=======
-		if (_vertices == null || _vertices.Length != vertexCount)
-		{
-			_vertices = new Vector3[vertexCount];
-			_uvs = new Vector2[vertexCount];
-			_vertexColors = new Color[vertexCount];
-		}
-
-		if (_triangles == null || _triangles.Length != triangleCount)
-		{
-			_triangles = new int[triangleCount];
-		}
-
-		if (_doubleSidedTriangles == null || _doubleSidedTriangles.Length != doubleSidedTriangleCount)
-		{
-			_doubleSidedTriangles = new int[doubleSidedTriangleCount];
->>>>>>> main
 		}
 	}
 
