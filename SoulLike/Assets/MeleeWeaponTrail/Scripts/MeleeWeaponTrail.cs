@@ -187,7 +187,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 						_tipPoints[3] = _points[_points.Count - 1].tipPosition;
 
 						//IEnumerable<Vector3> smoothTip = Interpolate.NewBezier(Interpolate.Ease(Interpolate.EaseType.Linear), tipPoints, subdivisions);
-						IEnumerable<Vector3> smoothTip = Interpolate.NewCatmullRom(_tipPoints, subdivisions, false);
+						Interpolate.NewCatmullRomNonAlloc(_tipPoints, subdivisions, false, _smoothTipBuffer);
 
 						_basePoints[0] = _points[_points.Count - 4].basePosition;
 						_basePoints[1] = _points[_points.Count - 3].basePosition;
@@ -195,18 +195,8 @@ public class MeleeWeaponTrail : MonoBehaviour
 						_basePoints[3] = _points[_points.Count - 1].basePosition;
 
 						//IEnumerable<Vector3> smoothBase = Interpolate.NewBezier(Interpolate.Ease(Interpolate.EaseType.Linear), basePoints, subdivisions);
-						IEnumerable<Vector3> smoothBase = Interpolate.NewCatmullRom(_basePoints, subdivisions, false);
+						Interpolate.NewCatmullRomNonAlloc(_basePoints, subdivisions, false, _smoothBaseBuffer);
 
-						_smoothTipBuffer.Clear();
-						foreach (var point in smoothTip)
-						{
-							_smoothTipBuffer.Add(point);
-						}
-						_smoothBaseBuffer.Clear();
-						foreach (var point in smoothBase)
-						{
-							_smoothBaseBuffer.Add(point);
-						}
 
 						float firstTime = _points[_points.Count - 4].timeCreated;
 						float secondTime = _points[_points.Count - 1].timeCreated;
