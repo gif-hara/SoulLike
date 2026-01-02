@@ -62,6 +62,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 #if USE_INTERPOLATION
 	List<Point> _smoothedPoints = new List<Point>();
 #endif
+	readonly Stack<Point> _pointPool = new Stack<Point>();
 	GameObject _trailObject;
 	Mesh _trailMesh;
 	Vector3 _lastPosition;
@@ -84,6 +85,16 @@ public class MeleeWeaponTrail : MonoBehaviour
 		public float timeCreated = 0.0f;
 		public Vector3 basePosition;
 		public Vector3 tipPosition;
+	}
+
+	Point GetPoint()
+	{
+		return _pointPool.Count > 0 ? _pointPool.Pop() : new Point();
+	}
+
+	void ReleasePoint(Point point)
+	{
+		_pointPool.Push(point);
 	}
 
 	void Start()
@@ -158,7 +169,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 
 				if (make)
 				{
-					Point p = new Point();
+					Point p = GetPoint();
 					p.basePosition = _base.position;
 					p.tipPosition = _tip.position;
 					p.timeCreated = Time.time;
@@ -169,15 +180,24 @@ public class MeleeWeaponTrail : MonoBehaviour
 #if USE_INTERPOLATION
 					if (_points.Count == 1)
 					{
-						_smoothedPoints.Add(p);
+						Point sp = GetPoint();
+						sp.basePosition = p.basePosition;
+						sp.tipPosition = p.tipPosition;
+						sp.timeCreated = p.timeCreated;
+						_smoothedPoints.Add(sp);
 					}
 					else if (_points.Count > 1)
 					{
 						// add 1+subdivisions for every possible pair in the _points
 						for (int n = 0; n < 1 + subdivisions; ++n)
-							_smoothedPoints.Add(p);
+						{
+							Point sp = GetPoint();
+							sp.basePosition = p.basePosition;
+							sp.tipPosition = p.tipPosition;
+							sp.timeCreated = p.timeCreated;
+							_smoothedPoints.Add(sp);
+						}
 					}
-
 					// we use 4 control points for the smoothing
 					if (_points.Count >= 4)
 					{
@@ -187,7 +207,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 						_tipPoints[3] = _points[_points.Count - 1].tipPosition;
 
 						//IEnumerable<Vector3> smoothTip = Interpolate.NewBezier(Interpolate.Ease(Interpolate.EaseType.Linear), tipPoints, subdivisions);
-						IEnumerable<Vector3> smoothTip = Interpolate.NewCatmullRom(_tipPoints, subdivisions, false);
+						Interpolate.NewCatmullRomNonAlloc(_tipPoints, subdivisions, false, _smoothTipBuffer);
 
 						_basePoints[0] = _points[_points.Count - 4].basePosition;
 						_basePoints[1] = _points[_points.Count - 3].basePosition;
@@ -195,18 +215,8 @@ public class MeleeWeaponTrail : MonoBehaviour
 						_basePoints[3] = _points[_points.Count - 1].basePosition;
 
 						//IEnumerable<Vector3> smoothBase = Interpolate.NewBezier(Interpolate.Ease(Interpolate.EaseType.Linear), basePoints, subdivisions);
-						IEnumerable<Vector3> smoothBase = Interpolate.NewCatmullRom(_basePoints, subdivisions, false);
+						Interpolate.NewCatmullRomNonAlloc(_basePoints, subdivisions, false, _smoothBaseBuffer);
 
-						_smoothTipBuffer.Clear();
-						foreach (var point in smoothTip)
-						{
-							_smoothTipBuffer.Add(point);
-						}
-						_smoothBaseBuffer.Clear();
-						foreach (var point in smoothBase)
-						{
-							_smoothBaseBuffer.Add(point);
-						}
 
 						float firstTime = _points[_points.Count - 4].timeCreated;
 						float secondTime = _points[_points.Count - 1].timeCreated;
@@ -221,11 +231,10 @@ public class MeleeWeaponTrail : MonoBehaviour
 							// than what is required, when elements from it are removed
 							if (idx > -1 && idx < _smoothedPoints.Count)
 							{
-								Point sp = new Point();
+								Point sp = _smoothedPoints[idx];
 								sp.basePosition = _smoothBaseBuffer[n];
 								sp.tipPosition = _smoothTipBuffer[n];
 								sp.timeCreated = Mathf.Lerp(firstTime, secondTime, (float)n / _smoothTipBuffer.Count);
-								_smoothedPoints[idx] = sp;
 							}
 							//else
 							//{
@@ -347,9 +356,10 @@ public class MeleeWeaponTrail : MonoBehaviour
 			}
 
 			_trailMesh.Clear();
-			_trailMesh.vertices = _vertices;
-			_trailMesh.colors = _vertexColors;
-			_trailMesh.uv = _uvs;
+			int vertexCount = pointsToUse.Count * 2;
+			_trailMesh.SetVertices(_vertices, 0, vertexCount);
+			_trailMesh.SetColors(_vertexColors, 0, vertexCount);
+			_trailMesh.SetUVs(0, _uvs, 0, vertexCount);
 			int triangleCount = (pointsToUse.Count - 1) * 6;
 			for (int i = 0; i < triangleCount; i++)
 			{
@@ -359,7 +369,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 			{
 				_doubleSidedTriangles[triangleCount + i] = _triangles[triangleCount - 1 - i];
 			}
-			_trailMesh.triangles = _doubleSidedTriangles;
+			_trailMesh.SetTriangles(_doubleSidedTriangles, 0, triangleCount * 2, 0);
 		}
 	}
 
@@ -369,6 +379,7 @@ public class MeleeWeaponTrail : MonoBehaviour
 		{
 			if (Time.time - pointList[i].timeCreated > _lifeTime)
 			{
+				ReleasePoint(pointList[i]);
 				pointList.RemoveAt(i);
 			}
 		}
@@ -380,21 +391,38 @@ public class MeleeWeaponTrail : MonoBehaviour
 		int triangleCount = (pointCount - 1) * 6;
 		int doubleSidedTriangleCount = triangleCount * 2;
 
-		if (_vertices == null || _vertices.Length != vertexCount)
+		if (_vertices == null || _vertices.Length < vertexCount)
 		{
-			_vertices = new Vector3[vertexCount];
-			_uvs = new Vector2[vertexCount];
-			_vertexColors = new Color[vertexCount];
+			int size = NextPowerOfTwo(vertexCount);
+			_vertices = new Vector3[size];
+			_uvs = new Vector2[size];
+			_vertexColors = new Color[size];
 		}
 
-		if (_triangles == null || _triangles.Length != triangleCount)
+		if (_triangles == null || _triangles.Length < triangleCount)
 		{
-			_triangles = new int[triangleCount];
+			_triangles = new int[NextPowerOfTwo(triangleCount)];
 		}
 
-		if (_doubleSidedTriangles == null || _doubleSidedTriangles.Length != doubleSidedTriangleCount)
+		if (_doubleSidedTriangles == null || _doubleSidedTriangles.Length < doubleSidedTriangleCount)
 		{
-			_doubleSidedTriangles = new int[doubleSidedTriangleCount];
+			_doubleSidedTriangles = new int[NextPowerOfTwo(doubleSidedTriangleCount)];
 		}
+	}
+
+	static int NextPowerOfTwo(int value)
+	{
+		if (value < 1)
+		{
+			return 1;
+		}
+		value--;
+		value |= value >> 1;
+		value |= value >> 2;
+		value |= value >> 4;
+		value |= value >> 8;
+		value |= value >> 16;
+		value++;
+		return value;
 	}
 }

@@ -322,8 +322,80 @@ public class Interpolate {
     public static IEnumerable<Vector3> NewCatmullRom(Vector3[] points, int slices, bool loop) {
         return NewCatmullRom<Vector3>(points, Identity, slices, loop);
     }
+    /**
+     * Non-allocating Catmull-Rom that writes results into the provided list.
+     * The list is cleared before writing.
+     */
+    public static void NewCatmullRomNonAlloc(Transform[] nodes, int slices, bool loop, List<Vector3> results) {
+        if (results == null) { return; }
+        results.Clear();
+        if (nodes == null || nodes.Length < 2) { return; }
+
+        results.Add(nodes[0].position);
+
+        int last = nodes.Length - 1;
+        int current = 0;
+        while (loop || current < last) {
+            if (loop && current > last) {
+                current = 0;
+            }
+            int previous = (current == 0) ? ((loop) ? last : current) : current - 1;
+            int start = current;
+            int end = (current == last) ? ((loop) ? 0 : current) : current + 1;
+            int next = (end == last) ? ((loop) ? 0 : end) : end + 1;
+
+            int stepCount = slices + 1;
+            Vector3 previousV = nodes[previous].position;
+            Vector3 startV = nodes[start].position;
+            Vector3 endV = nodes[end].position;
+            Vector3 nextV = nodes[next].position;
+            for (int step = 1; step <= stepCount; step++) {
+                results.Add(CatmullRom(previousV, startV, endV, nextV, step, stepCount));
+            }
+            current++;
+        }
+    }
 
     /**
+     * Non-allocating Catmull-Rom that writes results into the provided list.
+     * The list is cleared before writing.
+     */
+    public static void NewCatmullRomNonAlloc(Vector3[] points, int slices, bool loop, List<Vector3> results) {
+        if (results == null) { return; }
+        results.Clear();
+        if (points == null || points.Length < 2) { return; }
+
+        results.Add(points[0]);
+
+        int last = points.Length - 1;
+        int current = 0;
+        while (loop || current < last) {
+            if (loop && current > last) {
+                current = 0;
+            }
+            int previous = (current == 0) ? ((loop) ? last : current) : current - 1;
+            int start = current;
+            int end = (current == last) ? ((loop) ? 0 : current) : current + 1;
+            int next = (end == last) ? ((loop) ? 0 : end) : end + 1;
+
+            int stepCount = slices + 1;
+            Vector3 previousV = points[previous];
+            Vector3 startV = points[start];
+            Vector3 endV = points[end];
+            Vector3 nextV = points[next];
+            for (int step = 1; step <= stepCount; step++) {
+                results.Add(CatmullRom(previousV, startV, endV, nextV, step, stepCount));
+            }
+            current++;
+        }
+    }
+
+
+    /**
+     * Non-allocating Catmull-Rom that writes results into the provided list.
+     * The list is cleared before writing.
+     */
+        /**
      * Generic catmull-rom spline sequence generator used to implement the
      * Vector3[] and Transform[] variants. Normally you would not use this
      * function directly.
