@@ -163,13 +163,13 @@ namespace SoulLike.ActorControllers.Abilities
                 return new TakeDamageData(0);
             }
             var attackerStatus = attacker.GetAbility<ActorStatus>();
+            stunResistance.Value = Mathf.Min(stunResistance.Value + attackData.StunDamage, stunResistanceMax.Value);
             var damage = attackData.Power
                 * attackerStatus.additionalStatus.AttackRate
                 * (attackerStatus.attackBuffTimer > 0.0f ? attackerStatus.attackBuffRate : 1.0f)
                 * (1f - additionalStatus.DamageCutRate)
-                * (IsStunned ? defenseDebuffRateOnStunned : 1.0f);
+                * (stunResistance.Value >= stunResistanceMax.Value ? defenseDebuffRateOnStunned : 1.0f);
             hitPoint.Value = Mathf.Max(0f, hitPoint.Value - damage);
-            stunResistance.Value = Mathf.Min(stunResistance.Value + attackData.StunDamage, stunResistanceMax.Value);
             actorAnimation.SetBool(ActorAnimation.Parameter.IsAlive, hitPoint.Value > 0f);
             if (hitPoint.Value <= 0f)
             {
@@ -278,6 +278,12 @@ namespace SoulLike.ActorControllers.Abilities
             {
                 isInvincible.Value = false;
             }
+        }
+
+        public void ResetInvincible()
+        {
+            invincibleBlocker.Reset();
+            isInvincible.Value = false;
         }
 
         private async UniTask BeginStunAsync()

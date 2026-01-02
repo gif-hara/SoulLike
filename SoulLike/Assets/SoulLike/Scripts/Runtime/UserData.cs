@@ -73,7 +73,10 @@ namespace SoulLike
         public void AddExperience(int amount)
         {
             experience.Value += amount;
-            TotalExperience += amount;
+            if (amount > 0)
+            {
+                TotalExperience += amount;
+            }
         }
 
         public void AddHitPoint(int amount)

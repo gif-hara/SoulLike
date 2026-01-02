@@ -2,6 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using HK;
 using R3;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,9 @@ namespace SoulLike
 {
     public class UIViewTitle : MonoBehaviour
     {
+        [SerializeField]
+        private TMP_Text versionText;
+
         [SerializeField]
         private Button startButton;
 
@@ -23,6 +27,7 @@ namespace SoulLike
         {
             gameObject.SetActive(true);
             EventSystem.current.SetSelectedGameObject(startButton.gameObject);
+            versionText.text = Application.version;
             bgmSlider.value = userData.bgmVolume.Value;
             sfxSlider.value = userData.sfxVolume.Value;
             bgmSlider.OnValueChangedAsObservable()

@@ -527,7 +527,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<size=150%><color=#22FFFF>\u30D7</color></size>\u30EC\u30A4\u6642\u9593"
+  m_text: "<size=150%><color=#22FFFF>\u30AF</color></size>\u30EA\u30A2\u6642\u9593"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f92e53aeb762d2e478856d6e0352b53d, type: 2}
   m_sharedMaterial: {fileID: 5291632320872764509, guid: f92e53aeb762d2e478856d6e0352b53d, type: 2}

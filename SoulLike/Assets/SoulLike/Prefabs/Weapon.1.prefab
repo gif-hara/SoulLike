@@ -1890,7 +1890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Power
-      value: 78
+      value: 98
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[0].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.SfxKey
@@ -1926,7 +1926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Power
-      value: 195
+      value: 214
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Power
@@ -1934,7 +1934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Power
-      value: 212
+      value: 330
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[5].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Power
@@ -2054,7 +2054,7 @@ PrefabInstance:
       objectReference: {fileID: 6998772533833018759}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[0].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Projectile
@@ -2062,7 +2062,7 @@ PrefabInstance:
       objectReference: {fileID: 6998772533833018759}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.Projectile
@@ -2106,7 +2106,7 @@ PrefabInstance:
       objectReference: {fileID: 6998772533833018759}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[5].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.StunDamage
@@ -2210,7 +2210,7 @@ PrefabInstance:
       objectReference: {fileID: 5519294979639783551}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.EarnedExperience
-      value: 100
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<HitEffectPrefabs>k__BackingField.Array.size
@@ -2246,7 +2246,7 @@ PrefabInstance:
       objectReference: {fileID: 5519294979639783551}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.EarnedExperience
-      value: 260
+      value: 310
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitStopTimeScale
@@ -2274,7 +2274,7 @@ PrefabInstance:
       objectReference: {fileID: 5519294979639783551}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.EarnedExperience
-      value: 560
+      value: 610
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: uniqueAttackElements.Array.data[4].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.HitStopTimeScale
@@ -2334,7 +2334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: basicAttackElements.Array.data[2].<AttackElements>k__BackingField.Array.data[0].<AttackData>k__BackingField.SpecialPowerRecovery
-      value: 0.1
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 837806661537846955, guid: 55b78969f0ca3f54cad831fb1d99e982, type: 3}
       propertyPath: 'uniqueAttackElements.Array.data[1].<AttackElements>k__BackingField.Array.data[0].<HitEffectPrefabs>k__BackingField.Array.data[0]'

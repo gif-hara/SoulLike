@@ -33,6 +33,12 @@ namespace SoulLike
         [SerializeField]
         private CanvasGroup hintMessageCanvasGroup;
 
+        [SerializeField]
+        private TMP_Text inputGuideText;
+
+        [SerializeField]
+        private string inputGuideFormat;
+
         [SerializeField, Multiline]
         private string[] hintMessages;
 
@@ -61,6 +67,14 @@ namespace SoulLike
                 .RegisterTo(scope.Token);
             uiViewFade.BeginAsync(0.0f, 0.25f, scope.Token).Forget();
             CreateList(masterData, userData, audioManager);
+            playerInput.OnControlsChangedAsObservable()
+                .Prepend(playerInput)
+                .Subscribe((this, playerInput), static (_, t) =>
+                {
+                    var (@this, playerInput) = t;
+                    @this.inputGuideText.SetText(string.Format(@this.inputGuideFormat, InputSprite.GetTag(playerInput, playerInput.actions["UI/Submit"]), InputSprite.GetTag(playerInput, playerInput.actions["UI/Cancel"])));
+                })
+                .RegisterTo(scope.Token);
             gameObject.SetActive(true);
 
             var cancelAction = playerInput.actions["UI/Cancel"];
