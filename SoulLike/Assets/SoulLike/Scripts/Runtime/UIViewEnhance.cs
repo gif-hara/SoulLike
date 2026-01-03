@@ -201,7 +201,7 @@ namespace SoulLike
                 await LMotion.Create(0.0f, 1.0f, 0.5f)
                     .BindToAlpha(hintMessageCanvasGroup)
                     .ToUniTask(cancellationToken: cancellationToken);
-                await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: cancellationToken);
+                await UniTask.Delay(TimeSpan.FromSeconds(7.0f), cancellationToken: cancellationToken);
                 await LMotion.Create(1.0f, 0.0f, 0.5f)
                     .BindToAlpha(hintMessageCanvasGroup)
                     .ToUniTask(cancellationToken: cancellationToken);
