@@ -1,7 +1,9 @@
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using HK;
 using R3;
+using R3.Triggers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -46,7 +48,28 @@ namespace SoulLike
                     var (userData, audioManager) = state;
                     userData.sfxVolume.Value = x;
                     audioManager.SetVolumeSfx(x);
-                    audioManager.PlaySfx("Parry.Success.1");
+                })
+                .RegisterTo(cancellationToken);
+            Observable.Merge(
+                startButton.OnSelectAsObservable(),
+                bgmSlider.OnSelectAsObservable(),
+                sfxSlider.OnSelectAsObservable()
+            )
+                .Subscribe(audioManager, static (_, audioManager) =>
+                {
+                    audioManager.PlaySfx("Select.1");
+                })
+                .RegisterTo(cancellationToken);
+            sfxSlider.OnSelectAsObservable()
+                .Subscribe((this, audioManager), static (_, state) =>
+                {
+                    var (@this, audioManager) = state;
+                    Observable.Interval(TimeSpan.FromSeconds(0.5f))
+                        .TakeUntil(@this.sfxSlider.OnDeselectAsObservable())
+                        .Subscribe(_ =>
+                        {
+                            audioManager.PlaySfx("Parry.Success.1");
+                        });
                 })
                 .RegisterTo(cancellationToken);
             await startButton.OnClickAsync(cancellationToken);
