@@ -24,4 +24,4 @@ MonoBehaviour:
       type: {class: SetMaterial, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
         materials:
-        - {fileID: 2100000, guid: 9a59ce4fe73c15d40a4999b2023af069, type: 2}
+        - {fileID: 2100000, guid: b77a0fd26d477e84e98046516570c694, type: 2}
