@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using LitMotion;
+using LitMotion.Extensions;
 using R3;
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
@@ -33,13 +34,18 @@ namespace SoulLike
         [SerializeField]
         private Ease stunnedColorAnimationEase;
 
-        private MotionHandle stunnedSliderUpdate = MotionHandle.None;
+        [SerializeField]
+        private string stunMaterialColorPropertyName = "_Color";
 
         private bool playingStunnedColorAnimation = false;
+
+        private Material stunMaterial;
 
         public void Bind(Actor actor)
         {
             var actorStatus = actor.GetAbility<ActorStatus>();
+            stunMaterial = Instantiate(stunSliderImage.material);
+            stunSliderImage.material = stunMaterial;
             Observable.Merge(
                 actorStatus.HitPointMax,
                 actorStatus.HitPoint
@@ -77,14 +83,14 @@ namespace SoulLike
             var colorAnimation = LMotion.Create(stunnedColor, stunDefaultColor, stunnedColorAnimationDuration)
                 .WithEase(stunnedColorAnimationEase)
                 .WithLoops(-1, LoopType.Yoyo)
-                .Bind(x => stunSliderImage.color = x)
+                .BindToMaterialColor(stunMaterial, stunMaterialColorPropertyName)
                 .AddTo(this);
             await LMotion.Create(1.0f, 0.0f, duration)
                 .Bind(x => stunSlider.value = x)
                 .AddTo(this)
                 .ToUniTask(cancellationToken);
             colorAnimation.Cancel();
-            stunSliderImage.color = stunDefaultColor;
+            stunMaterial.SetColor(stunMaterialColorPropertyName, stunDefaultColor);
         }
     }
 }
