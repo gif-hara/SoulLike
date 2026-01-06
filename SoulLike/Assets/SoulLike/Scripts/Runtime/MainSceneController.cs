@@ -158,6 +158,16 @@ namespace SoulLike
                     {
                         userData.AddExperience(100000);
                     }
+                    if (Keyboard.current.f5Key.wasPressedThisFrame)
+                    {
+                        player.GetAbility<ActorStatus>().BeginInvincible("Debug");
+                        Debug.Log("Invincible On");
+                    }
+                    if (Keyboard.current.f6Key.wasPressedThisFrame)
+                    {
+                        player.GetAbility<ActorStatus>().EndInvincible("Debug");
+                        Debug.Log("Invincible Off");
+                    }
                 })
                 .RegisterTo(destroyCancellationToken);
 #endif
