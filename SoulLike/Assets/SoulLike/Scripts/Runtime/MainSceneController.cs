@@ -176,7 +176,7 @@ namespace SoulLike
                 audioManager.PlayBgm(titleBgmKey);
 
                 uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
-                await uiViewTitle.BeginAsync(userData, audioManager, destroyCancellationToken);
+                await uiViewTitle.BeginAsync(userData, audioManager, uiViewFade, destroyCancellationToken);
                 await uiViewEffectMessage.BeginAsync(gameStartBackgroundColor, gameStartForwardColor, gameStartMessageColor, gameStartMessage, sceneBroker, destroyCancellationToken, () => uiViewTitle.SetActive(false), () => uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 0.0f, destroyCancellationToken).Forget());
 
                 using var gamePlayScope = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);

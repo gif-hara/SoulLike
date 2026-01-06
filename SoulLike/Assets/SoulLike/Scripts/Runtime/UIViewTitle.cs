@@ -25,7 +25,7 @@ namespace SoulLike
         [SerializeField]
         private Slider sfxSlider;
 
-        public async UniTask BeginAsync(UserData userData, AudioManager audioManager, CancellationToken cancellationToken)
+        public async UniTask BeginAsync(UserData userData, AudioManager audioManager, UIViewFade uiViewFade, CancellationToken cancellationToken)
         {
             gameObject.SetActive(true);
             EventSystem.current.SetSelectedGameObject(startButton.gameObject);
@@ -75,6 +75,7 @@ namespace SoulLike
             await startButton.OnClickAsync(cancellationToken);
             audioManager.PlaySfx("Decide.2");
             audioManager.FadeOutBgmAsync(2.0f, 0.0f, cancellationToken).Forget();
+            await uiViewFade.BeginAsync(new Color(1.0f, 1.0f, 1.0f, 0.1f), new Color(1.0f, 1.0f, 1.0f, 0.0f), 0.2f, cancellationToken);
         }
 
         public void SetActive(bool isActive)
