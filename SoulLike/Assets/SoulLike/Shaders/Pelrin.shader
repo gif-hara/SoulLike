@@ -1,32 +1,46 @@
-Shader "Custom/Sprite/PerlinMoyamoya_BigFlow_WorldSpace_URP_Unlit"
+Shader "Custom/Sprite/HPBarMoyamoya_SpriteTex_WorldNoise_URP_Unlit"
 {
     Properties
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 
-        _ColorA ("Color A (Low)", Color) = (0.15, 0.15, 0.15, 1)
-        _ColorB ("Color B (High)", Color) = (1, 1, 1, 1)
+        // ノイズで作る色
+        _ColorA ("Noise Color A (Low)", Color) = (0.15, 0.15, 0.15, 1)
+        _ColorB ("Noise Color B (High)", Color) = (1, 1, 1, 1)
 
         _ColorThreshold ("Color Threshold", Range(0,1)) = 0.5
         _ColorSharpness ("Color Sharpness", Range(0.001, 0.5)) = 0.12
 
-        // ★ワールド基準の“波長”調整（値が小さいほど模様が大きい）
+
+        // スプライトとノイズの合成のしかた
+        // 0: Multiply（スプライト色に掛ける） 1: Lerp（スプライト→ノイズへ置換） 2: Add（加算）
+        [KeywordEnum(Multiply, Lerp, Add)] _BlendMode ("Blend Mode", Float) = 0
+        _BlendStrength ("Blend Strength", Range(0, 1)) = 1.0
+
+        // サイズ非依存ノイズ（ワールド座標）
         _WorldFrequency ("World Frequency", Range(0.05, 10)) = 0.8
 
-        // 大きい流れ（低周波）
+        // 大きい流れ
         _FlowSpeed ("Flow Speed", Range(0, 10)) = 0.6
         _WarpStrength ("Warp Strength", Range(0, 0.5)) = 0.22
 
-        // 細部（中〜高周波）
+        // 細部
         _DetailFrequency ("Detail Frequency", Range(0.05, 30)) = 3.5
         _DetailSpeed ("Detail Speed", Range(0, 10)) = 1.2
         _DetailAmount ("Detail Amount", Range(0, 1)) = 0.25
 
-        _AlphaPower ("Alpha Power", Range(0.1, 8)) = 1.7
+        // 色をパッキリ
+        _ColorContrast ("Color Contrast", Range(0.5, 5)) = 2.2
+        _ColorBias ("Color Bias", Range(-0.5, 0.5)) = 0.0
+        _ColorSteps ("Color Steps (0=off)", Range(0, 8)) = 0
+
+        // アルファ
+        _AlphaPower ("Alpha Power", Range(0.1, 8)) = 1.4
         _AlphaMin ("Alpha Min", Range(0, 1)) = 0
         _AlphaMax ("Alpha Max", Range(0, 1)) = 1
 
-        _EdgeSoftness ("Edge Softness (UV)", Range(0, 1)) = 0.15
+        // UV端のソフト（必要なら0でもOK）
+        _EdgeSoftness ("Edge Softness (UV)", Range(0, 1)) = 0.0
     }
 
     SubShader
@@ -48,6 +62,10 @@ Shader "Custom/Sprite/PerlinMoyamoya_BigFlow_WorldSpace_URP_Unlit"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+
+            // 合成モード切替
+            #pragma shader_feature_local _BLENDMODE_MULTIPLY _BLENDMODE_LERP _BLENDMODE_ADD
+
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             TEXTURE2D(_MainTex);
@@ -55,11 +73,14 @@ Shader "Custom/Sprite/PerlinMoyamoya_BigFlow_WorldSpace_URP_Unlit"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
+
                 float4 _ColorA;
                 float4 _ColorB;
 
                 float _ColorThreshold;
                 float _ColorSharpness;
+
+                float _BlendStrength;
 
                 float _WorldFrequency;
 
@@ -69,6 +90,10 @@ Shader "Custom/Sprite/PerlinMoyamoya_BigFlow_WorldSpace_URP_Unlit"
                 float _DetailFrequency;
                 float _DetailSpeed;
                 float _DetailAmount;
+
+                float _ColorContrast;
+                float _ColorBias;
+                float _ColorSteps;
 
                 float _AlphaPower;
                 float _AlphaMin;
@@ -81,13 +106,15 @@ Shader "Custom/Sprite/PerlinMoyamoya_BigFlow_WorldSpace_URP_Unlit"
             {
                 float4 positionOS : POSITION;
                 float2 uv         : TEXCOORD0;
+                float4 color      : COLOR;     // SpriteRenderer.color
             };
 
             struct Varyings
             {
                 float4 positionHCS : SV_POSITION;
                 float2 uv          : TEXCOORD0;
-                float2 worldXY     : TEXCOORD1; // ★ノイズ入力用
+                float2 worldXY     : TEXCOORD1;
+                float4 color       : COLOR;
             };
 
             float2 hash2(float2 p)
@@ -139,19 +166,21 @@ Shader "Custom/Sprite/PerlinMoyamoya_BigFlow_WorldSpace_URP_Unlit"
             {
                 Varyings OUT;
                 float3 worldPos = TransformObjectToWorld(IN.positionOS.xyz);
-
                 OUT.positionHCS = TransformWorldToHClip(worldPos);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
-
-                // ★ワールド座標をそのまま使う（X/Yは2D想定。Zを使いたければ差し替え）
                 OUT.worldXY = worldPos.xy;
-
+                OUT.color = IN.color;
                 return OUT;
             }
 
             half4 frag(Varyings IN) : SV_Target
             {
-                // ここがキモ：UVではなく worldXY をノイズ入力にする
+                // --- スプライトテクスチャ ---
+                half4 sprite = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv);
+                // SpriteRenderer.color も反映
+                sprite *= IN.color;
+
+                // --- ワールド座標ノイズ（サイズ非依存） ---
                 float2 baseP = IN.worldXY * _WorldFrequency;
 
                 float tFlow = _Time.y * _FlowSpeed;
@@ -164,28 +193,49 @@ Shader "Custom/Sprite/PerlinMoyamoya_BigFlow_WorldSpace_URP_Unlit"
                 warpedP += f2 * (_WarpStrength * 0.6);
 
                 float tDet = _Time.y * _DetailSpeed;
-                float nDet  = fbm3(warpedP * (_DetailFrequency / max(_WorldFrequency, 1e-4)) + float2(tDet * 0.9, -tDet * 0.6));
+                float detScale = (_DetailFrequency / max(_WorldFrequency, 1e-4));
+                float nDet  = fbm3(warpedP * detScale + float2(tDet * 0.9, -tDet * 0.6));
                 float nBase = fbm3(warpedP + float2(tFlow * 0.4, tFlow * 0.2));
 
                 float n = saturate(lerp(nBase, saturate(nBase + (nDet - 0.5) * 2), _DetailAmount));
 
-                float nColor = smoothstep(
-                    _ColorThreshold - _ColorSharpness,
-                    _ColorThreshold + _ColorSharpness,
-                    n
-                );
+                // --- 色だけパッキリ ---
+                float nc = n;
+                nc = saturate((nc - 0.5 + _ColorBias) * _ColorContrast + 0.5);
+                if (_ColorSteps > 0.5)
+                {
+                    nc = floor(nc * _ColorSteps) / (_ColorSteps - 1);
+                }
 
-                half4 col = lerp(_ColorA, _ColorB, nColor);
+                half4 noiseCol = lerp(_ColorA, _ColorB, nc);
 
-                float a = pow(saturate(nBase), _AlphaPower);
-                a = lerp(_AlphaMin, _AlphaMax, a);
+                // --- 合成（RGB） ---
+                half3 outRgb;
+                #if defined(_BLENDMODE_MULTIPLY)
+                    outRgb = sprite.rgb * lerp(1.0.xxx, noiseCol.rgb, _BlendStrength);
+                #elif defined(_BLENDMODE_LERP)
+                    outRgb = lerp(sprite.rgb, noiseCol.rgb, _BlendStrength);
+                #elif defined(_BLENDMODE_ADD)
+                    outRgb = sprite.rgb + noiseCol.rgb * _BlendStrength;
+                #else
+                    outRgb = sprite.rgb;
+                #endif
 
-                // エッジ処理はUVのままでOK（バーの形を保ちたいから）
-                float2 edge = smoothstep(0, _EdgeSoftness, IN.uv)
-                            * (1 - smoothstep(1 - _EdgeSoftness, 1, IN.uv));
-                col.a *= a * edge.x * edge.y;
+                // --- アルファ：スプライト形状（sprite.a）でマスクしつつ、ノイズで揺らす ---
+                float aNoise = pow(saturate(nBase), _AlphaPower);
+                float a = lerp(_AlphaMin, _AlphaMax, aNoise);
 
-                return col;
+                half outA = sprite.a * a;
+
+                // UV端ソフト（必要なら）
+                if (_EdgeSoftness > 0.0001)
+                {
+                    float2 edge = smoothstep(0, _EdgeSoftness, IN.uv)
+                                * (1 - smoothstep(1 - _EdgeSoftness, 1, IN.uv));
+                    outA *= (edge.x * edge.y);
+                }
+
+                return half4(outRgb, outA);
             }
             ENDHLSL
         }
