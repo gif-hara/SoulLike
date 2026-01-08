@@ -97,6 +97,7 @@ namespace SoulLike
                 })
                 .RegisterTo(actor.destroyCancellationToken);
             enemyNameText.text = actorStatus.Name;
+            rootCanvasGroup.alpha = 1.0f;
         }
 
         private async UniTask BeginStunnedGaugeAnimationAsync(float duration, CancellationToken cancellationToken)
