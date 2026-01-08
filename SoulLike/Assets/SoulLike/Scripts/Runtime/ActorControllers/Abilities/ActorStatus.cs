@@ -108,6 +108,8 @@ namespace SoulLike.ActorControllers.Abilities
 
         public float ExperienceRate { get; private set; }
 
+        public string Name { get; private set; }
+
         public void Activate(Actor actor, CancellationToken cancellationToken)
         {
             this.actor = actor;
@@ -154,6 +156,7 @@ namespace SoulLike.ActorControllers.Abilities
             attackBuffRate = spec.AttackBuffRate;
             defenseDebuffRateOnStunned = spec.DefenseDebuffRateOnStunned;
             ExperienceRate = spec.ExperienceRate;
+            Name = spec.Name;
         }
 
         public TakeDamageData TakeDamage(Actor attacker, AttackData attackData)

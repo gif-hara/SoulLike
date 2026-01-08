@@ -8,6 +8,9 @@ namespace SoulLike.MasterDataSystem
     public sealed class ActorStatusSpec
     {
         [field: SerializeField]
+        public string Name { get; private set; }
+
+        [field: SerializeField]
         public float HitPoint { get; private set; }
 
         [field: SerializeField]

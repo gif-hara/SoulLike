@@ -6,6 +6,7 @@ using LitMotion.Extensions;
 using R3;
 using SoulLike.ActorControllers;
 using SoulLike.ActorControllers.Abilities;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +40,9 @@ namespace SoulLike
 
         [SerializeField]
         private CanvasGroup rootCanvasGroup;
+
+        [SerializeField]
+        private TMP_Text enemyNameText;
 
         private bool playingStunnedColorAnimation = false;
 
@@ -86,11 +90,13 @@ namespace SoulLike
                 })
                 .RegisterTo(actor.destroyCancellationToken);
             actor.Event.Broker.Receive<ActorEvent.ReviveEnemy>()
-                .Subscribe(this, static (_, @this) =>
+                .Subscribe(this, static (x, @this) =>
                 {
                     @this.BeginReviveAnimationAsync(@this.destroyCancellationToken).Forget();
+                    @this.enemyNameText.text = x.ActorStatusSpec.Name;
                 })
                 .RegisterTo(actor.destroyCancellationToken);
+            enemyNameText.text = actorStatus.Name;
         }
 
         private async UniTask BeginStunnedGaugeAnimationAsync(float duration, CancellationToken cancellationToken)

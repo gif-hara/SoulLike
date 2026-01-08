@@ -97,6 +97,7 @@ MonoBehaviour:
       type: {class: ReviveEnemy, ns: SoulLike.ActorControllers.ActorActions, asm: SoulLike.Runtime}
       data:
         actorStatusSpec:
+          <Name>k__BackingField: "\u5200\u5320\u306E\u5E2B\u3001\u96C4\u90CE \u67D0\u5F92"
           <HitPoint>k__BackingField: 5684
           <Stamina>k__BackingField: 9999
           <StaminaRecoveryPerSecond>k__BackingField: 9999
