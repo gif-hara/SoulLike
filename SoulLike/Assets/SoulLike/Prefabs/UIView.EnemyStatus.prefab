@@ -689,6 +689,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1597061838853429428, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8462467747618205570}
+    - targetCorrespondingSourceObject: {fileID: 5163137393375796745, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8689043265446277821}
   m_SourcePrefab: {fileID: 100100000, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
 --- !u!224 &817375782734072682 stripped
 RectTransform:
@@ -720,3 +723,21 @@ MonoBehaviour:
   stunnedColorAnimationDuration: 0.25
   stunnedColorAnimationEase: 6
   stunMaterialColorPropertyName: _ColorA
+  rootCanvasGroup: {fileID: 8689043265446277821}
+--- !u!1 &8984179534367013761 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5163137393375796745, guid: a5d039e7b031e84409be2879530b0a54, type: 3}
+  m_PrefabInstance: {fileID: 4253950792701371784}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &8689043265446277821
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8984179534367013761}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0

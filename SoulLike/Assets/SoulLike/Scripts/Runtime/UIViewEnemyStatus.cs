@@ -37,6 +37,9 @@ namespace SoulLike
         [SerializeField]
         private string stunMaterialColorPropertyName = "_Color";
 
+        [SerializeField]
+        private CanvasGroup rootCanvasGroup;
+
         private bool playingStunnedColorAnimation = false;
 
         private Material stunMaterial;
@@ -76,6 +79,18 @@ namespace SoulLike
                     }
                 })
                 .RegisterTo(actor.destroyCancellationToken);
+            actor.Event.Broker.Receive<ActorEvent.OnDead>()
+                .Subscribe(this, static (_, @this) =>
+                {
+                    @this.BeginDeadAnimationAsync(@this.destroyCancellationToken).Forget();
+                })
+                .RegisterTo(actor.destroyCancellationToken);
+            actor.Event.Broker.Receive<ActorEvent.ReviveEnemy>()
+                .Subscribe(this, static (_, @this) =>
+                {
+                    @this.BeginReviveAnimationAsync(@this.destroyCancellationToken).Forget();
+                })
+                .RegisterTo(actor.destroyCancellationToken);
         }
 
         private async UniTask BeginStunnedGaugeAnimationAsync(float duration, CancellationToken cancellationToken)
@@ -91,6 +106,23 @@ namespace SoulLike
                 .ToUniTask(cancellationToken);
             colorAnimation.Cancel();
             stunMaterial.SetColor(stunMaterialColorPropertyName, stunDefaultColor);
+        }
+
+        private async UniTask BeginDeadAnimationAsync(CancellationToken cancellationToken)
+        {
+            await LMotion.Create(1.0f, 0.0f, 1.0f)
+                .WithDelay(1.0f)
+                .BindToAlpha(rootCanvasGroup)
+                .AddTo(this)
+                .ToUniTask(cancellationToken);
+        }
+
+        private async UniTask BeginReviveAnimationAsync(CancellationToken cancellationToken)
+        {
+            await LMotion.Create(0.0f, 1.0f, 1.0f)
+                .BindToAlpha(rootCanvasGroup)
+                .AddTo(this)
+                .ToUniTask(cancellationToken);
         }
     }
 }
