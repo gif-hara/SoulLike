@@ -46,6 +46,8 @@ namespace SoulLike.ActorControllers.Abilities
 
             public const string Idle = "Idle";
 
+            public const string LockOn = "LockOn";
+
             public static string GetAttackStateName(int weaponId, int attackId)
             {
                 var weaponName = weaponId switch
@@ -190,11 +192,16 @@ namespace SoulLike.ActorControllers.Abilities
 
         public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateEnterAsObservable() => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateEnterAsObservable();
 
-        public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateEnterAsObservable(string targetStateName) => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateUpdateAsObservable().Where(targetStateName, static (x, stateName) => x.StateInfo.IsName(stateName));
+        public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateEnterAsObservable(string targetStateName) => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateEnterAsObservable().Where(targetStateName, static (x, stateName) => x.StateInfo.IsName(stateName));
 
         public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateExitAsObservable() => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateExitAsObservable();
 
         public Observable<ObservableStateMachineTrigger.OnStateInfo> OnStateExitAsObservable(string targetStateName) => animator.GetBehaviour<ObservableStateMachineTrigger>().OnStateExitAsObservable().Where(targetStateName, static (x, stateName) => x.StateInfo.IsName(stateName));
+
+        public bool IsInState(string stateName)
+        {
+            return animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+        }
 
         public async UniTask WaitUntilAnimationEndAsync(CancellationToken cancellationToken)
         {
