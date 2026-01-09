@@ -18,12 +18,13 @@ namespace SoulLike
         [SerializeField]
         private TMP_Text footer;
 
-        public void Setup(Sprite icon, Color iconColor, string message, string footer)
+        public void Setup(Sprite icon, Color iconColor, string message, string footer, Color footerColor)
         {
             this.icon.sprite = icon;
             this.icon.color = iconColor;
             this.message.SetText(message);
             this.footer.SetText(footer);
+            this.footer.color = footerColor;
         }
     }
 }

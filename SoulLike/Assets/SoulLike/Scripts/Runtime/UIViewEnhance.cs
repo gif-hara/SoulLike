@@ -42,6 +42,12 @@ namespace SoulLike
         [SerializeField, Multiline]
         private string[] hintMessages;
 
+        [SerializeField]
+        private Color elementFooterAvailableColor;
+
+        [SerializeField]
+        private Color elementFooterUnavailableColor;
+
         private readonly List<UIElementList> elementLists = new();
 
         private List<ShopElement> availableShopElements = new();
@@ -173,7 +179,15 @@ namespace SoulLike
                 var shopElement = availableShopElements[i];
                 var purchasedCount = userData.GetPurchasedShopElementCount(shopElement.name);
                 var elementList = Instantiate(elementListPrefab, elementListParent);
-                elementList.Setup(shopElement.Icon, shopElement.IconColor, string.Format(shopElement.ElementName, purchasedCount + 1), shopElement.GetPrice(purchasedCount).ToString());
+                elementList.Setup(
+                    shopElement.Icon,
+                    shopElement.IconColor,
+                    string.Format(shopElement.ElementName, purchasedCount + 1),
+                    shopElement.GetPrice(purchasedCount).ToString(),
+                    userData.Experience.CurrentValue >= shopElement.GetPrice(purchasedCount)
+                        ? elementFooterAvailableColor
+                        : elementFooterUnavailableColor
+                    );
                 elementLists.Add(elementList);
                 elementList.Button.OnSelectAsObservable()
                     .Subscribe((this, i, audioManager), static (_, t) =>
