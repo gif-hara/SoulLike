@@ -196,6 +196,12 @@ namespace SoulLike.ActorControllers.Brains
                     @this.actorDodge.DodgeBlocker.Unblock(x.Tag);
                 })
                 .RegisterTo(cancellationToken);
+            actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.LockOn)
+                .Subscribe(this, static (x, @this) =>
+                {
+                    @this.actorStatus.StaminaRecoveryBlocker.Reset();
+                })
+                .RegisterTo(cancellationToken);
         }
 
         private void PreInputProcess(Actor actor, Func<bool> process)
