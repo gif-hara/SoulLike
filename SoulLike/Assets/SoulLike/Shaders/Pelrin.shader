@@ -10,7 +10,7 @@ Shader "Custom/Sprite/HPBarMoyamoya_SpriteTex_WorldNoise_URP_Unlit"
         [KeywordEnum(Multiply, Lerp, Add)] _BlendMode ("Blend Mode", Float) = 0
         _BlendStrength ("Blend Strength", Range(0, 1)) = 1.0
 
-        _WorldFrequency ("World Frequency", Range(0.05, 10)) = 0.8
+        _WorldFrequency ("World Frequency", Range(0.001, 10)) = 0.8
 
         _FlowSpeed ("Flow Speed", Range(0, 10)) = 0.6
         _WarpStrength ("Warp Strength", Range(0, 0.5)) = 0.22
