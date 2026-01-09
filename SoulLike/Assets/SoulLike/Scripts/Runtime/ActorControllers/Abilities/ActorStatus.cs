@@ -157,6 +157,9 @@ namespace SoulLike.ActorControllers.Abilities
             defenseDebuffRateOnStunned = spec.DefenseDebuffRateOnStunned;
             ExperienceRate = spec.ExperienceRate;
             Name = spec.Name;
+            invincibleBlocker.Reset();
+            isInvincible.Value = false;
+            StaminaRecoveryBlocker.Reset();
         }
 
         public TakeDamageData TakeDamage(Actor attacker, AttackData attackData)
