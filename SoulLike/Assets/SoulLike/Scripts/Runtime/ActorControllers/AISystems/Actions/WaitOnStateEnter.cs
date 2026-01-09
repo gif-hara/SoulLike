@@ -15,6 +15,13 @@ namespace SoulLike.ActorControllers.AISystems.Actions
 
         public async UniTask InvokeAsync(Actor actor, ActorAIController actorAIController, CancellationToken cancellationToken)
         {
+            var actorAnimation = actor.GetAbility<ActorAnimation>();
+
+            if (actorAnimation.IsInState(stateName))
+            {
+                return;
+            }
+
             await actor.GetAbility<ActorAnimation>().OnStateEnterAsObservable(stateName).FirstAsync(cancellationToken).AsUniTask();
         }
     }
