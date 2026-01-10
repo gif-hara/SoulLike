@@ -109,10 +109,10 @@ namespace SoulLike.ActorControllers.Brains
                     @this.actorStatus.ApplySpec(x.ActorStatusSpec, x.AdditionalStatus);
                     @this.actorMovement.Reset();
                     @this.actorWeaponHandler.Reset();
+                    @this.actorAIController.Change(x.NewAI);
                     await @this.actorAnimation.OnStateEnterAsObservable(ActorAnimation.Parameter.Idle).FirstAsync(cts).AsUniTask();
                     @this.actorTargetHandler.BeginLockOn(@this.target);
                     @this.actorAnimation.Reset();
-                    @this.actorAIController.Change(x.NewAI);
                 })
                 .RegisterTo(cancellationToken);
 
