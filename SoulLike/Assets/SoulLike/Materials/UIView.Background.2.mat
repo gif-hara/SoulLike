@@ -133,7 +133,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _WarpStrength: 0.079
+    - _WarpStrength: 0.2
     - _WorkflowMode: 1
     - _WorldFrequency: 0.006
     - _XRMotionVectorsPass: 1
