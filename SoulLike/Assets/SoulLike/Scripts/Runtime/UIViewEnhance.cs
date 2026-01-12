@@ -167,8 +167,21 @@ namespace SoulLike
                     else if (cancelResult == 2)
                     {
                         audioManager.PlaySfx("Decide.1");
-                        result = Result.Title;
-                        break;
+                        var titleConfirmResult = await uiViewDialog.ShowAsync("タイトルへ戻ります。強化したものは失われますがよろしいですか？", new string[] { "はい", "いいえ" }, cancelAction, 1, scope.Token);
+                        if (titleConfirmResult == 0)
+                        {
+                            audioManager.PlaySfx("Decide.2");
+                            result = Result.Title;
+                            break;
+                        }
+                        else
+                        {
+                            audioManager.PlaySfx("Cancel.1");
+                            if (elementLists.Count > 0)
+                            {
+                                elementLists[selectedIndex].Button.Select();
+                            }
+                        }
                     }
                 }
             }
