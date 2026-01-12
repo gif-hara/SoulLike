@@ -242,9 +242,16 @@ namespace SoulLike
                         await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: destroyCancellationToken);
                         await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, fadeDuration, destroyCancellationToken);
                         audioManager.PlayBgm(enhanceBgmKey);
-                        await uiViewEnhance.BeginAsync(masterData, userData, playerInput, uiViewFade, uiViewDialog, userData.DeadCount == 1, destroyCancellationToken);
+                        var enhanceResult = await uiViewEnhance.BeginAsync(masterData, userData, playerInput, uiViewFade, uiViewDialog, userData.DeadCount == 1, destroyCancellationToken);
                         sceneBroker.Publish(new MainSceneEvent.RestartGame(player, enemy));
-                        await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
+                        if (enhanceResult == UIViewEnhance.Result.Retry)
+                        {
+                            await uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken);
+                        }
+                        else if (enhanceResult == UIViewEnhance.Result.Title)
+                        {
+                            break;
+                        }
                     }
                 }
 
