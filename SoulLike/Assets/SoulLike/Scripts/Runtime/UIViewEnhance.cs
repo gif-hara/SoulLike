@@ -56,12 +56,18 @@ namespace SoulLike
 
         private int hintMessageIndex;
 
+        public enum Result
+        {
+            Retry,
+            Title
+        }
+
         public void Initialize()
         {
             gameObject.SetActive(false);
         }
 
-        public async UniTask BeginAsync(MasterData masterData, UserData userData, PlayerInput playerInput, UIViewFade uiViewFade, UIViewDialog uiViewDialog, bool isShowTutorial, CancellationToken cancellationToken)
+        public async UniTask<Result> BeginAsync(MasterData masterData, UserData userData, PlayerInput playerInput, UIViewFade uiViewFade, UIViewDialog uiViewDialog, bool isShowTutorial, CancellationToken cancellationToken)
         {
             using var scope = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             var audioManager = TinyServiceLocator.Resolve<AudioManager>();
@@ -97,19 +103,20 @@ namespace SoulLike
             }
 
             BeginHintMessageAsync(scope.Token).Forget();
+            var result = Result.Retry;
 
             while (!scope.Token.IsCancellationRequested)
             {
                 var elementListResult = elementLists.Count > 0
                     ? UniTask.WhenAny(elementLists.Select(x => x.Button.OnClickAsObservable().FirstAsync(scope.Token).AsUniTask()))
                     : UniTask.Never<(int winArgumentIndex, Unit result)>(scope.Token);
-                var result = await UniTask.WhenAny(
+                var inputResult = await UniTask.WhenAny(
                     elementListResult,
                     cancelAction.OnPerformedAsObservable().FirstAsync(scope.Token).AsUniTask()
                 );
-                if (result.winArgumentIndex == 0)
+                if (inputResult.winArgumentIndex == 0)
                 {
-                    var shopElement = availableShopElements[result.result1.winArgumentIndex];
+                    var shopElement = availableShopElements[inputResult.result1.winArgumentIndex];
                     var purchasedCount = userData.GetPurchasedShopElementCount(shopElement.name);
                     var price = shopElement.GetPrice(purchasedCount);
                     if (userData.Experience.CurrentValue < price)
@@ -142,19 +149,26 @@ namespace SoulLike
                 else
                 {
                     audioManager.PlaySfx("Select.1");
-                    var cancelResult = await uiViewDialog.ShowAsync("再戦します。よろしいですか？", new string[] { "はい", "いいえ" }, cancelAction, 1, scope.Token);
+                    var cancelResult = await uiViewDialog.ShowAsync("再戦します。よろしいですか？", new string[] { "はい", "いいえ", "タイトルへ" }, cancelAction, 1, scope.Token);
                     if (cancelResult == 0)
                     {
                         audioManager.PlaySfx("Decide.2");
+                        result = Result.Retry;
                         break;
                     }
-                    else
+                    else if (cancelResult == 1)
                     {
                         audioManager.PlaySfx("Cancel.1");
                         if (elementLists.Count > 0)
                         {
                             elementLists[selectedIndex].Button.Select();
                         }
+                    }
+                    else if (cancelResult == 2)
+                    {
+                        audioManager.PlaySfx("Decide.1");
+                        result = Result.Title;
+                        break;
                     }
                 }
             }
@@ -163,6 +177,8 @@ namespace SoulLike
 
             gameObject.SetActive(false);
             scope.Cancel();
+
+            return result;
         }
 
         private void CreateList(MasterData masterData, UserData userData, AudioManager audioManager)
