@@ -7,6 +7,7 @@ using R3.Triggers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace SoulLike
@@ -25,7 +26,13 @@ namespace SoulLike
         [SerializeField]
         private Slider sfxSlider;
 
-        public async UniTask BeginAsync(UserData userData, AudioManager audioManager, UIViewFade uiViewFade, CancellationToken cancellationToken)
+        public enum ResultType
+        {
+            Default,
+            NoRanking,
+        }
+
+        public async UniTask<ResultType> BeginAsync(UserData userData, AudioManager audioManager, PlayerInput playerInput, UIViewFade uiViewFade, UIViewDialog uiViewDialog, CancellationToken cancellationToken)
         {
             gameObject.SetActive(true);
             EventSystem.current.SetSelectedGameObject(startButton.gameObject);
@@ -75,7 +82,14 @@ namespace SoulLike
             await startButton.OnClickAsync(cancellationToken);
             audioManager.PlaySfx("Decide.2");
             audioManager.FadeOutBgmAsync(2.0f, 0.0f, cancellationToken).Forget();
+            var result = ResultType.Default;
+            if (Keyboard.current.shiftKey.isPressed)
+            {
+                result = ResultType.NoRanking;
+                await uiViewDialog.ShowAsync("よく見つけましたね。ランキングに乗らないモードで開始します。", new[] { "OK" }, playerInput.actions["UI/Cancel"], 0, cancellationToken);
+            }
             await uiViewFade.BeginAsync(new Color(1.0f, 1.0f, 1.0f, 0.1f), new Color(1.0f, 1.0f, 1.0f, 0.0f), 0.2f, cancellationToken);
+            return result;
         }
 
         public void SetActive(bool isActive)

@@ -186,7 +186,7 @@ namespace SoulLike
                 audioManager.PlayBgm(titleBgmKey);
 
                 uiViewFade.BeginAsync(fadeOutColor, fadeInColor, fadeDuration, destroyCancellationToken).Forget();
-                await uiViewTitle.BeginAsync(userData, audioManager, uiViewFade, destroyCancellationToken);
+                var titleResult = await uiViewTitle.BeginAsync(userData, audioManager, playerInput, uiViewFade, uiViewDialog, destroyCancellationToken);
                 await uiViewEffectMessage.BeginAsync(gameStartBackgroundColor, gameStartForwardColor, gameStartMessageColor, gameStartMessage, sceneBroker, destroyCancellationToken, () => uiViewTitle.SetActive(false), () => uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 0.0f, destroyCancellationToken).Forget());
 
                 using var gamePlayScope = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);
@@ -232,8 +232,11 @@ namespace SoulLike
                             await uiViewFade.BeginAsync(fadeInColor, fadeOutColor, 1.0f, destroyCancellationToken);
                         }
                         audioManager.PlayBgm(resultBgmKey);
-                        UnityroomApiClient.Instance.SendScore(1, userData.PlayTime, ScoreboardWriteMode.HighScoreAsc);
-                        UnityroomApiClient.Instance.SendScore(2, userData.DeadCount, ScoreboardWriteMode.HighScoreAsc);
+                        if (titleResult == UIViewTitle.ResultType.Default)
+                        {
+                            UnityroomApiClient.Instance.SendScore(1, userData.PlayTime, ScoreboardWriteMode.HighScoreAsc);
+                            UnityroomApiClient.Instance.SendScore(2, userData.DeadCount, ScoreboardWriteMode.HighScoreAsc);
+                        }
                         await uiViewResult.BeginAsync(userData, audioManager, uiViewFade, destroyCancellationToken);
                         break;
                     }
