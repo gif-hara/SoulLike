@@ -1,6 +1,9 @@
 using System.Linq;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.WebGL;
+
 #if !UNITY_WEBGL
 using UnityEngine.InputSystem.Switch;
 #endif
@@ -49,7 +52,8 @@ namespace HK
 #if !UNITY_WEBGL
                         SwitchProControllerHID => "SwitchProController",
 #endif
-                        _ => "DualShockGamepad",
+                        WebGLGamepad => control.device.displayName.Contains("Xbox") ? "XInputController" : "DualShockGamepad",
+                        _ => "XInputController",
                     };
                     var controlPathContent = control.path.Substring(control.device.name.Length + 2).Replace('/', '-');
 
