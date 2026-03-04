@@ -24,7 +24,7 @@ namespace SoulLike
                 {
                     var (@this, actor, worldCamera) = t;
                     var damageLabel = Instantiate(@this.damageLabelPrefab, @this.labelParent);
-                    damageLabel.Setup(x.Damage.ToString(), x.HitPoint, worldCamera);
+                    damageLabel.Setup(x.Damage.ToString(), x.IsStunned, x.HitPoint, worldCamera);
                 })
                 .RegisterTo(destroyCancellationToken);
         }

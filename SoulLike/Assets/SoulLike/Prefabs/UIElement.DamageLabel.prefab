@@ -241,6 +241,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1532746842593778150, guid: 10c19962f12c5ff4287b522a4098524b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3790241560144703897}
+    - targetCorrespondingSourceObject: {fileID: 1532746842593778150, guid: 10c19962f12c5ff4287b522a4098524b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 147520779355760068}
   m_SourcePrefab: {fileID: 100100000, guid: 10c19962f12c5ff4287b522a4098524b, type: 3}
 --- !u!1 &7527090496059282428 stripped
 GameObject:
@@ -260,8 +263,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SoulLike.Runtime::SoulLike.UIViewDamageLabel
   labelRoot: {fileID: 9183092996580961322}
+  canvasGroup: {fileID: 147520779355760068}
   label: {fileID: 8955221600630054}
   destroyDelay: 1
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  stunnedColor: {r: 1, g: 0.56561106, b: 0.015686274, a: 1}
+  defaultFontSize: 36
+  stunnedFontSize: 72
 --- !u!114 &3790241560144703897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,6 +290,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!225 &147520779355760068
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7527090496059282428}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &9183092996580961322 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 162155570099889712, guid: 10c19962f12c5ff4287b522a4098524b, type: 3}
